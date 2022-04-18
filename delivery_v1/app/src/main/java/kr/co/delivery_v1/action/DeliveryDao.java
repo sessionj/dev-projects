@@ -1,5 +1,7 @@
 package kr.co.delivery_v1.action;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 
 import kr.co.delivery_v1.models.DeliveryModelView;
@@ -19,5 +21,18 @@ public class DeliveryDao {
 
         return deliveryModelViewArrayList;
 
+    }
+
+    public DeliveryModelView getDeliveryArticle(DeliveryModelView searchModel){
+
+        DeliveryModelView deliveryModelView;
+        deliveryModelView = new DeliveryModelView();
+
+        if (TextUtils.isEmpty(searchModel.getBillno())){
+            // null 이다
+        }
+
+        return deliveryModelView;
+                
     }
 }
