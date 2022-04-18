@@ -29,10 +29,8 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "왔냐 : billno : "+ billNo , Toast.LENGTH_LONG).show();
 
         if ( billNo == null || billNo.equals("") || billNo.length() != 13){
-
             intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
-
         }
 
         MapView mapView = new MapView(this);
@@ -44,7 +42,7 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
         mapView.setPOIItemEventListener(this);
         mapView.setOpenAPIKeyAuthenticationResultListener(this);*/
 
-
+        // 리스너가 몇개를 등록해야 하는거지.
 
     }
 
