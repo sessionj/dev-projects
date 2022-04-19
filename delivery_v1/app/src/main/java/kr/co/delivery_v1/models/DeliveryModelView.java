@@ -24,7 +24,7 @@ public class DeliveryModelView {
     @ColumnInfo(name = "sendingmantel")         private String sendingmantel;
     @ColumnInfo(name = "sendingman")            private String sendingman;
     @ColumnInfo(name = "arrivalmantel")         private String arrivalmantel;
-    @ColumnInfo(name = "arrivalmantel2")         private String arrivalmantel2;
+    @ColumnInfo(name = "arrivalmantel2")        private String arrivalmantel2;
     @ColumnInfo(name = "arrivalman")            private String arrivalman;
     @ColumnInfo(name = "zipcode")               private String zipcode;
     @ColumnInfo(name = "adress")                private String adress;

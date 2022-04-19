@@ -166,4 +166,5 @@ public class DeviceInfoUtil {
 
         return null;
     }
+
 }

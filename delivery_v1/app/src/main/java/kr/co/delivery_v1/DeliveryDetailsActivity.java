@@ -79,7 +79,7 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
 
 
         details_arrivalman_tel1.setText(resultView.getArrivalmantel());
-        details_arrivalman_tel2.setText(resultView.getArrivalmantel2());  
+        details_arrivalman_tel2.setText(resultView.getArrivalmantel2());
 
         //details_status.setText(resultView.getDelivery_state()== "N"?"배달중":"배달완료" );
         details_createdate.setText(BasicUtils.getDataFormatConvert(resultView.getCreatdate(), Label.DELIVERY_STANDARD_DATE_FORMAT).toString());

@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         deliveryList = new ArrayList<DeliveryModelView>();
         deliveryModelView = new DeliveryModelView();
         deliveryDao = new DeliveryDao(this);
-
+        //deliveryDao.applicationData_deleteAll();
         /**
          * 로그인 화면 보고 싶을때 room db 를 제거
          */
@@ -190,10 +190,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("날짜가 변경되었습니다.",  aftSearchDate);
                     pageRecyclerListView();
                 }
-
             }
         });
-
     }
 
     @Override
@@ -247,8 +245,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }else{
             Log.d("검색 내역 없음", "Not data");
-            @SuppressLint("ResourceType") TextView textView = findViewById(R.layout.listview_empty_item);
-            textView.setText("검색된 내역이 없습니다.");
+
         }
     }
 

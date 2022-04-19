@@ -39,4 +39,12 @@ public class DeliveryDao {
         return appDeliveryDatabase.basicDeliveryProcessDao().getDayArticle(searchModel.getBillno());
 
     }
+
+    /**
+     *
+     */
+    public void applicationData_deleteAll(){
+        appDeliveryDatabase.basicDeliveryProcessDao().applicationData_deleteAll(); ;
+
+    }
 }
