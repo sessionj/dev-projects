@@ -37,9 +37,9 @@ public final class AppDeliveryDatabase_Impl extends AppDeliveryDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `tb_delivery` (`delivery_no` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `billno` TEXT, `input_date` TEXT, `input_time` TEXT, `transcode` TEXT, `sendingagencycode` TEXT, `arrivalagencycode` TEXT, `sendingmantel` TEXT, `sendingman` TEXT, `arrivalmantel` TEXT, `arrivalman` TEXT, `zipcode` TEXT, `adress` TEXT, `prefare` TEXT, `fare` TEXT, `deliveryfare` TEXT, `ogideliveryfare` TEXT, `distance` TEXT, `payway` TEXT, `goods` TEXT, `pojang` TEXT, `qty` INTEGER NOT NULL, `weight` TEXT, `memo` TEXT, `billstate` TEXT, `deliverycourse` TEXT, `creatdate` TEXT, `delivery_state` TEXT)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `tb_delivery` (`delivery_no` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `billno` TEXT, `input_date` TEXT, `input_time` TEXT, `transcode` TEXT, `sendingagencycode` TEXT, `arrivalagencycode` TEXT, `sendingmantel` TEXT, `sendingman` TEXT, `arrivalmantel` TEXT, `arrivalmantel2` TEXT, `arrivalman` TEXT, `zipcode` TEXT, `adress` TEXT, `prefare` TEXT, `fare` TEXT, `deliveryfare` TEXT, `ogideliveryfare` TEXT, `distance` TEXT, `payway` TEXT, `goods` TEXT, `pojang` TEXT, `qty` INTEGER NOT NULL, `weight` TEXT, `memo` TEXT, `billstate` TEXT, `deliverycourse` TEXT, `creatdate` TEXT, `delivery_state` TEXT)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e301308735908a7f4a9867180a055c9d')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4d157ea0376d9f605b596661041c6cad')");
       }
 
       @Override
@@ -83,7 +83,7 @@ public final class AppDeliveryDatabase_Impl extends AppDeliveryDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsTbDelivery = new HashMap<String, TableInfo.Column>(28);
+        final HashMap<String, TableInfo.Column> _columnsTbDelivery = new HashMap<String, TableInfo.Column>(29);
         _columnsTbDelivery.put("delivery_no", new TableInfo.Column("delivery_no", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("billno", new TableInfo.Column("billno", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("input_date", new TableInfo.Column("input_date", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -94,6 +94,7 @@ public final class AppDeliveryDatabase_Impl extends AppDeliveryDatabase {
         _columnsTbDelivery.put("sendingmantel", new TableInfo.Column("sendingmantel", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("sendingman", new TableInfo.Column("sendingman", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("arrivalmantel", new TableInfo.Column("arrivalmantel", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTbDelivery.put("arrivalmantel2", new TableInfo.Column("arrivalmantel2", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("arrivalman", new TableInfo.Column("arrivalman", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("zipcode", new TableInfo.Column("zipcode", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("adress", new TableInfo.Column("adress", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -123,7 +124,7 @@ public final class AppDeliveryDatabase_Impl extends AppDeliveryDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "e301308735908a7f4a9867180a055c9d", "8dd79634d83f097b9c6b4ab17afb77d4");
+    }, "4d157ea0376d9f605b596661041c6cad", "27421932bb6c92054065b71122b1f1a3");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

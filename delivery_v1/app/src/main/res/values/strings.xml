@@ -13,5 +13,6 @@
     <string name="request_course_4"> 배달 처리 </string>
 
     <string name="kakao_app_key">550968d1e7374f40ba2be270847fb46c</string>
+    <string name="item_empty">검색된 내역이 없습니다.</string>
 
 </resources>

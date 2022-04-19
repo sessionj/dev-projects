@@ -24,6 +24,7 @@ public class DeliveryModelView {
     @ColumnInfo(name = "sendingmantel")         private String sendingmantel;
     @ColumnInfo(name = "sendingman")            private String sendingman;
     @ColumnInfo(name = "arrivalmantel")         private String arrivalmantel;
+    @ColumnInfo(name = "arrivalmantel2")         private String arrivalmantel2;
     @ColumnInfo(name = "arrivalman")            private String arrivalman;
     @ColumnInfo(name = "zipcode")               private String zipcode;
     @ColumnInfo(name = "adress")                private String adress;
@@ -56,6 +57,7 @@ public class DeliveryModelView {
                 ", sendingmantel='" + sendingmantel + '\'' +
                 ", sendingman='" + sendingman + '\'' +
                 ", arrivalmantel='" + arrivalmantel + '\'' +
+                ", arrivalmantel2='" + arrivalmantel2 + '\'' +
                 ", arrivalman='" + arrivalman + '\'' +
                 ", zipcode='" + zipcode + '\'' +
                 ", adress='" + adress + '\'' +
@@ -278,7 +280,7 @@ public class DeliveryModelView {
     }
 
     public String getDeliverycourse() {
-        return deliverycourse;
+        return deliverycourse == null ? "000" : deliverycourse;
     }
 
     public void setDeliverycourse(String deliverycourse) {
@@ -298,6 +300,19 @@ public class DeliveryModelView {
     }
 
     public void setDelivery_state(String delivery_state) {
-        this.delivery_state = delivery_state == null ? "N" : delivery_state;
+
+        if ( delivery_state == null || delivery_state.equals("")){
+            this.delivery_state = "N";
+        }else{
+            this.delivery_state = delivery_state;
+        }
+    }
+
+    public String getArrivalmantel2() {
+        return arrivalmantel2;
+    }
+
+    public void setArrivalmantel2(String arrivalmantel2) {
+        this.arrivalmantel2 = arrivalmantel2;
     }
 }

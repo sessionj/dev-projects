@@ -1,6 +1,7 @@
 package kr.co.delivery_v1;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -70,13 +71,14 @@ public class MainActivity extends AppCompatActivity {
     private int mMonth;
     private int mDay;
     private List<DeliveryModelView>  arr;
+    private DeliveryViewAdapter deliveryViewAdapter;
+
+    private TextView date_picker_area_info;
+
     /**
      * 초기화, 셋팅
      */
     private void init(){
-
-        datapicker_view = (TextView) findViewById(R.id.date_picker_area);
-        datapicker_view.setText(BasicUtils.getDays("yyyy-MM-dd") + " (" +BasicUtils.getDayOfweek(BasicUtils.getDays("yyyy-MM-dd"), "yyyy-MM-dd")+")");
 
         c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
@@ -131,43 +133,12 @@ public class MainActivity extends AppCompatActivity {
         CheckTypesTask task = new CheckTypesTask();
         task.execute();
 
-        arr = new ArrayList<DeliveryModelView>();
-        deliveryDao = new DeliveryDao(this);
-        deliveryModelView = new DeliveryModelView();
-        deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace("-", ""));
-
-        arr = deliveryDao.getDeliveryList(deliveryModelView);
-
-        /**
-         * 검색 조건 넣기
-         */
-
-        RecyclerView recyclerView = findViewById(R.id.recyceler_view );
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, 1)); // 아이템별 구분선 넣기
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT));
-
-       // deliveryList = deliveryDao.getDeliveryList(deliveryModelView);
-
-        DeliveryViewAdapter deliveryViewAdapter = new DeliveryViewAdapter(arr);
-        recyclerView.setAdapter(deliveryViewAdapter);
-
-        deliveryViewAdapter.setOnitemClickListener(new DeliveryViewAdapter.OnitemClickListener() {
-                @Override
-                public void onItemClick(View v, int pos) {
-                    Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
-                    intent.putExtra("billNo", arr.get(pos).getBillno().toString());
-                    startActivity(intent);
-                }
-            }
-        );
-
-
+        // recyclerView 가져오기
+        pageRecyclerListView();
 
         /**
          * 상단 날짜 검색 구간 ---------------------------------------------------------
-        */
+         */
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -217,11 +188,68 @@ public class MainActivity extends AppCompatActivity {
 
                 if ( !befSearchDate.equals(aftSearchDate)){
                     Log.d("날짜가 변경되었습니다.",  aftSearchDate);
+                    pageRecyclerListView();
                 }
 
             }
         });
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        deliveryViewAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     *
+     */
+    private void pageRecyclerListView() {
+
+        arr = new ArrayList<DeliveryModelView>();
+        deliveryViewAdapter = new DeliveryViewAdapter(arr);
+        deliveryDao = new DeliveryDao(this);
+        deliveryModelView = new DeliveryModelView();
+
+        datapicker_view = (TextView) findViewById(R.id.date_picker_area);
+
+        String tmpStr = (String) datapicker_view.getText().toString(); // 화면에서 2022-04-19 (수) 로 표기
+        String[] arrTmp = tmpStr.split(" ");
+
+        datapicker_view.setText(arrTmp[0] + " (" +BasicUtils.getDayOfweek(BasicUtils.getDays("yyyy-MM-dd"), "yyyy-MM-dd")+")");
+
+        // 날짜를 화면에서만 받아와야 한다.
+        deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace("-", ""));
+
+        arr = deliveryDao.getDeliveryList(deliveryModelView);
+
+        if ( arr != null && arr.size() > 0){
+            RecyclerView recyclerView = findViewById(R.id.recyceler_view );
+            recyclerView.addItemDecoration(new DividerItemDecoration(this, 1)); // 아이템별 구분선 넣기
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+            deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT));
+
+            deliveryViewAdapter = new DeliveryViewAdapter(arr);
+            recyclerView.setAdapter(deliveryViewAdapter);
+
+            //date_picker_area_info.setText("총 건수 : " + arr.size() + "건".toString());
+
+            deliveryViewAdapter.setOnitemClickListener(new DeliveryViewAdapter.OnitemClickListener() {
+                @Override
+                public void onItemClick(View v, int pos) {
+
+                    Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
+                    intent.putExtra("billNo", arr.get(pos).getBillno().toString());
+                    startActivity(intent);
+                }
+            });
+        }else{
+            Log.d("검색 내역 없음", "Not data");
+            @SuppressLint("ResourceType") TextView textView = findViewById(R.layout.listview_empty_item);
+            textView.setText("검색된 내역이 없습니다.");
+        }
     }
 
     private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
@@ -243,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             try {
                 for (int i = 0; i < 5; i++) {
-                    asyncDialog.setProgress(i * 800);
+                    asyncDialog.setProgress(i * 700);
                     Thread.sleep(500);
                 }
             } catch (InterruptedException e) {

@@ -42,7 +42,7 @@ public interface BasicDeliveryProcessDao {
      * @return
      */
     @Query("SELECT * FROM tb_delivery where billno = :billNo")
-    List<DeliveryModelView> getDayArticle(String billNo);
+    DeliveryModelView getDayArticle(String billNo);
 
     /**
      * 전체 데이터 삭제

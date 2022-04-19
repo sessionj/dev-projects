@@ -2783,6 +2783,14 @@ id design_menu_item_action_area
 id design_menu_item_action_area_stub
 id design_menu_item_text
 id design_navigation_view
+id details_address
+id details_arrival_name
+id details_arrivalman_tel1
+id details_arrivalman_tel2
+id details_billno
+id details_createdate
+id details_delivery_course
+id details_parts_and_packing
 id details_success_btn
 id dialog_button
 id dimensions
@@ -3265,6 +3273,7 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout listview_delivery_item
+layout listview_empty_item
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -3409,6 +3418,7 @@ string hint_agency
 string hint_delivery
 string hint_phone
 string icon_content_description
+string item_empty
 string item_view_role_description
 string kakao_app_key
 string label

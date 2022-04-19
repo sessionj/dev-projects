@@ -1,6 +1,7 @@
 package kr.co.delivery_v1.comm;
 
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -102,6 +103,42 @@ public class BasicUtils {
         day.add(Calendar.DATE , -1);
         String beforeDate = new java.text.SimpleDateFormat(format).format(day.getTime());
         return beforeDate;
+    }
+
+    /**
+     *
+     * @param viewDate
+     * @param format
+     * @return
+     */
+    public static String getDataFormatConvert(String viewDate, String format){
+        String result = "";
+        String tmpWeek = "";
+
+        if (TextUtils.isEmpty(viewDate)){
+            return "";
+        }else{
+            if ( viewDate.length() == 8){
+                tmpWeek =  getDayOfweek(viewDate.substring(0,4) + "-" + viewDate.substring(4,6) + "-" + viewDate.substring(6,8), Label.DELIVERY_STANDARD_DATE_FORMAT);
+                result = viewDate.substring(0,4) + "년 " + viewDate.substring(4,6) + "월 " + viewDate.substring(6,8)+ "일 ("+tmpWeek+")";
+            }
+        }
+        return result;
+    }
+
+
+    public static String getDataFormatConvert(String objnum){
+        String result = "";
+        String tmpWeek = "";
+
+        if (TextUtils.isEmpty(objnum)){
+            return "";
+        }else{
+            if ( objnum.length() == 13){
+                result =  objnum.substring(0,4) + "-" + objnum.substring(4,7) + "-" + objnum.substring(7,13);
+            }
+        }
+        return result;
     }
 
 }

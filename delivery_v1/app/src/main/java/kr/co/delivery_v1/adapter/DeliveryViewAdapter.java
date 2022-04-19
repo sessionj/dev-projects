@@ -30,7 +30,9 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
      * @param _deliveryModelViewList
      */
     public DeliveryViewAdapter(List<DeliveryModelView> _deliveryModelViewList){
-        deliveryModelViewList = _deliveryModelViewList;
+        if ( _deliveryModelViewList != null){
+            deliveryModelViewList = _deliveryModelViewList;
+        }
     }
 
     @NonNull

@@ -60,6 +60,14 @@ id deliveryavt_delivery_cource
 id deliveryavt_title_agencycode
 id deliveryavt_title_date_picker_area
 id deliveryavt_title_delivery_cource
+id details_address
+id details_arrival_name
+id details_arrivalman_tel1
+id details_arrivalman_tel2
+id details_billno
+id details_createdate
+id details_delivery_course
+id details_parts_and_packing
 id details_success_btn
 id email
 id female
@@ -93,6 +101,7 @@ layout activity_picker_dialog
 layout activity_register
 layout bar_layout
 layout listview_delivery_item
+layout listview_empty_item
 menu main_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
@@ -100,6 +109,7 @@ string app_name
 string hint_agency
 string hint_delivery
 string hint_phone
+string item_empty
 string kakao_app_key
 string prefLoginState
 string request_course_1

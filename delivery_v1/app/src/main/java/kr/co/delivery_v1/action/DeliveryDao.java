@@ -2,6 +2,7 @@ package kr.co.delivery_v1.action;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +24,19 @@ public class DeliveryDao {
      */
     public List<DeliveryModelView> getDeliveryList(DeliveryModelView deliveryModelView){
 
+        Log.d("DeliveryDao", "" + deliveryModelView.getCreatdate());
         List<DeliveryModelView> deliveryModelViewArrayList = new ArrayList<DeliveryModelView>();
         deliveryModelViewArrayList = appDeliveryDatabase.basicDeliveryProcessDao().getDayList(deliveryModelView.getCreatdate());
         return deliveryModelViewArrayList;
     }
 
+    /**
+     * 운송장 단일검색(상세 페이지)
+     * @param searchModel
+     * @return
+     */
     public DeliveryModelView getDeliveryArticle(DeliveryModelView searchModel){
-
-        DeliveryModelView deliveryModelView;
-        deliveryModelView = new DeliveryModelView();
-
-        if (TextUtils.isEmpty(searchModel.getBillno())){
-            // null 이다
-        }
-
-        return deliveryModelView;
+        return appDeliveryDatabase.basicDeliveryProcessDao().getDayArticle(searchModel.getBillno());
 
     }
 }

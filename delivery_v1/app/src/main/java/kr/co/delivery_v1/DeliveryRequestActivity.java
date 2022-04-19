@@ -36,6 +36,11 @@ import kr.co.delivery_v1.login.LoginRequest;
 import kr.co.delivery_v1.models.DeliveryModelView;
 import kr.co.delivery_v1.models.LoginModelView;
 
+/**
+ *  # 규칙
+ *   1. 자료를 가져오기 전에 room db 에는 5일이전 데이터를 삭제 하고 자료를 받는다.
+ *
+ */
 public class DeliveryRequestActivity extends AppCompatActivity {
 
     private TextView deliveryavt_date_picker_area, deliveryavt_delivery_cource, deliveryavt_agencycode;

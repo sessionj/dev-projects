@@ -4,16 +4,16 @@
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
-        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_register.xml.flat",
-        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\layout\\activity_register.xml"
+        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\drawable-v24_img.png.flat",
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\drawable-v24\\img.png"
     },
     {
-        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.webp"
+        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_register.xml.flat",
+        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\layout\\activity_register.xml"
     },
     {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxhdpi_ic_launcher.webp.flat",
@@ -66,6 +66,10 @@
     {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\drawable_line_sample.xml.flat",
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\drawable\\line_sample.xml"
+    },
+    {
+        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\layout_listview_empty_item.xml.flat",
+        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\layout\\listview_empty_item.xml"
     },
     {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxhdpi_ic_launcher_round.webp.flat",

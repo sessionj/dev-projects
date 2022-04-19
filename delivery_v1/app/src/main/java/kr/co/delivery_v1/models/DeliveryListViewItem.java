@@ -15,6 +15,7 @@ public class DeliveryListViewItem {
     private String sendingmantel;
     private String sendingman;
     private String arrivalmantel;
+    private String arrivalmante2;
     private String arrivalman;
     private String zipcode;
     private String adress;
@@ -36,7 +37,7 @@ public class DeliveryListViewItem {
 
     @Override
     public String toString() {
-        return "ListDeliveryView{" +
+        return "DeliveryListViewItem{" +
                 "billno='" + billno + '\'' +
                 ", input_date='" + input_date + '\'' +
                 ", input_time='" + input_time + '\'' +
@@ -46,6 +47,7 @@ public class DeliveryListViewItem {
                 ", sendingmantel='" + sendingmantel + '\'' +
                 ", sendingman='" + sendingman + '\'' +
                 ", arrivalmantel='" + arrivalmantel + '\'' +
+                ", arrivalmante2='" + arrivalmante2 + '\'' +
                 ", arrivalman='" + arrivalman + '\'' +
                 ", zipcode='" + zipcode + '\'' +
                 ", adress='" + adress + '\'' +
@@ -272,5 +274,13 @@ public class DeliveryListViewItem {
 
     public void setCreatdate(String creatdate) {
         this.creatdate = creatdate;
+    }
+
+    public String getArrivalmante2() {
+        return arrivalmante2;
+    }
+
+    public void setArrivalmante2(String arrivalmante2) {
+        this.arrivalmante2 = arrivalmante2;
     }
 }
