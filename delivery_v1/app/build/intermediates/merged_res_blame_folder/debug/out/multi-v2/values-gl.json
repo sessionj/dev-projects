@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "X:\\export\\repository3\\delivery_v1\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-gl\\values-gl.xml",
+            "outputFile": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-gl\\values-gl.xml",
             "map": [
                 {
                     "source": "C:\\Users\\shadow\\.gradle\\caches\\transforms-3\\26d9a639564b428ed238f08f71cfefe7\\transformed\\play-services-basement-18.0.0\\res\\values-gl\\values.xml",

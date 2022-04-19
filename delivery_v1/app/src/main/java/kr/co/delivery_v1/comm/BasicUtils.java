@@ -92,4 +92,16 @@ public class BasicUtils {
         return getTime;
     }
 
+    /**
+     * 어제
+     * @param format
+     * @return
+     */
+    public static String getYesterday(String format){
+        Calendar day = Calendar.getInstance();
+        day.add(Calendar.DATE , -1);
+        String beforeDate = new java.text.SimpleDateFormat(format).format(day.getTime());
+        return beforeDate;
+    }
+
 }

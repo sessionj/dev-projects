@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/export/daesin_mobile/dev-projects/delivery_v1/app/src/main/res/layout/activity_delivery_details.xml" value="0.18161094224924013" />
+        <entry key="..\:/export/daesin_mobile/dev-projects/delivery_v1/app/src/main/res/layout/activity_delivery_request.xml" value="0.18161094224924013" />
+        <entry key="..\:/export/daesin_mobile/dev-projects/delivery_v1/app/src/main/res/layout/activity_main.xml" value="0.1598731884057971" />
+        <entry key="..\:/export/daesin_mobile/dev-projects/delivery_v1/app/src/main/res/layout/listview_delivery_item.xml" value="0.1" />
         <entry key="..\:/export/repository3/delivery_v1/app/src/main/res/drawable-v24/gradient_2.xml" value="0.282" />
         <entry key="..\:/export/repository3/delivery_v1/app/src/main/res/drawable/bar_layout.xml" value="0.374" />
         <entry key="..\:/export/repository3/delivery_v1/app/src/main/res/drawable/btn_drawable.xml" value="0.278" />

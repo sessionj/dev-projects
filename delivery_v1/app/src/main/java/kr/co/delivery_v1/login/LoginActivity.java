@@ -121,35 +121,6 @@ public class LoginActivity extends AppCompatActivity {
                     private void roomDbRequest(LoginModelView loginEntity, String response) {
 
                         appDatabase.basicProcessDao().applicationData_insert(loginEntity);
-
-                        //tmpArray = database.basicProcessDao().getAll();
-
-                        //Log.d("arr", tmpArray.get(0).getId() + "" );
-                        //Log.d("arr", tmpArray.get(0).getPhonenumber());
-                        //Log.d("arr", tmpArray.get(0).getAgencycode());
-                        //Log.d("arr", tmpArray.get(0).getDeliverycourse());
-                        /*roomDao = new MainDao() {
-                            @Override
-                            public void insert(LoginEntity loginEntity) {
-                                database.mainDao().insert(loginEntity);
-
-                            }
-
-                            @Override
-                            public ArrayList<LoginEntity> getAll() {
-
-                                tmpEntity = new LoginEntity();
-                                tmpArray = new ArrayList<LoginEntity>();
-                                tmpArray = database.mainDao().getAll();
-
-                                Log.d("arr", tmpArray.get(0).getId() + "" );
-                                Log.d("arr", tmpArray.get(0).getPhonenumber());
-                                Log.d("arr", tmpArray.get(0).getAgencycode());
-                                Log.d("arr", tmpArray.get(0).getDeliverycourse());
-
-                                  return null;
-                            }
-                        };*/
                     }
                 };
                 LoginRequest loginRequest = new LoginRequest(request_phoneNumber, request_agencyCode, request_deliveryCourse, responseListener );

@@ -1,11 +1,14 @@
 package kr.co.delivery_v1;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +25,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Array;
 import java.text.ParseException;
 import java.time.Year;
 import java.util.ArrayList;
@@ -37,6 +41,7 @@ import kr.co.delivery_v1.comm.DeviceInfoUtil;
 import kr.co.delivery_v1.comm.Label;
 import kr.co.delivery_v1.db.AppDatabase;
 import kr.co.delivery_v1.db.BasicProcessDao;
+import kr.co.delivery_v1.db.delivery.AppDeliveryDatabase;
 import kr.co.delivery_v1.login.LoginActivity;
 import kr.co.delivery_v1.models.DeliveryModelView;
 import kr.co.delivery_v1.models.LoginModelView;
@@ -47,23 +52,23 @@ public class MainActivity extends AppCompatActivity {
     static final int PERMISSION_REQUEST = 0x0000001;
     private static final int PERMISSIONS_REQUEST_CODE = 22;
     private boolean loginAccess = false;
-    private BasicProcessDao roomDao;
-    private AppDatabase appDatabase;
-    private List<LoginModelView> tmpArr;
-    private DeviceInfoUtil deviceInfoUtil;
-    private LoginModelView loginModel;
+
+
+
+    private DeliveryModelView deliveryModelView;
+    private DeliveryDao deliveryDao;
     private String roomDb_phoneNumber = "";
     private String device_phoneNumber = "";
+    private List<DeliveryModelView> deliveryList;
 
-    private DeliveryDao deliveryDao;
-    //private date_picker_area
     TextView datapicker_view;
+    private String befSearchDate;
+    private String aftSearchDate;
 
-
-    Calendar c;
-    int mYear;
-    int mMonth;
-    int mDay;
+    private Calendar c;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
     /**
      * 초기화, 셋팅
      */
@@ -80,13 +85,16 @@ public class MainActivity extends AppCompatActivity {
         /**
          * tmp
          */
+
         roomDb_phoneNumber = DeviceInfoUtil.getRoomSelecter(this, 2);
         if ( "".equals(roomDb_phoneNumber)){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
 
-
+        deliveryList = new ArrayList<DeliveryModelView>();
+        deliveryModelView = new DeliveryModelView();
+        deliveryDao = new DeliveryDao(this);
 
         /**
          * 로그인 화면 보고 싶을때 room db 를 제거
@@ -118,33 +126,6 @@ public class MainActivity extends AppCompatActivity {
         //}
 
         init();
-
-        // recyclerView -- > getRoomDeliveryList 대체
-        /*ArrayList<DeliveryModelView> arr = new ArrayList<DeliveryModelView>();
-        DeliveryModelView deliveryModelView;
-        deliveryModelView = new DeliveryModelView();
-        deliveryModelView.setCreatdate((String) datapicker_view.getText());
-        arr = DeviceInfoUtil.getRoomDeliveryList(this, deliveryModelView);
-
-        if ( arr != null && arr.size() > 0){
-
-            for ( int i=0; i < 10; i++){
-                deliveryModelView = new DeliveryModelView();
-                deliveryModelView.setAdress("충북 청주시 흥덕구 문암동 체육생활센터 100번지");
-                deliveryModelView.setArrivalman("(주)안드로메다");
-                deliveryModelView.setArrivalmantel("010-0000-2222");
-                deliveryModelView.setPojang("박스");
-                deliveryModelView.setGoods("운동화");
-                deliveryModelView.setBillno("4001251000001");
-                deliveryModelView.setQty(9);
-                arr.add(deliveryModelView);
-            }
-        }
-        RecyclerView recyclerView = findViewById(R.id.recyceler_view );
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        DeliveryViewAdapter deliveryViewAdapter = new DeliveryViewAdapter(arr);
-        recyclerView.setAdapter(deliveryViewAdapter);*/
         ArrayList<DeliveryModelView> arr = new ArrayList<DeliveryModelView>();
         DeliveryModelView deliveryModelView;
         for ( int i=0; i < 10; i++){
@@ -158,9 +139,18 @@ public class MainActivity extends AppCompatActivity {
             deliveryModelView.setQty(i+1);
             arr.add(deliveryModelView);
         }
+        deliveryModelView = new DeliveryModelView();
+        /**
+         * 검색 조건 넣기
+         */
+
         RecyclerView recyclerView = findViewById(R.id.recyceler_view );
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 1)); // 아이템별 구분선 넣기
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT));
+
+       // deliveryList = deliveryDao.getDeliveryList(deliveryModelView);
 
         DeliveryViewAdapter deliveryViewAdapter = new DeliveryViewAdapter(arr);
         recyclerView.setAdapter(deliveryViewAdapter);
@@ -168,15 +158,9 @@ public class MainActivity extends AppCompatActivity {
         deliveryViewAdapter.setOnitemClickListener(new DeliveryViewAdapter.OnitemClickListener() {
                 @Override
                 public void onItemClick(View v, int pos) {
-
-                    //Toast.makeText(getApplicationContext(), "클릭 클릭 " + arr.get(pos).getAdress(), Toast.LENGTH_SHORT).show();
-                    // 액티비티 변경 (상세 정보 페이지로)
-                    Log.d("billno ====== > ", arr.get(pos).getBillno());
-                    Toast.makeText(getApplicationContext(), "=========== billno : " + arr.get(pos).getBillno() + " )))))))", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
                     intent.putExtra("billNo", arr.get(pos).getBillno().toString());
                     startActivity(intent);
-
                 }
             }
         );
@@ -186,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 상단 날짜 검색 구간 ---------------------------------------------------------
         */
-
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -195,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 String tmpDateDay = "";
                 tmpDate = year + "-" + BasicUtils.getFormatDate( (month+1) ) + "-" + BasicUtils.getFormatDate( dayOfMonth );
                 tmpDateDay = BasicUtils.getDayOfweek(tmpDate, Label.DELIVERY_STANDARD_DATE_FORMAT);
-                datapicker_view.setText( tmpDate + "("+tmpDateDay +")");
+                datapicker_view.setText( tmpDate + " ("+tmpDateDay +")");
             }
         }, mYear, mMonth, mDay);
 
@@ -210,6 +193,37 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 상단 날짜 검색 구간 ---------------------------------------------------------
          */
+
+        datapicker_view.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // 변경 전 묹자열.
+                datapicker_view = (TextView) findViewById(R.id.date_picker_area);
+                befSearchDate = datapicker_view.getText().toString();
+                Log.d("변경전 ..",  befSearchDate);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //editText에 포커스가 되어있고 텍스트가 하나라도 입력되어 있을때 동작하기 위해서 추가.
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 텍스트가 변경된 이후 호출됨
+
+                datapicker_view = (TextView) findViewById(R.id.date_picker_area);
+                aftSearchDate = datapicker_view.getText().toString();
+
+
+                if ( !befSearchDate.equals(aftSearchDate)){
+                    Log.d("날짜가 변경되었습니다.",  aftSearchDate);
+                }
+
+            }
+        });
+
     }
 
     @Override

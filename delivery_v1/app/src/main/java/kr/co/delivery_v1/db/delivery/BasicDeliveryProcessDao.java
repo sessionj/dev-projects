@@ -6,6 +6,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.delivery_v1.models.DeliveryModelView;
@@ -26,8 +27,8 @@ public interface BasicDeliveryProcessDao {
      * db select
      * @return
      */
-    @Query("SELECT * FROM tb_delivery where creatdate = :createdt")
-    List<DeliveryModelView> getDayList(String createdt);
+    @Query("SELECT * FROM tb_delivery  where creatdate = :createDt" )
+    List<DeliveryModelView> getDayList(String createDt);
 
     /**
      * db select

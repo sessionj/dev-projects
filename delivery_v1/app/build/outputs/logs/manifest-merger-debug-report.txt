@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
 MERGED from [com.google.android.material:material:1.6.0-beta01] C:\Users\shadow\.gradle\caches\transforms-3\b813730451314bad30b979be4256ebdc\transformed\material-1.6.0-beta01\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.3] C:\Users\shadow\.gradle\caches\transforms-3\aa44eb9e8d37a3439d636831a2be5455\transformed\constraintlayout-2.1.3\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat:1.4.1] C:\Users\shadow\.gradle\caches\transforms-3\914116008979e77bc79da871871e9f31\transformed\appcompat-1.4.1\AndroidManifest.xml:17:1-24:12
@@ -51,53 +51,53 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\shadow\.gradle\c
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\23bc2eaa3d335b525ba2ecfef837b657\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\58d3fb1b78397bc15eea1568e0b97297\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\shadow\.gradle\caches\transforms-3\75868ec7d8db0714374451122b3b1963\transformed\annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
 	package
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:3:5-32
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:3:5-32
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:1-59:12
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:2:11-69
 	android:targetSandboxVersion
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:4:5-37
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:4:5-37
 uses-permission#android.permission.INTERNET
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:7:5-67
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:7:5-67
 MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:24:5-67
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:7:22-64
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:7:22-64
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:8:5-75
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:8:5-75
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:8:22-72
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:8:22-72
 uses-permission#android.permission.READ_PHONE_NUMBERS
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:9:5-77
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:9:5-77
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:9:22-74
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:9:22-74
 uses-permission#android.permission.READ_SMS
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:10:5-67
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:10:5-67
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:10:22-64
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:10:22-64
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:11:5-81
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:11:5-81
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:11:22-78
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:11:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:12:5-79
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:12:5-79
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:12:22-76
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:12:22-76
 application
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:14:5-57:19
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:14:5-57:19
 MERGED from [com.google.android.material:material:1.6.0-beta01] C:\Users\shadow\.gradle\caches\transforms-3\b813730451314bad30b979be4256ebdc\transformed\material-1.6.0-beta01\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.6.0-beta01] C:\Users\shadow\.gradle\caches\transforms-3\b813730451314bad30b979be4256ebdc\transformed\material-1.6.0-beta01\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.3] C:\Users\shadow\.gradle\caches\transforms-3\aa44eb9e8d37a3439d636831a2be5455\transformed\constraintlayout-2.1.3\AndroidManifest.xml:9:5-20
@@ -125,85 +125,85 @@ MERGED from [androidx.startup:startup-runtime:1.0.0] C:\Users\shadow\.gradle\cac
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.7.0] C:\Users\shadow\.gradle\caches\transforms-3\b9e4376e452ce4f1a2bbb1fc4b534124\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
 	android:supportsRtl
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:20:9-35
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:20:9-35
 	android:label
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:17:9-41
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:17:9-41
 	android:roundIcon
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:19:9-54
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:19:9-54
 	android:icon
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:16:9-43
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:16:9-43
 	android:allowBackup
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:15:9-35
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:15:9-35
 	android:theme
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:21:9-49
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:21:9-49
 	android:networkSecurityConfig
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:18:9-69
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:18:9-69
 	android:usesCleartextTraffic
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:22:9-44
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:22:9-44
 meta-data#com.kakao.sdk.AppKey
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:25:9-95
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:25:9-95
 	android:value
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:25:56-93
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:25:56-93
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:25:20-55
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:25:20-55
 activity#kr.co.delivery_v1.DeliveryDetailsActivity
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:27:9-30:57
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:27:9-30:57
 	android:parentActivityName
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:30:13-55
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:30:13-55
 	android:exported
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:29:13-37
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:29:13-37
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:28:13-52
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:28:13-52
 activity#kr.co.delivery_v1.DeliveryRequestActivity
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:32:9-35:58
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:32:9-35:58
 	android:parentActivityName
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:35:13-55
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:35:13-55
 	android:exported
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:34:13-37
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:34:13-37
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:33:13-52
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:33:13-52
 activity#kr.co.delivery_v1.RegisterActivity
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:36:9-38:40
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:36:9-38:40
 	android:exported
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:38:13-37
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:38:13-37
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:37:13-45
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:37:13-45
 activity#kr.co.delivery_v1.AppStartActivity
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:39:9-41:40
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:39:9-41:40
 	android:exported
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:41:13-37
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:41:13-37
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:40:13-45
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:40:13-45
 activity#kr.co.delivery_v1.login.LoginActivity
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:42:9-45:52
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:42:9-45:52
 	android:screenOrientation
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:45:13-49
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:45:13-49
 	android:exported
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:44:13-36
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:44:13-36
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:43:13-48
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:43:13-48
 activity#kr.co.delivery_v1.MainActivity
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:46:9-55:20
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:46:9-55:20
 	android:screenOrientation
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:49:13-49
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:49:13-49
 	android:exported
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:48:13-36
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:48:13-36
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:47:13-41
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:47:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:50:13-54:29
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:50:13-54:29
 action#android.intent.action.MAIN
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:51:17-69
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:51:17-69
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:51:25-66
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:51:25-66
 category#android.intent.category.LAUNCHER
-ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:53:17-77
+ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:53:17-77
 	android:name
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml:53:27-74
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:53:27-74
 uses-sdk
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
 MERGED from [com.google.android.material:material:1.6.0-beta01] C:\Users\shadow\.gradle\caches\transforms-3\b813730451314bad30b979be4256ebdc\transformed\material-1.6.0-beta01\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.material:material:1.6.0-beta01] C:\Users\shadow\.gradle\caches\transforms-3\b813730451314bad30b979be4256ebdc\transformed\material-1.6.0-beta01\AndroidManifest.xml:20:5-44
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.3] C:\Users\shadow\.gradle\caches\transforms-3\aa44eb9e8d37a3439d636831a2be5455\transformed\constraintlayout-2.1.3\AndroidManifest.xml:5:5-7:41
@@ -298,16 +298,16 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\shadow\.gradle\caches\transfor
 MERGED from [androidx.print:print:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\58d3fb1b78397bc15eea1568e0b97297\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\shadow\.gradle\caches\transforms-3\75868ec7d8db0714374451122b3b1963\transformed\annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\shadow\.gradle\caches\transforms-3\75868ec7d8db0714374451122b3b1963\transformed\annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
-INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
+INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
-		ADDED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
-		INJECTED from X:\export\repository3\delivery_v1\app\src\main\AndroidManifest.xml
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
+		ADDED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
+		INJECTED from X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:23:5-79
 	android:name

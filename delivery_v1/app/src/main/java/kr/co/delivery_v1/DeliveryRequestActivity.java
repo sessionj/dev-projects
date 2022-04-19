@@ -4,43 +4,62 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.util.Calendar;
 
+import kr.co.delivery_v1.action.request.DeliveryRequest;
 import kr.co.delivery_v1.comm.BasicUtils;
 import kr.co.delivery_v1.comm.DeviceInfoUtil;
 import kr.co.delivery_v1.comm.Label;
 import kr.co.delivery_v1.db.AppDatabase;
+import kr.co.delivery_v1.db.delivery.AppDeliveryDatabase;
+import kr.co.delivery_v1.login.LoginActivity;
+import kr.co.delivery_v1.login.LoginRequest;
+import kr.co.delivery_v1.models.DeliveryModelView;
+import kr.co.delivery_v1.models.LoginModelView;
 
 public class DeliveryRequestActivity extends AppCompatActivity {
 
-    TextView deliveryavt_date_picker_area, deliveryavt_delivery_cource, deliveryavt_agencycode;
-    TextView request_etc_btn;
+    private TextView deliveryavt_date_picker_area, deliveryavt_delivery_cource, deliveryavt_agencycode;
+    private TextView request_etc_btn;
     private Button request_btn;
 
     private String deliveryCourse;
     private String agencyCode;
+    private DeliveryModelView deliveryModelView;
+    private Calendar c;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
 
-    Calendar c;
-    int mYear;
-    int mMonth;
-    int mDay;
+    private AppDeliveryDatabase appDeliveryDatabase;
+
 
     /**
      * 초기화 및 셋팅
      */
     private void init(){
 
+        appDeliveryDatabase = AppDeliveryDatabase.getInstance(this);
         c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
+        deliveryModelView = new DeliveryModelView();
 
         agencyCode = DeviceInfoUtil.getRoomSelecter(this,3);
         deliveryCourse = DeviceInfoUtil.getRoomSelecter(this,4);
@@ -55,6 +74,11 @@ public class DeliveryRequestActivity extends AppCompatActivity {
 
         request_etc_btn = (TextView) findViewById(R.id.request_etc_btn);    // 자료 더 가져오기(etc)
         request_btn = (Button) findViewById(R.id.request_btn);              // 클릭된 자료 가져오기
+
+        deliveryModelView.setArrivalagencycode(agencyCode);
+        deliveryModelView.setDeliverycourse(deliveryCourse);
+        deliveryModelView.setInput_date(deliveryavt_date_picker_area.getText().toString());
+
     }
 
     @Override
@@ -94,6 +118,53 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         /**
          * 상단 날짜 검색 구간 ---------------------------------------------------------
          */
+
+        /**
+         * date picker 변동
+         */
+
+        //deliveryavt_date_picker_area
+
+
+
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("", "===================> start" );
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean success = jsonObject.getBoolean("success");
+
+                    if ( success){
+
+                        roomDbRequest(response);
+
+                        Toast.makeText(getApplicationContext(), "자료 가져오기 성공", Toast.LENGTH_SHORT).show();
+
+                    } else {// 자료 가져오기 실패시
+                        Toast.makeText( getApplicationContext(), "자료 가져오기 실패패", Toast.LENGTH_SHORT ).show();
+                       return;
+                    }
+
+                }catch (Exception e){
+                    Log.d("log ", e.toString());
+                }
+                Log.d("", "===================> end" );
+            }
+
+            /**
+             * roomdb insert
+             * @param response
+             */
+            private void roomDbRequest(String response) {
+                deliveryModelView = new DeliveryModelView();
+                appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelView);
+            }
+        };
+
+        DeliveryRequest deliveryRequest = new DeliveryRequest(deliveryModelView, responseListener );
+        RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
+        queue.add( deliveryRequest );
 
     }
 

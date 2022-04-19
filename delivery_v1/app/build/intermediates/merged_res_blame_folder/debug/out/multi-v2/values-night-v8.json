@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "X:\\export\\repository3\\delivery_v1\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
                     "source": "C:\\Users\\shadow\\.gradle\\caches\\transforms-3\\914116008979e77bc79da871871e9f31\\transformed\\appcompat-1.4.1\\res\\values-night-v8\\values-night-v8.xml",
@@ -21,14 +21,14 @@
                     }
                 },
                 {
-                    "source": "X:\\export\\repository3\\delivery_v1\\app\\src\\main\\res\\values-night\\themes.xml",
+                    "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\values-night\\themes.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
-                        "startOffsets": "100",
+                        "startOffsets": "102",
                         "endLines": "14",
                         "endColumns": "12",
-                        "endOffsets": "820"
+                        "endOffsets": "834"
                     },
                     "to": {
                         "startLines": "9",

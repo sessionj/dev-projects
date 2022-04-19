@@ -26,23 +26,23 @@
             android:layout_height="match_parent"
             android:background="@drawable/gradient_bottom">
 
+
             <TextView
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="3월 29일"
-                android:textSize="24dp"
-                android:textStyle="bold"
+                android:text="배달자 : 홍길동"
+                android:textSize="20dp"
+                android:gravity="left"
                 >
             </TextView>
             <TextView
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="배달자 : 홍길동"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                android:gravity="right"
+                android:text="2022-04-19 (화)"
+                android:textSize="20dp"
+                android:gravity="center"
                 >
             </TextView>
 
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="충북 청주시 흥덕구 송화로 214번길 29 테크노 폴리스 우미린 106-1803호"
-            android:textSize="24dp"
+            android:textSize="18dp"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
             >
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="홍길동 | 010-1234-5678, 010-0987-5432"
-            android:textSize="22dp"
+            android:textSize="16dp"
             android:background="@drawable/gradient_bottom"
             android:layout_marginTop="10dp"
             >
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="자동차부품 | 박스"
-            android:textSize="25dp"
+            android:textSize="18dp"
             android:textColor="@color/red"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
