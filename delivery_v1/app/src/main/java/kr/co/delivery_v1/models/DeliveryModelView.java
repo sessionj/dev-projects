@@ -4,10 +4,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import kr.co.delivery_v1.comm.Label;
+
 /**
  * delivery room database 
  */
-@Entity(tableName = "tb_delivery")
+@Entity(tableName = Label.DELIVERY_BASE_ROOM_DELIVERY_DATABASE_NAME)
 public class DeliveryModelView {
 
     @PrimaryKey(autoGenerate = true)
@@ -39,7 +41,7 @@ public class DeliveryModelView {
     @ColumnInfo(name = "billstate")             private String billstate;
     @ColumnInfo(name = "deliverycourse")        private String deliverycourse;
     @ColumnInfo(name = "creatdate")             private String creatdate;
-    @ColumnInfo(name = "delivery_state")             private String delivery_state;
+    @ColumnInfo(name = "delivery_state")        private String delivery_state;
 
     @Override
     public String toString() {

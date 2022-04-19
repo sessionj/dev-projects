@@ -3,8 +3,10 @@ package kr.co.delivery_v1;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -53,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_CODE = 22;
     private boolean loginAccess = false;
 
-
-
     private DeliveryModelView deliveryModelView;
     private DeliveryDao deliveryDao;
     private String roomDb_phoneNumber = "";
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private int mYear;
     private int mMonth;
     private int mDay;
+    private List<DeliveryModelView>  arr;
     /**
      * 초기화, 셋팅
      */
@@ -126,20 +127,17 @@ public class MainActivity extends AppCompatActivity {
         //}
 
         init();
-        ArrayList<DeliveryModelView> arr = new ArrayList<DeliveryModelView>();
-        DeliveryModelView deliveryModelView;
-        for ( int i=0; i < 10; i++){
-            deliveryModelView = new DeliveryModelView();
-            deliveryModelView.setAdress("충북 청주시 흥덕구 문암동 체육생활센터 100번지" + i + " 메롱 ");
-            deliveryModelView.setArrivalman("(주)안드로메다");
-            deliveryModelView.setArrivalmantel("010-0000-2222");
-            deliveryModelView.setPojang("박스");
-            deliveryModelView.setGoods("운동화");
-            deliveryModelView.setBillno("4001251000001");
-            deliveryModelView.setQty(i+1);
-            arr.add(deliveryModelView);
-        }
+
+        CheckTypesTask task = new CheckTypesTask();
+        task.execute();
+
+        arr = new ArrayList<DeliveryModelView>();
+        deliveryDao = new DeliveryDao(this);
         deliveryModelView = new DeliveryModelView();
+        deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace("-", ""));
+
+        arr = deliveryDao.getDeliveryList(deliveryModelView);
+
         /**
          * 검색 조건 넣기
          */
@@ -224,6 +222,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog asyncDialog = new ProgressDialog(
+                MainActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            asyncDialog.setMessage("로딩중입니다..");
+
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    asyncDialog.setProgress(i * 800);
+                    Thread.sleep(500);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            asyncDialog.dismiss();
+            super.onPostExecute(result);
+        }
     }
 
     @Override

@@ -21,7 +21,14 @@ public interface BasicDeliveryProcessDao {
      * @param deliveryModelView
      */
     @Insert(onConflict = REPLACE)
-    void applicationData_insert(DeliveryModelView deliveryModelView);
+    void applicationData_insert( DeliveryModelView deliveryModelView);
+
+    /**
+     * db select
+     * @return
+     */
+    @Query("SELECT * FROM tb_delivery")
+    List<DeliveryModelView> getDayList();
 
     /**
      * db select

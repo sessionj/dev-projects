@@ -17,9 +17,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import kr.co.delivery_v1.action.request.DeliveryRequest;
 import kr.co.delivery_v1.comm.BasicUtils;
@@ -77,7 +81,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
 
         deliveryModelView.setArrivalagencycode(agencyCode);
         deliveryModelView.setDeliverycourse(deliveryCourse);
-        deliveryModelView.setInput_date(deliveryavt_date_picker_area.getText().toString());
+        deliveryModelView.setCreatdate(BasicUtils.getDays("yyyy-MM-dd"));
 
     }
 
@@ -130,26 +134,14 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("", "===================> start" );
+                Log.d("", "request : ===================> start" );
                 try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    boolean success = jsonObject.getBoolean("success");
-
-                    if ( success){
-
-                        roomDbRequest(response);
-
-                        Toast.makeText(getApplicationContext(), "자료 가져오기 성공", Toast.LENGTH_SHORT).show();
-
-                    } else {// 자료 가져오기 실패시
-                        Toast.makeText( getApplicationContext(), "자료 가져오기 실패패", Toast.LENGTH_SHORT ).show();
-                       return;
-                    }
+                    roomDbRequest(response);
 
                 }catch (Exception e){
                     Log.d("log ", e.toString());
                 }
-                Log.d("", "===================> end" );
+                Log.d("", "request : ===================> end" );
             }
 
             /**
@@ -157,8 +149,53 @@ public class DeliveryRequestActivity extends AppCompatActivity {
              * @param response
              */
             private void roomDbRequest(String response) {
-                deliveryModelView = new DeliveryModelView();
-                appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelView);
+
+                ArrayList<DeliveryModelView> resultData = new ArrayList<DeliveryModelView>();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
+
+                    for ( int i=0; i < resultarray.length(); i++){
+                        JSONObject Object = resultarray.getJSONObject(i);
+                        deliveryModelView = new DeliveryModelView();
+                        deliveryModelView.setBillno(Object.getString("billno"));
+                        deliveryModelView.setInput_date(Object.getString("input_date"));
+                        deliveryModelView.setInput_time(Object.getString("input_time"));
+                        deliveryModelView.setTranscode(Object.getString("transcode"));
+                        deliveryModelView.setSendingagencycode(Object.getString("sendingagencycode"));
+                        deliveryModelView.setArrivalagencycode(Object.getString("arrivalagencycode"));
+                        deliveryModelView.setSendingmantel(Object.getString("sendingmantel"));
+                        deliveryModelView.setSendingman(Object.getString("sendingman"));
+                        deliveryModelView.setArrivalmantel(Object.getString("arrivalmantel"));
+                        deliveryModelView.setArrivalman(Object.getString("arrivalman"));
+                        deliveryModelView.setZipcode(Object.getString("zipcode"));
+                        deliveryModelView.setAdress(Object.getString("adress"));
+                        deliveryModelView.setPrefare(Object.getString("prefare"));
+                        deliveryModelView.setFare(Object.getString("fare"));
+                        deliveryModelView.setDeliveryfare(Object.getString("deliveryfare"));
+                        deliveryModelView.setOgideliveryfare(Object.getString("ogideliveryfare"));
+                        deliveryModelView.setDistance(Object.getString("distance"));
+                        deliveryModelView.setPayway(Object.getString("payway"));
+                        deliveryModelView.setGoods(Object.getString("goods"));
+                        deliveryModelView.setPojang(Object.getString("pojang"));
+                        deliveryModelView.setQty(Object.getInt("qty"));
+                        deliveryModelView.setWeight(Object.getString("weight"));
+                        deliveryModelView.setMemo(Object.getString("memo"));
+                        deliveryModelView.setBillstate(Object.getString("billstate"));
+                        deliveryModelView.setDeliverycourse(Object.getString("deliverycourse"));
+                        deliveryModelView.setCreatdate(Object.getString("creatdate"));
+
+                        appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelView);
+
+                        /**
+                         * 리스트로 넣는 방법을 알아야함 .
+                         */
+                        //resultData.add(deliveryModelView);
+                    }
+
+                } catch(JSONException e){
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -167,6 +204,5 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         queue.add( deliveryRequest );
 
     }
-
 
 }

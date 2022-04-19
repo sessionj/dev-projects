@@ -6,7 +6,9 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "tb_profile")
+import kr.co.delivery_v1.comm.Label;
+
+@Entity(tableName = Label.DELIVERY_BASE_ROOM_PROFILE_DATABASE_NAME)
 public class LoginModelView implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

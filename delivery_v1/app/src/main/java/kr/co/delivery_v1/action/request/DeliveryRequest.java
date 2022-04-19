@@ -14,7 +14,7 @@ import kr.co.delivery_v1.comm.Label;
 import kr.co.delivery_v1.models.DeliveryModelView;
 
 /**
- *  * http://dev.ds3211.co.kr/DsService_AppInterlockProxy?param=암호화키		4001	DL	100	2022-04-07
+ *   http://dev.ds3211.co.kr/DsService_AppInterlockProxy?param=암호화키		4001	DL	2022-04-07
  */
 public class DeliveryRequest extends StringRequest {
 
@@ -31,9 +31,9 @@ public class DeliveryRequest extends StringRequest {
         sb.append(CryptoKey.createCryptoKey(deliveryModelView.getArrivalagencycode())+"\t");
         sb.append(deliveryModelView.getArrivalagencycode()+"\t");
         sb.append(Label.DELIVERY_BASE_URL_DELIVERY_LIST+"\t");
-        sb.append(deliveryModelView.getDeliverycourse()+"\t");
-        sb.append(deliveryModelView.getInput_date());
-
+        //sb.append(deliveryModelView.getDeliverycourse()+"\t");
+        sb.append(deliveryModelView.getCreatdate());
+        Log.d("===", sb.toString());
         map.put("param", sb.toString());
     }
 

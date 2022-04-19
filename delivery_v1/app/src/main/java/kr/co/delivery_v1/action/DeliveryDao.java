@@ -23,13 +23,9 @@ public class DeliveryDao {
      */
     public List<DeliveryModelView> getDeliveryList(DeliveryModelView deliveryModelView){
 
-        List<DeliveryModelView> deliveryModelViewArrayList = null;
-        deliveryModelViewArrayList = new ArrayList<DeliveryModelView>();
+        List<DeliveryModelView> deliveryModelViewArrayList = new ArrayList<DeliveryModelView>();
         deliveryModelViewArrayList = appDeliveryDatabase.basicDeliveryProcessDao().getDayList(deliveryModelView.getCreatdate());
-
-        deliveryModelViewArrayList = new ArrayList<DeliveryModelView>();
         return deliveryModelViewArrayList;
-
     }
 
     public DeliveryModelView getDeliveryArticle(DeliveryModelView searchModel){

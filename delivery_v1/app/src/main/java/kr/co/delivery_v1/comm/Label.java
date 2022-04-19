@@ -10,7 +10,7 @@ public class Label {
     public final static String DELIVERY_BASE_URL_DELIVERY_ARTICLE           = "DA";
 
     public final static String DELIVERY_BASE_ROOM_PROFILE_DATABASE_NAME     = "tb_profile";
-    public final static String DELIVERY_BASE_ROOM_DELIVERY_DATABASE_NAME    = "tb_profile";
+    public final static String DELIVERY_BASE_ROOM_DELIVERY_DATABASE_NAME    = "tb_delivery";
 
     public final static String DELIVERY_STANDARD_DATE_FORMAT                = "yyyy-MM-dd";
 

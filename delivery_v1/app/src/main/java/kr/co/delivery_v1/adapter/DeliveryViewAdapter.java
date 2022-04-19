@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import kr.co.delivery_v1.R;
 import kr.co.delivery_v1.models.DeliveryModelView;
@@ -21,14 +22,14 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
 
 
     private Context context;
-    private ArrayList<DeliveryModelView> deliveryModelViewList = new ArrayList<DeliveryModelView>();
+    private List<DeliveryModelView> deliveryModelViewList = new ArrayList<DeliveryModelView>();
     StringBuffer sb;
 
     /**
      * 생성자로 리스트를 전달 받음
      * @param _deliveryModelViewList
      */
-    public DeliveryViewAdapter(ArrayList<DeliveryModelView> _deliveryModelViewList){
+    public DeliveryViewAdapter(List<DeliveryModelView> _deliveryModelViewList){
         deliveryModelViewList = _deliveryModelViewList;
     }
 
