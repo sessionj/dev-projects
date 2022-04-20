@@ -4,7 +4,7 @@
             "outputFile": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\shadow\\.gradle\\caches\\transforms-3\\b813730451314bad30b979be4256ebdc\\transformed\\material-1.6.0-beta01\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\shadow\\.gradle\\caches\\transforms-3\\e28f006988a95f750d6b8550309c18b4\\transformed\\material-1.7.0-alpha01\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,9,12,15",
                         "startColumns": "4,4,4,4,4,4,4,4",

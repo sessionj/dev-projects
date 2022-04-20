@@ -50,16 +50,13 @@ drawable logo
 id area_agency
 id area_delivery
 id area_phone
-id checkbox_meat
+id checkbox_delivery_check
 id date_picker_area
 id date_picker_area_info
 id delivery_number
 id deliveryavt_agencycode
 id deliveryavt_date_picker_area
 id deliveryavt_delivery_cource
-id deliveryavt_title_agencycode
-id deliveryavt_title_date_picker_area
-id deliveryavt_title_delivery_cource
 id details_address
 id details_arrival_name
 id details_arrivalman_tel1
@@ -73,6 +70,7 @@ id email
 id female
 id header
 id layout
+id list_empty
 id login_button
 id logout
 id main_request_delivery_btn

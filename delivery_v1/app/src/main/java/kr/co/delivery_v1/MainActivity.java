@@ -28,6 +28,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+//import com.gun0912.tedpermission.PermissionListener;
+//import com.gun0912.tedpermission.TedPermission;
+
+
 import java.sql.Array;
 import java.text.ParseException;
 import java.time.Year;
@@ -50,6 +54,7 @@ import kr.co.delivery_v1.models.DeliveryModelView;
 import kr.co.delivery_v1.models.LoginModelView;
 
 public class MainActivity extends AppCompatActivity {
+
 
     int nCurrentPermission = 0;
     static final int PERMISSION_REQUEST = 0x0000001;
@@ -74,7 +79,11 @@ public class MainActivity extends AppCompatActivity {
     private DeliveryViewAdapter deliveryViewAdapter;
 
     private TextView date_picker_area_info;
+    //private String tmpDate = "";
+    //private String tmpDateDay = "";
 
+    private String requestSearchDay = "";
+    private String viewSearchDay = "";
     /**
      * 초기화, 셋팅
      */
@@ -84,10 +93,6 @@ public class MainActivity extends AppCompatActivity {
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        /**
-         * tmp
-         */
 
         roomDb_phoneNumber = DeviceInfoUtil.getRoomSelecter(this, 2);
         if ( "".equals(roomDb_phoneNumber)){
@@ -99,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         deliveryModelView = new DeliveryModelView();
         deliveryDao = new DeliveryDao(this);
         //deliveryDao.applicationData_deleteAll();
+
         /**
          * 로그인 화면 보고 싶을때 room db 를 제거
          */
@@ -121,19 +127,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // 권한 체크에 대한 내용은 마지막에 하자
-        // 2022-04-16 : 메인 화면에는 자료가 없을테니
 
-        //if (chkPermission()){
-        //   Toast.makeText(this, "위험 권한 승인함", Toast.LENGTH_SHORT).show();
-        //}
+        datapicker_view = (TextView) findViewById(R.id.date_picker_area);
+        // request는 어제
+        requestSearchDay = BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT);
+        // view 는 오늘
+        viewSearchDay = BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT) + " (" + BasicUtils.getDayOfweek(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT), Label.DELIVERY_STANDARD_DATE_FORMAT) + ")";
 
         init();
-
+        // 화면에 뿌릴땐 view 로
+        datapicker_view.setText(viewSearchDay);
         CheckTypesTask task = new CheckTypesTask();
         task.execute();
-
-        // recyclerView 가져오기
         pageRecyclerListView();
 
         /**
@@ -143,10 +148,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 // 날짜가 변경되면 목록 교체
-                String tmpDate = "";
-                String tmpDateDay = "";
-                tmpDate = year + "-" + BasicUtils.getFormatDate( (month+1) ) + "-" + BasicUtils.getFormatDate( dayOfMonth );
-                tmpDateDay = BasicUtils.getDayOfweek(tmpDate, Label.DELIVERY_STANDARD_DATE_FORMAT);
+
+                String tmpDate = year + "-" + BasicUtils.getFormatDate( (month+1) ) + "-" + BasicUtils.getFormatDate( dayOfMonth );
+                String tmpDateDay = BasicUtils.getDayOfweek(tmpDate, Label.DELIVERY_STANDARD_DATE_FORMAT);
                 datapicker_view.setText( tmpDate + " ("+tmpDateDay +")");
             }
         }, mYear, mMonth, mDay);
@@ -169,13 +173,12 @@ public class MainActivity extends AppCompatActivity {
                 // 변경 전 묹자열.
                 datapicker_view = (TextView) findViewById(R.id.date_picker_area);
                 befSearchDate = datapicker_view.getText().toString();
-                Log.d("변경전 ..",  befSearchDate);
-
+                Log.d("변경전 : ", befSearchDate);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //editText에 포커스가 되어있고 텍스트가 하나라도 입력되어 있을때 동작하기 위해서 추가.
+                //editText에 포커스가 되어있고 텍스트 입력 시 동작
             }
 
             @Override
@@ -184,11 +187,18 @@ public class MainActivity extends AppCompatActivity {
 
                 datapicker_view = (TextView) findViewById(R.id.date_picker_area);
                 aftSearchDate = datapicker_view.getText().toString();
-
+                Log.d("변경후 : ", aftSearchDate);
 
                 if ( !befSearchDate.equals(aftSearchDate)){
                     Log.d("날짜가 변경되었습니다.",  aftSearchDate);
+                    datapicker_view = (TextView) findViewById(R.id.date_picker_area);
+                    befSearchDate = datapicker_view.getText().toString();
+                    String[] tmpStr = befSearchDate.split(" ");
+                    requestSearchDay = tmpStr[0].replace("-","");
+                    // 여기서도 하루 빼줘야함함
                     pageRecyclerListView();
+                    CheckTypesTask task = new CheckTypesTask();
+                    task.execute();
                 }
             }
         });
@@ -207,46 +217,31 @@ public class MainActivity extends AppCompatActivity {
 
         arr = new ArrayList<DeliveryModelView>();
         deliveryViewAdapter = new DeliveryViewAdapter(arr);
-        deliveryDao = new DeliveryDao(this);
-        deliveryModelView = new DeliveryModelView();
-
-        datapicker_view = (TextView) findViewById(R.id.date_picker_area);
-
-        String tmpStr = (String) datapicker_view.getText().toString(); // 화면에서 2022-04-19 (수) 로 표기
-        String[] arrTmp = tmpStr.split(" ");
-
-        datapicker_view.setText(arrTmp[0] + " (" +BasicUtils.getDayOfweek(BasicUtils.getDays("yyyy-MM-dd"), "yyyy-MM-dd")+")");
 
         // 날짜를 화면에서만 받아와야 한다.
-        deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace("-", ""));
+        if ( requestSearchDay != null){
+            deliveryModelView.setCreatdate(requestSearchDay.replace("-", ""));
+        }else{
+            deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace(" ",""));
+        }
 
         arr = deliveryDao.getDeliveryList(deliveryModelView);
+        RecyclerView recyclerView = findViewById(R.id.recyceler_view );
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, 1)); // 아이템별 구분선 넣기
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        if ( arr != null && arr.size() > 0){
-            RecyclerView recyclerView = findViewById(R.id.recyceler_view );
-            recyclerView.addItemDecoration(new DividerItemDecoration(this, 1)); // 아이템별 구분선 넣기
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        deliveryViewAdapter = new DeliveryViewAdapter(arr);
+        recyclerView.setAdapter(deliveryViewAdapter);
 
-            deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT));
+        deliveryViewAdapter.setOnitemClickListener(new DeliveryViewAdapter.OnitemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
 
-            deliveryViewAdapter = new DeliveryViewAdapter(arr);
-            recyclerView.setAdapter(deliveryViewAdapter);
-
-            //date_picker_area_info.setText("총 건수 : " + arr.size() + "건".toString());
-
-            deliveryViewAdapter.setOnitemClickListener(new DeliveryViewAdapter.OnitemClickListener() {
-                @Override
-                public void onItemClick(View v, int pos) {
-
-                    Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
-                    intent.putExtra("billNo", arr.get(pos).getBillno().toString());
-                    startActivity(intent);
-                }
-            });
-        }else{
-            Log.d("검색 내역 없음", "Not data");
-
-        }
+                Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
+                intent.putExtra("billNo", arr.get(pos).getBillno().toString());
+                startActivity(intent);
+            }
+        });
     }
 
     private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
@@ -256,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            asyncDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             asyncDialog.setMessage("로딩중입니다..");
 
             // show dialog
@@ -267,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
             try {
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 2; i++) {
                     asyncDialog.setProgress(i * 700);
                     Thread.sleep(500);
                 }

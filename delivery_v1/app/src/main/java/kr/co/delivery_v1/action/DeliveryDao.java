@@ -24,9 +24,15 @@ public class DeliveryDao {
      */
     public List<DeliveryModelView> getDeliveryList(DeliveryModelView deliveryModelView){
 
-        Log.d("DeliveryDao", "" + deliveryModelView.getCreatdate());
+        Log.d("DeliveryDao ======== 검색 일자 : ", "" + deliveryModelView.getCreatdate());
         List<DeliveryModelView> deliveryModelViewArrayList = new ArrayList<DeliveryModelView>();
         deliveryModelViewArrayList = appDeliveryDatabase.basicDeliveryProcessDao().getDayList(deliveryModelView.getCreatdate());
+        if ( deliveryModelViewArrayList != null && deliveryModelViewArrayList.size() > 0){
+            for ( int i=0; i < deliveryModelViewArrayList.size(); i++){
+                Log.d("for : " , deliveryModelViewArrayList.get(i).getArrivalman());
+                Log.d("for : " , deliveryModelViewArrayList.get(i).getAdress());
+            }
+        }
         return deliveryModelViewArrayList;
     }
 
@@ -46,5 +52,10 @@ public class DeliveryDao {
     public void applicationData_deleteAll(){
         appDeliveryDatabase.basicDeliveryProcessDao().applicationData_deleteAll(); ;
 
+    }
+
+    public List<DeliveryModelView> getDeliveryList(){
+
+        return  appDeliveryDatabase.basicDeliveryProcessDao().getDayList();
     }
 }

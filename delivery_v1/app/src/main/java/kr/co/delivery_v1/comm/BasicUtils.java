@@ -1,16 +1,25 @@
 package kr.co.delivery_v1.comm;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class BasicUtils {
 
@@ -126,7 +135,22 @@ public class BasicUtils {
         return result;
     }
 
+    private String getPorviosday(int year , int month , int day) {
 
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month-1, day);
+        cal.add(Calendar.DATE, -1);
+        java.util.Date weekago = cal.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return formatter.format(weekago);
+    }
+
+
+    /**
+     *
+     * @param objnum
+     * @return
+     */
     public static String getDataFormatConvert(String objnum){
         String result = "";
         String tmpWeek = "";
@@ -139,6 +163,69 @@ public class BasicUtils {
             }
         }
         return result;
+    }
+
+    /**
+     * 주소로 위도, 경도 구하기
+     * @param mcontext
+     * @param address
+     * @return
+     */
+    public static ArrayList<Double> findGeoPoint(Context mcontext, String address) {
+
+        if ( TextUtils.isEmpty(address)){
+            return null;
+        }
+
+        Geocoder coder = new Geocoder(mcontext);
+        List<Address> addr = null;// 한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 설정
+        ArrayList<Double> result = null;
+        try {
+            addr = coder.getFromLocationName(address, 1);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }// 몇개 까지의 주소를 원하는지 지정 1~5개 정도가 적당
+        if (addr != null) {
+            Address lating = addr.get(0);
+            double lat = lating.getLatitude(); // 위도가져오기
+            double lon = lating.getLongitude(); // 경도가져오기
+            result = new ArrayList<Double>();
+            result.add(lat);
+            result.add(lon);
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @param mcontext
+     * @param address
+     * @return
+     */
+    public static Location findGeoPoint_(Context mcontext, String address) {
+        Location loc = new Location("");
+        Geocoder coder = new Geocoder(mcontext);
+        List<Address> addr = null;// 한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 설정
+
+        try {
+            addr = coder.getFromLocationName(address, 5);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }// 몇개 까지의 주소를 원하는지 지정 1~5개 정도가 적당
+        if (addr != null) {
+            for (int i = 0; i < addr.size(); i++) {
+                Address lating = addr.get(i);
+                double lat = lating.getLatitude(); // 위도가져오기
+                double lon = lating.getLongitude(); // 경도가져오기
+                loc.setLatitude(lat);
+                loc.setLongitude(lon);
+                Log.d("위도 : ", lat + "");
+                Log.d("위도 : " , lon + "");
+            }
+        }
+        return loc;
     }
 
 }

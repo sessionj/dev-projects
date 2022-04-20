@@ -14,4 +14,7 @@ public class Label {
 
     public final static String DELIVERY_STANDARD_DATE_FORMAT                = "yyyy-MM-dd";
 
+    public final static Double DELIVERY_DEFAULT_POINT_LAT                = 36.6489337;
+    public final static Double DELIVERY_DEFAULT_POINT_LNG                = 127.4869455;
+
 }
