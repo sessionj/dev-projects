@@ -156,6 +156,13 @@
                 android:text="배달 처리"
                 android:textSize="20dp" />
 
+            <ImageView
+                android:id="@+id/delivery_photo"
+                android:layout_width="match_parent"
+                android:layout_height="680dp"
+                tools:ignore="MissingConstraints" />
+
+
         </LinearLayout>
 
     </ScrollView>

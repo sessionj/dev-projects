@@ -54,6 +54,7 @@ id btn_photo
 id checkbox_delivery_check
 id date_picker_area
 id delivery_number
+id delivery_photo
 id deliveryavt_agencycode
 id deliveryavt_date_picker_area
 id deliveryavt_delivery_cource

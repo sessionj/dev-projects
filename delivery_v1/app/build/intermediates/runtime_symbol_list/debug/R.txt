@@ -2788,6 +2788,7 @@ int id decelerateAndComplete 0x7f080098
 int id decor_content_parent 0x7f080099
 int id default_activity_button 0x7f08009a
 int id delivery_number 0x7f08009b
+int id delivery_photo 0x7f080224
 int id deliveryavt_agencycode 0x7f08009c
 int id deliveryavt_date_picker_area 0x7f08009d
 int id deliveryavt_delivery_cource 0x7f08009e
