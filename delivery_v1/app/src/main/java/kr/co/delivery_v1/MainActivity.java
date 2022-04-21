@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,12 +80,14 @@ public class MainActivity extends AppCompatActivity {
     private List<DeliveryModelView>  arr;
     private DeliveryViewAdapter deliveryViewAdapter;
 
-    private TextView date_picker_area_info;
+    private TextView list_count;
 
     private String requestSearchDay = "";
     private String viewSearchDay = "";
 
     private RecyclerView recyclerView;
+
+    private CheckTypesTask taskAsync;
     /**
      * 초기화, 셋팅
      */
@@ -99,12 +102,13 @@ public class MainActivity extends AppCompatActivity {
         deliveryDao = new DeliveryDao(this);
         //deliveryDao.applicationData_deleteAll();
         datapicker_view = (TextView) findViewById(R.id.date_picker_area);
-
+        list_count = (TextView) findViewById(R.id.list_count);
         roomDb_phoneNumber = DeviceInfoUtil.getRoomSelecter(this, 2);
         if ( "".equals(roomDb_phoneNumber)){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
+        deliveryModelView.setDeliverycourse(DeviceInfoUtil.getRoomSelecter(this, 4));
 
     }
 
@@ -116,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (!TextUtils.isEmpty(intent.getStringExtra("requestSearchDay") )){
             requestSearchDay = intent.getStringExtra("requestSearchDay");
-            viewSearchDay =  BasicUtils.getDateControl(intent.getStringExtra("requestSearchDay"), 0, 0, 1) ;
+            viewSearchDay =  BasicUtils.getDateControl(intent.getStringExtra("requestSearchDay"), 0, 0, 1) + " (" + BasicUtils.getDayOfweek(requestSearchDay, Label.DELIVERY_STANDARD_DATE_FORMAT)+")" ;
         }else{
             requestSearchDay = BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT);
-            viewSearchDay = BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT);
+            viewSearchDay = BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT) + " (" + BasicUtils.getDayOfweek(requestSearchDay, Label.DELIVERY_STANDARD_DATE_FORMAT)+")";
         }
         // 달력 일자 셋팅팅
         datapicker_view.setText(viewSearchDay);
@@ -132,7 +136,8 @@ public class MainActivity extends AppCompatActivity {
 
         init();
         getIntentValue();
-        //CheckTypesTask task = new CheckTypesTask();
+        taskAsync = new CheckTypesTask();
+        taskAsync.equals("");
         //task.execute();
         pageRecyclerListView();
 
@@ -196,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                     if ( befSearchDate != null && befSearchDate.length() > 0){
                         requestSearchDay = BasicUtils.getDateControl(befSearchDate, 0,0,-1);
                         pageRecyclerListView();
+                        //taskAsync.equals("");
                     }
                 }
             }
@@ -214,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
+            Log.d("================ onPreExecute() ", "실행중");
             asyncDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             asyncDialog.setMessage("로딩중입니다..");
 
@@ -226,11 +233,8 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             try {
                 try {
-                    for (int i = 0; i < 7; i++) {
-                        asyncDialog.setProgress(i * 700);
-                        Thread.sleep(500);
-                    }
-                } catch (InterruptedException e) {
+                    //pageRecyclerListView();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } catch (Exception e) {
@@ -247,31 +251,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * 화면 목록 셋팅
      */
     private void pageRecyclerListView() {
 
         arr = new ArrayList<DeliveryModelView>();
-        deliveryViewAdapter = new DeliveryViewAdapter(arr);
 
-        // 날짜를 화면에서만 받아와야 한다.
         if ( requestSearchDay != null){
             deliveryModelView.setCreatdate(requestSearchDay.replace("-", ""));
         }else{
-            // 없으면 어제 날짜로 대체
             deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace(" ",""));
         }
-
         Toast.makeText(getApplicationContext(), "자료 가져오기 버튼 클릭" + deliveryModelView.getCreatdate(), Toast.LENGTH_SHORT).show();
-
         arr = deliveryDao.getDeliveryList(deliveryModelView);
         recyclerView = findViewById(R.id.recyceler_view );
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 1)); // 아이템별 구분선 넣기
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        list_count.setText("총 " + arr.size() + "건");
         deliveryViewAdapter = new DeliveryViewAdapter(arr);
         recyclerView.setAdapter(deliveryViewAdapter);
-
+        //dialog.show();
         deliveryViewAdapter.setOnitemClickListener(new DeliveryViewAdapter.OnitemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
@@ -279,10 +278,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
                 intent.putExtra("billNo", arr.get(pos).getBillno().toString());
                 intent.putExtra("requestSearchDay", requestSearchDay);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -294,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * activity 이동 [배달 자료 받아오는 화면으로]
+     * 버튼이 있으면 ID를 가져와서 체크해서 이벤트 발생하면 된다.
      * @param item
      * @return
      */
@@ -302,7 +302,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.main_request_delivery_btn:
                 Toast.makeText(getApplicationContext(), "자료 가져오기 버튼 클릭", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(this, DeliveryRequestActivity.class);
+                intent.putExtra("requestSearchDay", requestSearchDay);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);

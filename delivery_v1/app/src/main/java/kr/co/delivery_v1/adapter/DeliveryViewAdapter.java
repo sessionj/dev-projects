@@ -59,15 +59,15 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
         int itemposition = position;
 
         /**
-         *  row1 : 수화주 | 포장 | (수량) | 물품명
+         *  row1 : 주소
          */
         sb = new StringBuffer();
-        sb.append(deliveryModelViewList.get(itemposition).getAdress() + " ");
+        sb.append(deliveryModelViewList.get(itemposition).getAdress().replaceAll("(\r\n|\r|\n|\n\r)", " ") + " ");
 
         holder.rowItem_1.setText(sb.toString());
 
         /**
-         * 주소
+         * 밥는사람, 전화번호,
          */
         sb = new StringBuffer();
         sb.append(deliveryModelViewList.get(itemposition).getArrivalman() + " ");
@@ -79,13 +79,19 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
         /**
          * 전화번호
          */
-
         sb = new StringBuffer();
         sb.append(deliveryModelViewList.get(itemposition).getBillno() + " ");
         sb.append(deliveryModelViewList.get(itemposition).getGoods() + " ");
         sb.append(deliveryModelViewList.get(itemposition).getPojang() + " ");
         sb.append(deliveryModelViewList.get(itemposition).getQty() + " ");
         holder.rowItem_3.setText(sb.toString());
+
+        /**
+         * 배달코스
+         */
+        sb = new StringBuffer();
+        sb.append(deliveryModelViewList.get(itemposition).getDeliverycourse() + " ");
+        holder.rowItem_4.setText(sb.toString());
 
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
@@ -96,13 +102,14 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView rowItem_1, rowItem_2, rowItem_3;
+        public TextView rowItem_1, rowItem_2, rowItem_3, rowItem_4;
 
         ViewHolder(View itemView){
             super(itemView);
             rowItem_1 = (TextView) itemView.findViewById(R.id.row_item_1);
             rowItem_2 = (TextView) itemView.findViewById(R.id.row_item_2);
             rowItem_3 = (TextView) itemView.findViewById(R.id.row_item_3);
+            rowItem_4 = (TextView) itemView.findViewById(R.id.row_item_4);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

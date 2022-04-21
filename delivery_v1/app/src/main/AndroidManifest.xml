@@ -3,15 +3,23 @@
     package="kr.co.delivery_v1"
     android:targetSandboxVersion="1">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- android:maxSdkVersion="29" /> -->
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA2" />
 
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -24,13 +32,27 @@
         android:usesCleartextTraffic="true"
 
         >
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakao_app_key"/>
-        <!-- 배달 자료를 받아올 엑티비티 return -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="kr.co.delivery_v1"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".PhotoActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" /> <!-- 배달 자료를 받아올 엑티비티 return -->
         <activity
             android:name=".DeliveryDetailsActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
-        <!-- 배달 자료를 받아올 엑티비티 return -->
+            android:parentActivityName=".MainActivity" /> <!-- 배달 자료를 받아올 엑티비티 return -->
         <activity
             android:name=".DeliveryRequestActivity"
             android:exported="false"
@@ -55,7 +77,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

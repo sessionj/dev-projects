@@ -34,7 +34,12 @@ public interface BasicDeliveryProcessDao {
      * db select
      * @return
      */
-    @Query("SELECT * FROM tb_delivery  where creatdate = :createDt" )
+
+    /*@Query("SELECT * FROM tb_delivery  where creatdate = :createDt and deliverycourse = :deliveryCourse" )
+    List<DeliveryModelView> getDayList(String createDt, String deliveryCourse);*/
+
+    //임시
+    @Query("SELECT * FROM tb_delivery  where creatdate = :createDt order by creatdate desc" )
     List<DeliveryModelView> getDayList(String createDt);
 
     /**

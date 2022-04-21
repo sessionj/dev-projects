@@ -40,14 +40,31 @@
             android:textColor="#666666"
             android:layout_weight="1"
             android:textStyle="bold"/>
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/row_item_3"
-            android:textSize="13dp"
-            android:textColor="@color/color1"
-            android:layout_weight="1" />
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/row_item_3"
+                android:textSize="15dp"
+                android:textColor="@color/color1"
+                android:layout_weight="1" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/row_item_4"
+                android:textSize="13dp"
+                android:gravity="right"
+                android:paddingRight="15dp"
+                android:textColor="@color/red"
+                android:layout_weight="4" />
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

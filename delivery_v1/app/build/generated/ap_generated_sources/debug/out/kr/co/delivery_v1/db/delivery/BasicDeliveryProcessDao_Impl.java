@@ -455,7 +455,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
 
   @Override
   public List<DeliveryModelView> getDayList(final String createDt) {
-    final String _sql = "SELECT * FROM tb_delivery  where creatdate = ?";
+    final String _sql = "SELECT * FROM tb_delivery  where creatdate = ? order by creatdate desc";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
     if (createDt == null) {

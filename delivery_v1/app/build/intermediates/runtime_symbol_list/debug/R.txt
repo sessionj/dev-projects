@@ -2735,6 +2735,7 @@ int id bounce 0x7f080063
 int id bounceBoth 0x7f080064
 int id bounceEnd 0x7f080065
 int id bounceStart 0x7f080066
+int id btn_photo 0x7f080222
 int id buttonPanel 0x7f080067
 int id cache_measures 0x7f080068
 int id callMeasure 0x7f080069
@@ -2894,6 +2895,7 @@ int id item2 0x7f080106
 int id item3 0x7f080107
 int id item4 0x7f080108
 int id item_touch_helper_previous_elevation 0x7f080109
+int id iv_photo 0x7f080223
 int id jumpToEnd 0x7f08010a
 int id jumpToStart 0x7f08010b
 int id labeled 0x7f08010c
@@ -2906,6 +2908,7 @@ int id line1 0x7f080112
 int id line3 0x7f080113
 int id linear 0x7f080114
 int id listMode 0x7f080115
+int id list_count 0x7f080221
 int id list_empty 0x7f08021f
 int id list_item 0x7f080116
 int id login_button 0x7f080117
@@ -3030,6 +3033,7 @@ int id row_index_key 0x7f08018d
 int id row_item_1 0x7f08018e
 int id row_item_2 0x7f08018f
 int id row_item_3 0x7f080190
+int id row_item_4 0x7f080220
 int id satellite 0x7f080191
 int id save_non_transition_alpha 0x7f080192
 int id save_overlay_view 0x7f080193
@@ -3273,6 +3277,7 @@ int layout abc_search_view 0x7f0b0019
 int layout abc_select_dialog_material 0x7f0b001a
 int layout abc_tooltip 0x7f0b001b
 int layout activity_app_start 0x7f0b001c
+int layout activity_camera 0x7f0b0081
 int layout activity_delivery_details 0x7f0b001d
 int layout activity_delivery_request 0x7f0b001e
 int layout activity_login 0x7f0b001f
@@ -6592,6 +6597,10 @@ int styleable ViewTransition_viewTransitionMode 14
 int[] styleable include { 0x7f03010e }
 int styleable include_constraintSet 0
 int xml bar_layout 0x7f120000
+int xml fadein 0x7f120007
+int xml fadeout 0x7f120008
+int xml file_paths 0x7f12000a
+int xml hold 0x7f120009
 int xml network_security_config 0x7f120001
 int xml standalone_badge 0x7f120002
 int xml standalone_badge_gravity_bottom_end 0x7f120003

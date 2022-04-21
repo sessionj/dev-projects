@@ -80,7 +80,6 @@ public class BasicUtils {
             getDate = formats.parse(date);
             cal.setTime(getDate);
             int w = cal.get(Calendar.DAY_OF_WEEK)-1;
-            System.out.println(date + "는 " + week[w] +"요일 입니다");
             result = week[w];
         } catch (ParseException e) {
             e.printStackTrace();
@@ -193,22 +192,24 @@ public class BasicUtils {
         double lat;
         double lon;
         try {
+            // 몇개 까지의 주소를 원하는지 지정 1~5개 정도가 적당
             addr = coder.getFromLocationName(address, 5);
+            if (addr != null) {
+                if ( addr.get(0) == null){
+                    return null;
+                }
+                Address lating = addr.get(0);
+                lat = lating.getLatitude(); // 위도가져오기
+                lon = lating.getLongitude(); // 경도가져오기
+                result = new ArrayList<Double>();
+                result.add(lat);
+                result.add(lon);
+            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }// 몇개 까지의 주소를 원하는지 지정 1~5개 정도가 적당
-        if (addr != null) {
-            if ( addr.get(0) == null){
-                return null;
-            }
-            Address lating = addr.get(0);
-            lat = lating.getLatitude(); // 위도가져오기
-            lon = lating.getLongitude(); // 경도가져오기
-            result = new ArrayList<Double>();
-            result.add(lat);
-            result.add(lon);
         }
+
         return result;
     }
 

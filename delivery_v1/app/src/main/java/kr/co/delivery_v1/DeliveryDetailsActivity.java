@@ -93,6 +93,22 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(DeliveryDetailsActivity.this, MainActivity.class);
+                intent.putExtra("requestSearchDay", requestSearchDay);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                startActivity(intent);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * getParam (Intent)
      */
@@ -198,13 +214,13 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "배달 처리 시작 카메로 어플 실행 ㄱㄱ ", Toast.LENGTH_LONG).show();
-
-                // 카메라 어플 권한 설정 (manifeasts)
-
+                Intent intent = new Intent(getApplicationContext(), PhotoActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }
-    @RequiresApi(api = Build.VERSION_CODES.S)
+
     @Override
     public void finish() {
         mapViewContainer.clearFocus();

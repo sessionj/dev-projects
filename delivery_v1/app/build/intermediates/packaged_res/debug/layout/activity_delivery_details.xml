@@ -151,6 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="12dp"
+                android:paddingBottom="3dp"
                 android:background="@color/red"
                 android:text="배달 처리"
                 android:textSize="20dp" />

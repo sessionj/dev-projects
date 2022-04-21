@@ -1,5 +1,6 @@
 package kr.co.delivery_v1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -66,7 +68,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
 
     private String etc_btn_check = "";
     private int successCnt = 0;
-
+    private String requestSearchDay = "";
     /**
      * 초기화 및 셋팅
      */
@@ -95,9 +97,32 @@ public class DeliveryRequestActivity extends AppCompatActivity {
 
         deliveryModelView.setArrivalagencycode(agencyCode);
         deliveryModelView.setDeliverycourse(deliveryCourse);
-        // 기본일자 오늘
         deliveryModelView.setCreatdate(BasicUtils.getDays("yyyy-MM-dd"));
 
+    }
+
+    /**
+     * getParam (Intent)
+     */
+    private void getIntentValue(){
+        Intent intent = getIntent();
+        requestSearchDay = intent.getStringExtra("requestSearchDay") == null ? "" : intent.getStringExtra("requestSearchDay");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(DeliveryRequestActivity.this, MainActivity.class);
+                intent.putExtra("requestSearchDay", requestSearchDay);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                startActivity(intent);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -110,7 +135,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);*/
 
         init();
-
+        getIntentValue();
         /**
          *
          */
