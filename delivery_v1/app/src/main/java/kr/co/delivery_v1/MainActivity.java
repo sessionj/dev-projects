@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -79,11 +80,11 @@ public class MainActivity extends AppCompatActivity {
     private DeliveryViewAdapter deliveryViewAdapter;
 
     private TextView date_picker_area_info;
-    //private String tmpDate = "";
-    //private String tmpDateDay = "";
 
     private String requestSearchDay = "";
     private String viewSearchDay = "";
+
+    private RecyclerView recyclerView;
     /**
      * 초기화, 셋팅
      */
@@ -93,6 +94,11 @@ public class MainActivity extends AppCompatActivity {
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
+        deliveryList = new ArrayList<DeliveryModelView>();
+        deliveryModelView = new DeliveryModelView();
+        deliveryDao = new DeliveryDao(this);
+        //deliveryDao.applicationData_deleteAll();
+        datapicker_view = (TextView) findViewById(R.id.date_picker_area);
 
         roomDb_phoneNumber = DeviceInfoUtil.getRoomSelecter(this, 2);
         if ( "".equals(roomDb_phoneNumber)){
@@ -100,27 +106,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        deliveryList = new ArrayList<DeliveryModelView>();
-        deliveryModelView = new DeliveryModelView();
-        deliveryDao = new DeliveryDao(this);
-        //deliveryDao.applicationData_deleteAll();
+    }
 
-        /**
-         * 로그인 화면 보고 싶을때 room db 를 제거
-         */
-        //appDatabase = AppDatabase.getInstance(this);
-        //appDatabase.basicProcessDao().applicationData_deleteAll();
+    /**
+     * getParam (Intent)
+     */
+    private void getIntentValue(){
 
-        /*roomDb_phoneNumber = DeviceInfoUtil.getRoomSelecter(this, 1);
-        device_phoneNumber = DeviceInfoUtil.getPhoneNum(this);
-
-        Log.d("roomdb phone_number : ", "" + roomDb_phoneNumber);
-        Log.d("device phone_number : ", "" + device_phoneNumber);
-
-        if ( !roomDb_phoneNumber.equals(device_phoneNumber) ||  "".equals(roomDb_phoneNumber)){
-            intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }*/
+        Intent intent = getIntent();
+        if (!TextUtils.isEmpty(intent.getStringExtra("requestSearchDay") )){
+            requestSearchDay = intent.getStringExtra("requestSearchDay");
+            viewSearchDay =  BasicUtils.getDateControl(intent.getStringExtra("requestSearchDay"), 0, 0, 1) ;
+        }else{
+            requestSearchDay = BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT);
+            viewSearchDay = BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT);
+        }
+        // 달력 일자 셋팅팅
+        datapicker_view.setText(viewSearchDay);
     }
 
     @Override
@@ -128,19 +130,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        datapicker_view = (TextView) findViewById(R.id.date_picker_area);
-        // request는 어제
-        requestSearchDay = BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT);
-        // view 는 오늘
-        viewSearchDay = BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT) + " (" + BasicUtils.getDayOfweek(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT), Label.DELIVERY_STANDARD_DATE_FORMAT) + ")";
-
         init();
-        // 화면에 뿌릴땐 view 로
-        datapicker_view.setText(viewSearchDay);
-        CheckTypesTask task = new CheckTypesTask();
-        task.execute();
+        getIntentValue();
+        //CheckTypesTask task = new CheckTypesTask();
+        //task.execute();
         pageRecyclerListView();
 
+        /*try{
+            new CheckTypesTask().execute();
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
         /**
          * 상단 날짜 검색 구간 ---------------------------------------------------------
          */
@@ -193,12 +193,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("날짜가 변경되었습니다.",  aftSearchDate);
                     datapicker_view = (TextView) findViewById(R.id.date_picker_area);
                     befSearchDate = datapicker_view.getText().toString();
-                    String[] tmpStr = befSearchDate.split(" ");
-                    requestSearchDay = tmpStr[0].replace("-","");
-                    // 여기서도 하루 빼줘야함함
-                    pageRecyclerListView();
-                    CheckTypesTask task = new CheckTypesTask();
-                    task.execute();
+                    if ( befSearchDate != null && befSearchDate.length() > 0){
+                        requestSearchDay = BasicUtils.getDateControl(befSearchDate, 0,0,-1);
+                        pageRecyclerListView();
+                    }
                 }
             }
         });
@@ -208,6 +206,44 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         deliveryViewAdapter.notifyDataSetChanged();
+    }
+
+    private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog asyncDialog = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            asyncDialog.setMessage("로딩중입니다..");
+
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            try {
+                try {
+                    for (int i = 0; i < 7; i++) {
+                        asyncDialog.setProgress(i * 700);
+                        Thread.sleep(500);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            asyncDialog.dismiss();
+            super.onPostExecute(result);
+        }
     }
 
     /**
@@ -222,11 +258,14 @@ public class MainActivity extends AppCompatActivity {
         if ( requestSearchDay != null){
             deliveryModelView.setCreatdate(requestSearchDay.replace("-", ""));
         }else{
+            // 없으면 어제 날짜로 대체
             deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace(" ",""));
         }
 
+        Toast.makeText(getApplicationContext(), "자료 가져오기 버튼 클릭" + deliveryModelView.getCreatdate(), Toast.LENGTH_SHORT).show();
+
         arr = deliveryDao.getDeliveryList(deliveryModelView);
-        RecyclerView recyclerView = findViewById(R.id.recyceler_view );
+        recyclerView = findViewById(R.id.recyceler_view );
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 1)); // 아이템별 구분선 넣기
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -239,44 +278,11 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
                 intent.putExtra("billNo", arr.get(pos).getBillno().toString());
+                intent.putExtra("requestSearchDay", requestSearchDay);
                 startActivity(intent);
             }
         });
-    }
 
-    private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
-
-        ProgressDialog asyncDialog = new ProgressDialog(
-                MainActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            asyncDialog.setMessage("로딩중입니다..");
-
-            // show dialog
-            asyncDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            try {
-                for (int i = 0; i < 2; i++) {
-                    asyncDialog.setProgress(i * 700);
-                    Thread.sleep(500);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            asyncDialog.dismiss();
-            super.onPostExecute(result);
-        }
     }
 
     @Override

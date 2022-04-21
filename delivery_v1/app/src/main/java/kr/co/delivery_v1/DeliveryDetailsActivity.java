@@ -9,14 +9,21 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -27,6 +34,7 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
+import java.util.PrimitiveIterator;
 
 import kr.co.delivery_v1.action.DeliveryDao;
 import kr.co.delivery_v1.comm.BasicUtils;
@@ -51,7 +59,16 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     /**
      * 화면 셋팅
      */
-    private TextView details_billno, details_createdate, details_address, details_user_info, details_parts_and_packing, details_delivery_course, details_status, details_arrival_name, details_arrivalman_tel1, details_arrivalman_tel2;
+    private TextView details_billno
+            , details_createdate
+            , details_address
+
+            , details_parts_and_packing
+            , details_delivery_course
+            , details_delivery_status
+            , details_arrival_name
+            , details_arrivalman_tel1
+            , details_arrivalman_tel2;
 
     /**
      * GPS
@@ -60,17 +77,40 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private GpsTracker gpsTracker;
+    private MapView mapView;
+    private String billNo;
+    private ViewGroup mapViewContainer;
+    private String requestSearchDay ="";
+// 이벤트 처리
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        Log.d("클릭", "클릭됨 ========================================= ");
+        Intent intent = new Intent(DeliveryDetailsActivity.this, MainActivity.class);
+
+        intent.putExtra("requestSearchDay", requestSearchDay);
+        startActivity(intent);
+        return super.onSupportNavigateUp();
+    }
 
     /**
-     * 운송장 번호
+     * getParam (Intent)
      */
-    private String billNo;
+    private void getIntentValue(){
+
+        Intent intent = getIntent();
+        requestSearchDay = intent.getStringExtra("requestSearchDay") == null ? "" : intent.getStringExtra("requestSearchDay");
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_details);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("배달通");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        getIntentValue();
         /**
          * 화면 셋팅 ------------------------------- //
          */
@@ -127,36 +167,32 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
          * 참조문서 : https://github.com/oh3/Android_KakaoMAP-API_Maker/blob/master/app/src/main/java/com/example/kakaomap/MapActivity.java
          */
         latAndLng = new ArrayList<Double >();
-        latAndLng = BasicUtils.findGeoPoint(this, resultView.getAdress());
-
-        MapView mapView = new MapView(this);
-        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.map_view) ;
+        mapView = new MapView(this);
+        mapViewContainer = (ViewGroup) findViewById(R.id.map_view) ;
         mapViewContainer.addView(mapView);
         mapView.setZoomLevel(3, true);
         mapView.zoomIn(true);
         mapView.zoomOut(true);
-        // 앱 최초 실행시 중심점 변경 (청주우암 영업소 - 나의 혀재 위치로 해야하나)
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Label.DELIVERY_DEFAULT_POINT_LAT, Label.DELIVERY_DEFAULT_POINT_LNG), true);
 
-        if ( latAndLng != null || latAndLng.size() != 0){
+        if ( resultView.getAdress() != null && resultView.getAdress().length() > 0){
+            latAndLng = BasicUtils.findGeoPoint(this, resultView.getAdress());
+            // 앱 최초 실행시 중심점 변경 (청주우암 영업소 - 나의 혀재 위치로 해야하나)
+            if ( latAndLng != null || latAndLng.size() != 0){
 
-            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latAndLng.get(0), latAndLng.get(1)), true);
-            MapPOIItem marker = new MapPOIItem();
-            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latAndLng.get(0), latAndLng.get(1));
-            marker.setItemName(resultView.getArrivalman());
-            marker.setTag(0);
-            marker.setMapPoint(mapPoint);
-            marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-            marker.setSelectedMarkerType(MapPOIItem.MarkerType.BluePin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-            mapView.addPOIItem(marker);
+                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latAndLng.get(0), latAndLng.get(1)), true);
+                MapPOIItem marker = new MapPOIItem();
+                MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latAndLng.get(0), latAndLng.get(1));
+                marker.setItemName(resultView.getArrivalman());
+                marker.setTag(0);
+                marker.setMapPoint(mapPoint);
+                marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+                marker.setSelectedMarkerType(MapPOIItem.MarkerType.BluePin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+                mapView.addPOIItem(marker);
+            }
+        }else{
+            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Label.DELIVERY_DEFAULT_POINT_LAT, Label.DELIVERY_DEFAULT_POINT_LNG), true);
         }
 
-
-        //리스너 등록
-        /*mapView.setMapViewEventListener(get);
-        mapView.setPOIItemEventListener(this);
-        mapView.setOpenAPIKeyAuthenticationResultListener(this);*/
-        // 리스너가 몇개를 등록해야 하는거지.
         details_success_btn = (Button) findViewById(R.id.details_success_btn);
         details_success_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,4 +204,11 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
             }
         });
     }
+    @RequiresApi(api = Build.VERSION_CODES.S)
+    @Override
+    public void finish() {
+        mapViewContainer.clearFocus();
+        super.finish();
+    }
+
 }

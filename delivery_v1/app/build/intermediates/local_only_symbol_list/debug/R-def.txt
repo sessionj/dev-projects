@@ -52,7 +52,6 @@ id area_delivery
 id area_phone
 id checkbox_delivery_check
 id date_picker_area
-id date_picker_area_info
 id delivery_number
 id deliveryavt_agencycode
 id deliveryavt_date_picker_area

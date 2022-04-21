@@ -2782,7 +2782,6 @@ int id cut 0x7f080092
 int id dark 0x7f080093
 int id date_picker_actions 0x7f080094
 int id date_picker_area 0x7f080095
-int id date_picker_area_info 0x7f080096
 int id decelerate 0x7f080097
 int id decelerateAndComplete 0x7f080098
 int id decor_content_parent 0x7f080099

@@ -71,7 +71,9 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
          */
         sb = new StringBuffer();
         sb.append(deliveryModelViewList.get(itemposition).getArrivalman() + " ");
+        sb.append("(");
         sb.append(deliveryModelViewList.get(itemposition).getArrivalmantel() + " ");
+        sb.append(")");
         holder.rowItem_2.setText(sb.toString());
 
         /**

@@ -2783,7 +2783,6 @@ id cut
 id dark
 id date_picker_actions
 id date_picker_area
-id date_picker_area_info
 id decelerate
 id decelerateAndComplete
 id decor_content_parent

@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -103,9 +105,9 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_request);
 
-        ActionBar actionBar = getSupportActionBar();
+        /*ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("배달通");
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);*/
 
         init();
 
@@ -134,82 +136,82 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                 builder.setMessage(deliveryModelView.getCreatdate() + " 배달자료를 수신하시겠습니까?");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                        Toast.makeText(getApplicationContext(), "YES Button Click", Toast.LENGTH_LONG).show();
-                        Response.Listener<String> responseListener = new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try{
-                                    roomDbRequest(response);
+                    Toast.makeText(getApplicationContext(), "YES Button Click", Toast.LENGTH_LONG).show();
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try{
+                                roomDbRequest(response);
 
-                                }catch (Exception e){
-                                    Log.d("log ", e.toString());
-                                }finally {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(DeliveryRequestActivity.this)
-                                            .setIcon(android.R.drawable.ic_btn_speak_now);
-                                    builder.setTitle("안내");
-                                    builder.setMessage("자료 수신 (총 "+successCnt+" 건) 완료" );
-                                    builder.setPositiveButton("닫기",null);
-                                    builder.create().show();
-                                    return;
-                                }
+                            }catch (Exception e){
+                                Log.d("log ", e.toString());
+                            }finally {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(DeliveryRequestActivity.this)
+                                        .setIcon(android.R.drawable.ic_btn_speak_now);
+                                builder.setTitle("안내");
+                                builder.setMessage("자료 수신 (총 "+successCnt+" 건) 완료" );
+                                builder.setPositiveButton("닫기",null);
+                                builder.create().show();
+                                return;
                             }
+                        }
 
-                            /**
-                             * roomdb insert
-                             * @param response
-                             */
-                            private void roomDbRequest(String response) {
+                        /**
+                         * roomdb insert
+                         * @param response
+                         */
+                        private void roomDbRequest(String response) {
 
-                                ArrayList<DeliveryModelView> resultData = new ArrayList<DeliveryModelView>();
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
+                            ArrayList<DeliveryModelView> resultData = new ArrayList<DeliveryModelView>();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
 
-                                    for ( int i=0; i < resultarray.length(); i++){
-                                        JSONObject Object = resultarray.getJSONObject(i);
-                                        deliveryModelView = new DeliveryModelView();
-                                        deliveryModelView.setBillno(Object.getString("billno"));
-                                        deliveryModelView.setInput_date(Object.getString("input_date"));
-                                        deliveryModelView.setInput_time(Object.getString("input_time"));
-                                        deliveryModelView.setTranscode(Object.getString("transcode"));
-                                        deliveryModelView.setSendingagencycode(Object.getString("sendingagencycode"));
-                                        deliveryModelView.setArrivalagencycode(Object.getString("arrivalagencycode"));
-                                        deliveryModelView.setSendingmantel(Object.getString("sendingmantel"));
-                                        deliveryModelView.setSendingman(Object.getString("sendingman"));
-                                        deliveryModelView.setArrivalmantel(Object.getString("arrivalmantel"));
-                                        deliveryModelView.setArrivalman(Object.getString("arrivalman"));
-                                        deliveryModelView.setZipcode(Object.getString("zipcode"));
-                                        deliveryModelView.setAdress(Object.getString("adress"));
-                                        deliveryModelView.setPrefare(Object.getString("prefare"));
-                                        deliveryModelView.setFare(Object.getString("fare"));
-                                        deliveryModelView.setDeliveryfare(Object.getString("deliveryfare"));
-                                        deliveryModelView.setOgideliveryfare(Object.getString("ogideliveryfare"));
-                                        deliveryModelView.setDistance(Object.getString("distance"));
-                                        deliveryModelView.setPayway(Object.getString("payway"));
-                                        deliveryModelView.setGoods(Object.getString("goods"));
-                                        deliveryModelView.setPojang(Object.getString("pojang"));
-                                        deliveryModelView.setQty(Object.getInt("qty"));
-                                        deliveryModelView.setWeight(Object.getString("weight"));
-                                        deliveryModelView.setMemo(Object.getString("memo"));
-                                        deliveryModelView.setBillstate(Object.getString("billstate"));
-                                        deliveryModelView.setDeliverycourse(Object.getString("deliverycourse"));
-                                        deliveryModelView.setCreatdate(Object.getString("creatdate"));
+                                for ( int i=0; i < resultarray.length(); i++){
+                                    JSONObject Object = resultarray.getJSONObject(i);
+                                    deliveryModelView = new DeliveryModelView();
+                                    deliveryModelView.setBillno(Object.getString("billno"));
+                                    deliveryModelView.setInput_date(Object.getString("input_date"));
+                                    deliveryModelView.setInput_time(Object.getString("input_time"));
+                                    deliveryModelView.setTranscode(Object.getString("transcode"));
+                                    deliveryModelView.setSendingagencycode(Object.getString("sendingagencycode"));
+                                    deliveryModelView.setArrivalagencycode(Object.getString("arrivalagencycode"));
+                                    deliveryModelView.setSendingmantel(Object.getString("sendingmantel"));
+                                    deliveryModelView.setSendingman(Object.getString("sendingman"));
+                                    deliveryModelView.setArrivalmantel(Object.getString("arrivalmantel"));
+                                    deliveryModelView.setArrivalman(Object.getString("arrivalman"));
+                                    deliveryModelView.setZipcode(Object.getString("zipcode"));
+                                    deliveryModelView.setAdress(Object.getString("adress"));
+                                    deliveryModelView.setPrefare(Object.getString("prefare"));
+                                    deliveryModelView.setFare(Object.getString("fare"));
+                                    deliveryModelView.setDeliveryfare(Object.getString("deliveryfare"));
+                                    deliveryModelView.setOgideliveryfare(Object.getString("ogideliveryfare"));
+                                    deliveryModelView.setDistance(Object.getString("distance"));
+                                    deliveryModelView.setPayway(Object.getString("payway"));
+                                    deliveryModelView.setGoods(Object.getString("goods"));
+                                    deliveryModelView.setPojang(Object.getString("pojang"));
+                                    deliveryModelView.setQty(Object.getInt("qty"));
+                                    deliveryModelView.setWeight(Object.getString("weight"));
+                                    deliveryModelView.setMemo(Object.getString("memo"));
+                                    deliveryModelView.setBillstate(Object.getString("billstate"));
+                                    deliveryModelView.setDeliverycourse(Object.getString("deliverycourse"));
+                                    deliveryModelView.setCreatdate(Object.getString("creatdate"));
 
-                                        appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelView);
-                                        successCnt ++;
-                                    }
-                                } catch(JSONException e){
-                                    e.printStackTrace();
+                                    appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelView);
+                                    successCnt ++;
                                 }
+                            } catch(JSONException e){
+                                e.printStackTrace();
                             }
-                        };
+                        }
+                    };
 
-                        DeliveryRequest deliveryRequest = new DeliveryRequest(deliveryModelView, responseListener );
-                        RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
-                        queue.add( deliveryRequest );
+                    DeliveryRequest deliveryRequest = new DeliveryRequest(deliveryModelView, responseListener );
+                    RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
+                    queue.add( deliveryRequest );
                     }
                 });
 
@@ -281,6 +283,44 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                     Toast.makeText(DeliveryRequestActivity.this, "취소하였습니다.", Toast.LENGTH_SHORT).show();
                 }})
             .show();
+    }
+
+    private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog asyncDialog = new ProgressDialog(DeliveryRequestActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            asyncDialog.setMessage("로딩중입니다..");
+
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            try {
+                try {
+                    for (int i = 0; i < 7; i++) {
+                        asyncDialog.setProgress(i * 700);
+                        Thread.sleep(500);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            asyncDialog.dismiss();
+            super.onPostExecute(result);
+        }
     }
 
 }
