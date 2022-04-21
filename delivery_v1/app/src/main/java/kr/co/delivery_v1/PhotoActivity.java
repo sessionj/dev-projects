@@ -55,9 +55,9 @@ public class PhotoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.btn_photo:
-                        /*Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, TAKE_PICTURE);*/
-                        dispatchTakePictureIntent();
+                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(cameraIntent, TAKE_PICTURE);
+                        //dispatchTakePictureIntent(); <-- 이게 오류가 남
                         break;
                 }
             }

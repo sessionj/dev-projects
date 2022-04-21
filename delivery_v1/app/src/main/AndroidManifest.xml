@@ -45,7 +45,6 @@
         <activity
             android:name=".PhotoActivity"
             android:exported="false" />
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" /> <!-- 배달 자료를 받아올 엑티비티 return -->
