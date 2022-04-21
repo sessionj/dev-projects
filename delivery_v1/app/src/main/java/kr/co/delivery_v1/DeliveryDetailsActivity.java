@@ -246,6 +246,26 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
                         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(cameraIntent, TAKE_PICTURE);
                         //dispatchTakePictureIntent();
+                        /**
+                         * java.lang.IllegalArgumentException: Couldn't find meta-data for provider with authority kr.co.delivery_v1.fileprovider
+                         *         at androidx.core.content.FileProvider.parsePathStrategy(FileProvider.java:662)
+                         *         at androidx.core.content.FileProvider.getPathStrategy(FileProvider.java:635)
+                         *         at androidx.core.content.FileProvider.getUriForFile(FileProvider.java:441)
+                         *         at kr.co.delivery_v1.DeliveryDetailsActivity.dispatchTakePictureIntent(DeliveryDetailsActivity.java:347)
+                         *         at kr.co.delivery_v1.DeliveryDetailsActivity.access$000(DeliveryDetailsActivity.java:59)
+                         *         at kr.co.delivery_v1.DeliveryDetailsActivity$1.onClick(DeliveryDetailsActivity.java:248)
+                         *         at android.view.View.performClick(View.java:6312)
+                         *         at android.widget.TextView.performClick(TextView.java:11202)
+                         *         at com.google.android.material.button.MaterialButton.performClick(MaterialButton.java:1217)
+                         *         at android.view.View$PerformClick.run(View.java:23985)
+                         *         at android.os.Handler.handleCallback(Handler.java:751)
+                         *         at android.os.Handler.dispatchMessage(Handler.java:95)
+                         *         at android.os.Looper.loop(Looper.java:154)
+                         *         at android.app.ActivityThread.main(ActivityThread.java:6816)
+                         *         at java.lang.reflect.Method.invoke(Native Method)
+                         *         at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1563)
+                         *         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1451)
+                         */
                         break;
                 }
             }
