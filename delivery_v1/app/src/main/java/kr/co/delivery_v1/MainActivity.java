@@ -86,8 +86,10 @@ public class MainActivity extends AppCompatActivity {
     private String viewSearchDay = "";
 
     private RecyclerView recyclerView;
-
     private CheckTypesTask taskAsync;
+
+    private boolean changeDate = false;
+
     /**
      * 초기화, 셋팅
      */
@@ -127,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
         }
         // 달력 일자 셋팅팅
         datapicker_view.setText(viewSearchDay);
+
+        // request 화면에서 받아온건지 체크
+        //changeDate = intent.getExtras().getBoolean("returnRequest");
+
     }
 
     @Override
@@ -189,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 // 텍스트가 변경된 이후 호출됨
-
+                changeDate = true;
                 datapicker_view = (TextView) findViewById(R.id.date_picker_area);
                 aftSearchDate = datapicker_view.getText().toString();
                 Log.d("변경후 : ", aftSearchDate);
@@ -264,6 +270,19 @@ public class MainActivity extends AppCompatActivity {
         }
         Toast.makeText(getApplicationContext(), "자료 가져오기 버튼 클릭" + deliveryModelView.getCreatdate(), Toast.LENGTH_SHORT).show();
         arr = deliveryDao.getDeliveryList(deliveryModelView);
+
+        /**
+         * 배달 자료가 없으면 받는 화면으로 이동
+         * 검색이 이루어진 이후에는 자료가 없어도 이동하지 않는다.
+         */
+        if ( (arr == null || arr.size() == 0 ) && !changeDate ){
+            Log.d("", "====================================================>");
+            Intent intent = new Intent(this, DeliveryRequestActivity.class);
+            intent.putExtra("requestSearchDay", requestSearchDay);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+
         recyclerView = findViewById(R.id.recyceler_view );
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 1)); // 아이템별 구분선 넣기
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -1,22 +1,32 @@
 package kr.co.delivery_v1;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +43,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import kr.co.delivery_v1.action.request.DeliveryRequest;
+import kr.co.delivery_v1.action.request.DeliveryRequestSummary;
+import kr.co.delivery_v1.adapter.DeliverySummaryViewAdapter;
+import kr.co.delivery_v1.adapter.DeliveryViewAdapter;
 import kr.co.delivery_v1.comm.BasicUtils;
 import kr.co.delivery_v1.comm.DeviceInfoUtil;
 import kr.co.delivery_v1.comm.Label;
@@ -40,6 +53,7 @@ import kr.co.delivery_v1.db.AppDatabase;
 import kr.co.delivery_v1.db.delivery.AppDeliveryDatabase;
 import kr.co.delivery_v1.login.LoginActivity;
 import kr.co.delivery_v1.login.LoginRequest;
+import kr.co.delivery_v1.models.DeliveryListViewItem;
 import kr.co.delivery_v1.models.DeliveryModelView;
 import kr.co.delivery_v1.models.LoginModelView;
 
@@ -50,6 +64,7 @@ import kr.co.delivery_v1.models.LoginModelView;
  */
 public class DeliveryRequestActivity extends AppCompatActivity {
 
+    final private static String TAG = "DeliveryRequestActivity ";
     private TextView deliveryavt_date_picker_area, deliveryavt_delivery_cource, deliveryavt_agencycode;
     private TextView request_etc_btn;
     private Button request_btn;
@@ -59,16 +74,22 @@ public class DeliveryRequestActivity extends AppCompatActivity {
     private String deliveryCourse = "";
     private String agencyCode = "";
     private DeliveryModelView deliveryModelView;
+    private DeliveryListViewItem deliveryListViewItem;
     private Calendar c;
     private int mYear;
     private int mMonth;
     private int mDay;
-
+    private List<DeliveryListViewItem> deliveryListViewItemList;
     private AppDeliveryDatabase appDeliveryDatabase;
 
     private String etc_btn_check = "";
     private int successCnt = 0;
     private String requestSearchDay = "";
+
+    private RecyclerView recyclerView;
+    private DeliverySummaryViewAdapter deliverySummaryViewAdapter;
+    private StringBuffer deliveryCourseParam = null;
+    private LinearLayoutManager layoutManager;
     /**
      * 초기화 및 셋팅
      */
@@ -87,18 +108,19 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         deliveryavt_agencycode = (TextView) findViewById(R.id.deliveryavt_agencycode);
         deliveryavt_delivery_cource = (TextView) findViewById(R.id.deliveryavt_delivery_cource);
         deliveryavt_date_picker_area = (TextView) findViewById(R.id.deliveryavt_date_picker_area);
-        delivery_check = (CheckBox) findViewById(R.id.checkbox_delivery_check);
+        //delivery_check = (CheckBox) findViewById(R.id.checkbox_delivery_check);
         deliveryavt_agencycode.setText(agencyCode);
         deliveryavt_delivery_cource.setText(deliveryCourse);
         deliveryavt_date_picker_area.setText(BasicUtils.getDays("yyyy-MM-dd") + " ("+BasicUtils.getDayOfweek(BasicUtils.getDays("yyyy-MM-dd"), "yyyy-MM-dd")+")");
 
-        request_etc_btn = (TextView) findViewById(R.id.request_etc_btn);    // 자료 더 가져오기(etc)
+        //request_etc_btn = (TextView) findViewById(R.id.request_etc_btn);    // 자료 더 가져오기(etc)
         request_btn = (Button) findViewById(R.id.request_btn);              // 클릭된 자료 가져오기
 
         deliveryModelView.setArrivalagencycode(agencyCode);
         deliveryModelView.setDeliverycourse(deliveryCourse);
         deliveryModelView.setCreatdate(BasicUtils.getDays("yyyy-MM-dd"));
 
+        deliveryCourseParam = new StringBuffer();
     }
 
     /**
@@ -115,6 +137,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
             case android.R.id.home:
                 Intent intent = new Intent(DeliveryRequestActivity.this, MainActivity.class);
                 intent.putExtra("requestSearchDay", requestSearchDay);
+                intent.putExtra("returnRequest", true);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
                 startActivity(intent);
@@ -134,8 +157,12 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         actionBar.setTitle("배달通");
         actionBar.setDisplayHomeAsUpEnabled(true);*/
 
-        init();
-        getIntentValue();
+        init(); // 화면 셋팅
+        getIntentValue();   // 파라미터 셋팅
+        setRequestStatus();
+
+        // 화면에 표기
+
         /**
          *
          */
@@ -252,15 +279,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
             }
         });
 
-        /**
-         * 기타 배달코스 선택 시
-         */
-        request_etc_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         /**
          * 상단 날짜 검색 구간 ---------------------------------------------------------
          */
@@ -290,6 +309,111 @@ public class DeliveryRequestActivity extends AppCompatActivity {
          * 상단 날짜 검색 구간 ---------------------------------------------------------
          */
     }
+
+    /**
+     * 화면에 들어오면 화면에 한번 뿌린다.
+     * 청주우암 홍길동 10건 (자료받기)
+     * 청주우암 김수각 20건 (자료받기)
+     * 전체 자료 받기
+     * 선택 자료 받기
+     */
+    private void setRequestStatus() {
+
+        Response.Listener<String> responseViewListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    requestDeliveryView(response);
+
+                }catch (Exception e){
+                    Log.d("log ", e.toString());
+                }finally {
+
+                }
+            }
+            /**
+             * view
+             * @param response
+             */
+            private void requestDeliveryView(String response) {
+
+                deliveryListViewItemList = new ArrayList<DeliveryListViewItem>();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
+
+                    for ( int i=0; i < resultarray.length(); i++){
+                        JSONObject Object = resultarray.getJSONObject(i);
+
+                        deliveryListViewItem = new DeliveryListViewItem();
+                        deliveryListViewItem.setArrivalagencycode(deliveryModelView.getArrivalagencycode());
+                        deliveryListViewItem.setDelivery_course(Object.getString("course"));
+                        deliveryListViewItem.setDelivery_course_name(Object.getString("course_name"));
+                        deliveryListViewItem.setDelivery_course_cnt(Object.getInt("course_cnt"));
+                        deliveryListViewItemList.add(deliveryListViewItem);
+                    }
+
+                    //setRequestStatusView(deliveryListViewItemList);
+                    deliveryListViewItem.setArrivalagencycode(deliveryModelView.getArrivalagencycode() == null ? "" :deliveryModelView.getArrivalagencycode());
+                    deliveryListViewItem.setDeliverycourse(deliveryModelView.getDeliverycourse() == null ? "" :deliveryModelView.getDeliverycourse());
+                    deliveryListViewItem.setCreatdate(deliveryModelView.getCreatdate() == null ? "" :deliveryModelView.getCreatdate());
+
+                    /**
+                     * recyclerView
+                     */
+                    recyclerView = findViewById(R.id.request_recyceler_view);
+                    layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                    recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
+                    recyclerView.setLayoutManager(layoutManager);
+                    deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(deliveryListViewItemList);
+
+                    recyclerView.setAdapter(deliverySummaryViewAdapter);
+
+                    deliverySummaryViewAdapter.setOnitemButtonClickListener(new DeliverySummaryViewAdapter.OnitemButtonClickListener() {
+                        @Override
+                        public void onItemButtonClick (View v, int pos) {
+
+                            // pos 들어온 체크박스가 체크인지 아닌지 여부 검사
+                            deliveryListViewItemList.get(pos).getArrivalagencycode();
+                            deliveryListViewItemList.get(pos).getDelivery_course();
+                            String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
+                            Toast.makeText(getApplicationContext(), "받아올 자료 선택===========================================여기 . : " + tmpStr, Toast.LENGTH_LONG ).show();
+                        }
+                    });
+
+                    deliverySummaryViewAdapter.setOnitemClickListener(new DeliverySummaryViewAdapter.OnitemClickListener() {
+                        @Override
+                        public void onItemClick(View v, int pos) {
+                            // 버튼 클릭 시 해당 로우의 영업소 코드와 배달코스를 받아온다
+                            deliveryListViewItemList.get(pos).getArrivalagencycode();
+                            deliveryListViewItemList.get(pos).getDelivery_course();
+
+                            String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
+
+                            Toast.makeText(getApplicationContext(), "받아올 자료 선택 : " + tmpStr, Toast.LENGTH_LONG ).show();
+                        }
+                    });
+
+                } catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        deliveryListViewItem = new DeliveryListViewItem();
+        deliveryListViewItem.setArrivalagencycode(deliveryModelView.getArrivalagencycode() == null ? "" :deliveryModelView.getArrivalagencycode());
+        deliveryListViewItem.setDeliverycourse(deliveryModelView.getDeliverycourse() == null ? "" :deliveryModelView.getDeliverycourse());
+        deliveryListViewItem.setCreatdate(deliveryModelView.getCreatdate() == null ? "" :deliveryModelView.getCreatdate());
+
+        DeliveryRequestSummary deliveryRequestSummary = new DeliveryRequestSummary(deliveryListViewItem, responseViewListener, deliveryCourseParam); // <-- 파라미터 체크(deliveryCourseParam)
+        RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
+        queue.add( deliveryRequestSummary );
+
+    }
+
+    /**
+     * 가져온 자료 화면에 표기
+     */
+
 
     public void onClick_setting_costume_save(View view){
         new AlertDialog.Builder(this)
@@ -345,6 +469,42 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             asyncDialog.dismiss();
             super.onPostExecute(result);
+        }
+    }
+
+    public class CheckableLinerLayout extends LinearLayout implements Checkable{
+
+        public CheckableLinerLayout(Context context, @Nullable AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        @Override
+        public boolean isChecked() {
+            Log.d(TAG, "===================isChecked");
+            CheckBox cb = (CheckBox) findViewById(R.id.summary_row_item_check) ;
+            return cb.isChecked() ;
+            // return mIsChecked ;
+        }
+
+        @Override
+        public void toggle() {
+            Log.d(TAG, "===================toggle");
+            CheckBox cb = (CheckBox) findViewById(R.id.summary_row_item_check) ;
+
+            setChecked(cb.isChecked() ? false : true) ;
+            // setChecked(mIsChecked ? false : true) ;
+        }
+
+        @Override
+        public void setChecked(boolean checked) {
+            Log.d(TAG, "===================setChecked");
+            CheckBox cb = (CheckBox) findViewById(R.id.summary_row_item_check) ;
+
+            if (cb.isChecked() != checked) {
+                cb.setChecked(checked) ;
+            }
+
+            // CheckBox 가 아닌 View의 상태 변경.
         }
     }
 

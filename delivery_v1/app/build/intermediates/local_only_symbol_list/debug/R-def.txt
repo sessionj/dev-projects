@@ -51,7 +51,6 @@ id area_agency
 id area_delivery
 id area_phone
 id btn_photo
-id checkbox_delivery_check
 id date_picker_area
 id delivery_number
 id delivery_photo
@@ -85,11 +84,14 @@ id radiogp
 id recyceler_view
 id register
 id request_btn
-id request_etc_btn
+id request_recyceler_view
 id row_item_1
 id row_item_2
 id row_item_3
 id row_item_4
+id summary_row_item_1
+id summary_row_item_btn
+id summary_row_item_check
 id toolbar
 id user_agencycode
 id user_phone_number
@@ -104,6 +106,7 @@ layout activity_picker_dialog
 layout activity_register
 layout bar_layout
 layout listview_delivery_item
+layout listview_delivery_summary_item
 layout listview_empty_item
 menu main_menu
 mipmap ic_launcher

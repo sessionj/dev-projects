@@ -34,6 +34,9 @@ public class DeliveryListViewItem {
     private String deliverycourse;
     private String creatdate;
 
+    private String delivery_course;
+    private String delivery_course_name;
+    private int delivery_course_cnt;
 
     @Override
     public String toString() {
@@ -65,6 +68,9 @@ public class DeliveryListViewItem {
                 ", billstate='" + billstate + '\'' +
                 ", deliverycourse='" + deliverycourse + '\'' +
                 ", creatdate='" + creatdate + '\'' +
+                ", delivery_course='" + delivery_course + '\'' +
+                ", delivery_course_name='" + delivery_course_name + '\'' +
+                ", delivery_course_cnt=" + delivery_course_cnt +
                 '}';
     }
 
@@ -282,5 +288,29 @@ public class DeliveryListViewItem {
 
     public void setArrivalmante2(String arrivalmante2) {
         this.arrivalmante2 = arrivalmante2;
+    }
+
+    public String getDelivery_course() {
+        return delivery_course;
+    }
+
+    public void setDelivery_course(String delivery_course) {
+        this.delivery_course = delivery_course;
+    }
+
+    public String getDelivery_course_name() {
+        return delivery_course_name;
+    }
+
+    public void setDelivery_course_name(String delivery_course_name) {
+        this.delivery_course_name = delivery_course_name;
+    }
+
+    public int getDelivery_course_cnt() {
+        return delivery_course_cnt;
+    }
+
+    public void setDelivery_course_cnt(int delivery_course_cnt) {
+        this.delivery_course_cnt = delivery_course_cnt;
     }
 }

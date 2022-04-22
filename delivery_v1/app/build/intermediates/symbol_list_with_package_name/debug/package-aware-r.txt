@@ -2751,7 +2751,6 @@ id chain
 id chain2
 id chains
 id checkbox
-id checkbox_delivery_check
 id checked
 id chip
 id chip1
@@ -3024,7 +3023,7 @@ id rectangles
 id recyceler_view
 id register
 id request_btn
-id request_etc_btn
+id request_recyceler_view
 id reverseSawtooth
 id right
 id rightToLeft
@@ -3097,6 +3096,9 @@ id stop
 id stretch
 id submenuarrow
 id submit_area
+id summary_row_item_1
+id summary_row_item_btn
+id summary_row_item_check
 id supportScrollUp
 id tabMode
 id tag_accessibility_actions
@@ -3304,6 +3306,7 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout listview_delivery_item
+layout listview_delivery_summary_item
 layout listview_empty_item
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
