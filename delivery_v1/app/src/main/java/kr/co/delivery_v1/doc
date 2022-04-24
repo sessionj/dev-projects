@@ -1,0 +1,6 @@
+
+https://spoit.tistory.com/26
+
+git fetch --prune origin 
+git reset --hard origin/master 
+git clean
