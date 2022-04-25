@@ -17,30 +17,47 @@
         android:layout_height="match_parent"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:layout_weight="4"
         android:layout_gravity="left"
         android:gravity="left"
+        android:layout_weight="1"
         >
 
         <CheckBox
             android:id="@+id/summary_row_item_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+
             android:gravity="left"
+
             />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/summary_row_item_1"
-            android:textSize="13dp"
-            android:textColor="#666666"
-            android:layout_weight="8"
-
-            android:gravity="left"
-            android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/summary_row_item_1"
+                    android:textSize="13dp"
+                    android:textColor="#666666"
+                    android:layout_weight="8"
+                    android:gravity="left"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/summary_row_item_2"
+                    android:textSize="16dp"
+                    android:textColor="@color/red"
+                    android:layout_weight="8"
+                    android:gravity="left"
+                    android:textStyle="bold"/>
+            </LinearLayout>
         <Button
             android:id="@+id/summary_row_item_btn"
             android:layout_width="wrap_content"

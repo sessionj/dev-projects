@@ -1,5 +1,6 @@
 package kr.co.delivery_v1.comm;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -8,6 +9,7 @@ import android.location.Location;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import androidx.annotation.RequiresApi;
 
@@ -244,4 +246,21 @@ public class BasicUtils {
         return loc;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
+    public static boolean isNullCheck(Object object){
+        if ( object == null){
+            return true;
+        }
+        else if (object.equals("")){
+            return true;
+        }
+        else if(object.toString().length()==0){
+            return true;
+        }
+        return false;
+    }
 }

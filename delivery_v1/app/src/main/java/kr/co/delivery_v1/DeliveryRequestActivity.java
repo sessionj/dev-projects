@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -26,6 +27,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,9 +70,16 @@ public class DeliveryRequestActivity extends AppCompatActivity {
 
     final private static String TAG = "DeliveryRequestActivity ";
     private TextView deliveryavt_date_picker_area, deliveryavt_delivery_cource, deliveryavt_agencycode;
-    private TextView request_etc_btn;
+    private LinearLayout request_all_pull_area;
     private Button request_btn;
-    private CheckBox delivery_check;
+
+    private ProgressDialog progressDialog;
+    private ImageView request_flase_replay_set_1;
+    private TextView request_flase_replay_set_2;
+
+    // 자료 없을경우 보여질 LinearLayout
+    private TextView reqeust_false_txt;
+    private LinearLayout reqeust_false_replay;
 
     private boolean isDeliveryCheck = false;
     private String deliveryCourse = "";
@@ -87,10 +97,11 @@ public class DeliveryRequestActivity extends AppCompatActivity {
     private int successCnt = 0;
     private String requestSearchDay = "";
 
-    private RecyclerView recyclerView;
+    //private RecyclerView recyclerView;
     private DeliverySummaryViewAdapter deliverySummaryViewAdapter;
     private StringBuffer deliveryCourseParam = null;
     private LinearLayoutManager layoutManager;
+    private boolean isResponse = true;
     /**
      * 초기화 및 셋팅
      */
@@ -114,14 +125,23 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         deliveryavt_delivery_cource.setText(deliveryCourse);
         deliveryavt_date_picker_area.setText(BasicUtils.getDays("yyyy-MM-dd") + " ("+BasicUtils.getDayOfweek(BasicUtils.getDays("yyyy-MM-dd"), "yyyy-MM-dd")+")");
 
-        //request_etc_btn = (TextView) findViewById(R.id.request_etc_btn);    // 자료 더 가져오기(etc)
+
         request_btn = (Button) findViewById(R.id.request_btn);              // 클릭된 자료 가져오기
+        request_all_pull_area = (LinearLayout) findViewById(R.id.request_all_pull_area);
+
+        request_flase_replay_set_1 = (ImageView) findViewById(R.id.request_flase_replay_set_1);
+        request_flase_replay_set_2 = (TextView) findViewById(R.id.request_flase_replay_set_2);
+
+        reqeust_false_txt = (TextView) findViewById(R.id.reqeust_false_txt);
+        reqeust_false_replay = (LinearLayout) findViewById(R.id.reqeust_false_replay);
 
         deliveryModelView.setArrivalagencycode(agencyCode);
         deliveryModelView.setDeliverycourse(deliveryCourse);
         deliveryModelView.setCreatdate(BasicUtils.getDays("yyyy-MM-dd"));
 
         deliveryCourseParam = new StringBuffer();
+
+
     }
 
     /**
@@ -130,6 +150,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
     private void getIntentValue(){
         Intent intent = getIntent();
         requestSearchDay = intent.getStringExtra("requestSearchDay") == null ? "" : intent.getStringExtra("requestSearchDay");
+        Toast.makeText(getApplicationContext(), "금일 자료가 없기에 화면 이동", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -160,7 +181,9 @@ public class DeliveryRequestActivity extends AppCompatActivity {
 
         init(); // 화면 셋팅
         getIntentValue();   // 파라미터 셋팅
-        setRequestStatus();
+        //setRequestStatus();
+        CheckTypesTask task = new CheckTypesTask();
+        task.execute();
 
         // 화면에 표기
 
@@ -174,7 +197,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // 버튼 체크 여부 확인
-                isDeliveryCheck = delivery_check.isChecked();
+                /*isDeliveryCheck = delivery_check.isChecked();
                 if ( !isDeliveryCheck){
                     AlertDialog.Builder builder = new AlertDialog.Builder(DeliveryRequestActivity.this)
                             .setIcon(android.R.drawable.ic_btn_speak_now);
@@ -183,7 +206,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                     builder.setPositiveButton("닫기",null);
                     builder.create().show();
                     return;
-                }
+                }*/
 
                 builder.setTitle("알림");
                 builder.setMessage(deliveryModelView.getCreatdate() + " 배달자료를 수신하시겠습니까?");
@@ -295,6 +318,9 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                 deliveryavt_date_picker_area.setText( tmpDate + " ("+tmpDateDay +")");
                 String[] tmpStr = deliveryavt_date_picker_area.getText().toString().split(" ");
                 deliveryModelView.setCreatdate(tmpStr[0].toString() );
+
+                CheckTypesTask dateChange = new CheckTypesTask();
+                dateChange.execute();
             }
         }, mYear, mMonth, mDay);
 
@@ -309,6 +335,40 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         /**
          * 상단 날짜 검색 구간 ---------------------------------------------------------
          */
+
+        /**
+         * 다시 시도 이미지 클릭시
+         */
+        request_flase_replay_set_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setReplayEvent();
+            }
+        });
+
+        /**
+         * 다시시도 텍스트 클릭시
+         */
+        request_flase_replay_set_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setReplayEvent();
+            }
+        });
+    }
+
+    /**
+     * 재처리
+     * 메세지, 다시시도 Liner 숨기기
+     */
+    private void setReplayEvent(){
+        // 메세지, 다시시도 화면 숨기기
+        reqeust_false_txt.setVisibility(View.GONE);
+        reqeust_false_replay.setVisibility(View.GONE);
+        setRequestStatus();
+
+        CheckTypesTask tasking = new CheckTypesTask();
+        tasking.execute();
     }
 
     /**
@@ -323,14 +383,8 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         Response.Listener<String> responseViewListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try{
-                    requestDeliveryView(response);
 
-                }catch (Exception e){
-                    Log.d("log ", e.toString());
-                }finally {
-
-                }
+                requestDeliveryView(response);
             }
             /**
              * view
@@ -338,65 +392,101 @@ public class DeliveryRequestActivity extends AppCompatActivity {
              */
             private void requestDeliveryView(String response) {
 
-                deliveryListViewItemList = new ArrayList<DeliveryListViewItem>();
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
+                isResponse = true;
 
-                    for ( int i=0; i < resultarray.length(); i++){
-                        JSONObject Object = resultarray.getJSONObject(i);
+                if ( response == null && response.length() == 0){
+                    isResponse = false;
+                }else{
+                    deliveryListViewItemList = new ArrayList<DeliveryListViewItem>();
+                    RecyclerView recyclerView = findViewById(R.id.request_recyceler_view);
 
-                        deliveryListViewItem = new DeliveryListViewItem();
-                        deliveryListViewItem.setArrivalagencycode(deliveryModelView.getArrivalagencycode());
-                        deliveryListViewItem.setDelivery_course(Object.getString("course"));
-                        deliveryListViewItem.setDelivery_course_name(Object.getString("course_name"));
-                        deliveryListViewItem.setDelivery_course_cnt(Object.getInt("course_cnt"));
-                        deliveryListViewItemList.add(deliveryListViewItem);
+                    try {
+                        if ( response != null && response.length() > 0){
+
+                            Log.d("왜 안찍힘", "허허허");
+
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
+
+                            for ( int i=0; i < resultarray.length(); i++){
+                                JSONObject Object = resultarray.getJSONObject(i);
+
+                                deliveryListViewItem = new DeliveryListViewItem();
+                                deliveryListViewItem.setArrivalagencycode(deliveryModelView.getArrivalagencycode());
+                                deliveryListViewItem.setDelivery_course(Object.getString("course"));
+                                deliveryListViewItem.setDelivery_course_name(Object.getString("course_name"));
+                                deliveryListViewItem.setDelivery_course_cnt(Object.getInt("course_cnt"));
+                                deliveryListViewItemList.add(deliveryListViewItem);
+                            }
+
+                            //setRequestStatusView(deliveryListViewItemList);
+                            deliveryListViewItem.setArrivalagencycode(deliveryModelView.getArrivalagencycode() == null ? "" :deliveryModelView.getArrivalagencycode());
+                            deliveryListViewItem.setDeliverycourse(deliveryModelView.getDeliverycourse() == null ? "" :deliveryModelView.getDeliverycourse());
+                            deliveryListViewItem.setCreatdate(deliveryModelView.getCreatdate() == null ? "" :deliveryModelView.getCreatdate());
+
+                            layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
+                            recyclerView.setLayoutManager(layoutManager);
+                            deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(deliveryListViewItemList);
+                            recyclerView.setAdapter(deliverySummaryViewAdapter);
+
+                            if ( deliveryListViewItemList != null && deliveryListViewItemList.size() == 0){
+                                isResponse = false;
+                            }
+
+
+                        }else{
+                            isResponse = false;
+                            Log.d("abcd1234 ",  "싹 해 야지요");
+                        }
+                    } catch(JSONException e){
+                        e.printStackTrace();
+                    } finally {
+                        if ( !isResponse ){
+                            reqeust_false_txt.setVisibility(View.VISIBLE);
+                            reqeust_false_replay.setVisibility(View.VISIBLE);
+
+                            request_all_pull_area.setVisibility(View.GONE);
+                            request_btn.setVisibility(View.GONE);
+                        }else{
+                            reqeust_false_txt.setVisibility(View.GONE);
+                            reqeust_false_replay.setVisibility(View.GONE);
+
+                            request_all_pull_area.setVisibility(View.VISIBLE);
+                            request_btn.setVisibility(View.VISIBLE);
+
+                        }
+                        layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
+                        recyclerView.setLayoutManager(layoutManager);
+                        deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(deliveryListViewItemList);
+                        recyclerView.setAdapter(deliverySummaryViewAdapter);
+
+                        deliverySummaryViewAdapter.setOnitemButtonClickListener(new DeliverySummaryViewAdapter.OnitemButtonClickListener() {
+                            @Override
+                            public void onItemButtonClick (View v, int pos) {
+
+                                // pos 들어온 체크박스가 체크인지 아닌지 여부 검사
+                                deliveryListViewItemList.get(pos).getArrivalagencycode();
+                                deliveryListViewItemList.get(pos).getDelivery_course();
+                                String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
+                                Toast.makeText(getApplicationContext(), "받아올 자료 선택===========================================여기 . : " + tmpStr, Toast.LENGTH_LONG ).show();
+                            }
+                        });
+
+                        deliverySummaryViewAdapter.setOnitemClickListener(new DeliverySummaryViewAdapter.OnitemClickListener() {
+                            @Override
+                            public void onItemClick(View v, int pos) {
+                                // 버튼 클릭 시 해당 로우의 영업소 코드와 배달코스를 받아온다
+                                deliveryListViewItemList.get(pos).getArrivalagencycode();
+                                deliveryListViewItemList.get(pos).getDelivery_course();
+
+                                String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
+
+                                Toast.makeText(getApplicationContext(), "받아올 자료 선택 : " + tmpStr, Toast.LENGTH_LONG ).show();
+                            }
+                        });
                     }
-
-                    //setRequestStatusView(deliveryListViewItemList);
-                    deliveryListViewItem.setArrivalagencycode(deliveryModelView.getArrivalagencycode() == null ? "" :deliveryModelView.getArrivalagencycode());
-                    deliveryListViewItem.setDeliverycourse(deliveryModelView.getDeliverycourse() == null ? "" :deliveryModelView.getDeliverycourse());
-                    deliveryListViewItem.setCreatdate(deliveryModelView.getCreatdate() == null ? "" :deliveryModelView.getCreatdate());
-
-                    /**
-                     * recyclerView
-                     */
-                    recyclerView = findViewById(R.id.request_recyceler_view);
-                    layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-                    recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
-                    recyclerView.setLayoutManager(layoutManager);
-                    deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(deliveryListViewItemList);
-
-                    recyclerView.setAdapter(deliverySummaryViewAdapter);
-
-                    deliverySummaryViewAdapter.setOnitemButtonClickListener(new DeliverySummaryViewAdapter.OnitemButtonClickListener() {
-                        @Override
-                        public void onItemButtonClick (View v, int pos) {
-
-                            // pos 들어온 체크박스가 체크인지 아닌지 여부 검사
-                            deliveryListViewItemList.get(pos).getArrivalagencycode();
-                            deliveryListViewItemList.get(pos).getDelivery_course();
-                            String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
-                            Toast.makeText(getApplicationContext(), "받아올 자료 선택===========================================여기 . : " + tmpStr, Toast.LENGTH_LONG ).show();
-                        }
-                    });
-
-                    deliverySummaryViewAdapter.setOnitemClickListener(new DeliverySummaryViewAdapter.OnitemClickListener() {
-                        @Override
-                        public void onItemClick(View v, int pos) {
-                            // 버튼 클릭 시 해당 로우의 영업소 코드와 배달코스를 받아온다
-                            deliveryListViewItemList.get(pos).getArrivalagencycode();
-                            deliveryListViewItemList.get(pos).getDelivery_course();
-
-                            String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
-
-                            Toast.makeText(getApplicationContext(), "받아올 자료 선택 : " + tmpStr, Toast.LENGTH_LONG ).show();
-                        }
-                    });
-
-                } catch(JSONException e){
-                    e.printStackTrace();
                 }
             }
         };
@@ -414,35 +504,14 @@ public class DeliveryRequestActivity extends AppCompatActivity {
     /**
      * 가져온 자료 화면에 표기
      */
-
-
-    public void onClick_setting_costume_save(View view){
-        new AlertDialog.Builder(this)
-            .setTitle("봉식이셋팅>코스튬")
-            .setMessage("저장하시겠습니까?")
-            .setIcon(android.R.drawable.ic_menu_save)
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    // 확인시 처리 로직
-                    Toast.makeText(DeliveryRequestActivity.this, "저장을 완료했습니다.", Toast.LENGTH_SHORT).show();
-                    finish();
-                }})
-            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    // 취소시 처리 로직
-                    Toast.makeText(DeliveryRequestActivity.this, "취소하였습니다.", Toast.LENGTH_SHORT).show();
-                }})
-            .show();
-    }
-
     private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
 
         ProgressDialog asyncDialog = new ProgressDialog(DeliveryRequestActivity.this);
 
         @Override
         protected void onPreExecute() {
-            asyncDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            asyncDialog.setMessage("로딩중입니다..");
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("자료를 확인중입니다..");
 
             // show dialog
             asyncDialog.show();
@@ -452,14 +521,8 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
             try {
-                try {
-                    for (int i = 0; i < 7; i++) {
-                        asyncDialog.setProgress(i * 700);
-                        Thread.sleep(500);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                setRequestStatus();
+                Thread.sleep(200 * 5);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -508,5 +571,4 @@ public class DeliveryRequestActivity extends AppCompatActivity {
             // CheckBox 가 아닌 View의 상태 변경.
         }
     }
-
 }

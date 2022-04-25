@@ -37,6 +37,7 @@ public class DeliverySummaryViewAdapter extends RecyclerView.Adapter<DeliverySum
         }
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -66,16 +67,19 @@ public class DeliverySummaryViewAdapter extends RecyclerView.Adapter<DeliverySum
         sb.append("["+deliveryModelViewList.get(itemposition).getDelivery_course()+"]");
         if ( deliveryModelViewList.get(itemposition).getDelivery_course_name() != null ){
             if (deliveryModelViewList.get(itemposition).getDelivery_course_name().equals("NOTCOURSE")){
-                sb.append("코스미등록");
+                sb.append(" 코스미등록");
             }else{
                 sb.append(deliveryModelViewList.get(itemposition).getDelivery_course_name());
             }
         }else{
-            sb.append("코스미등록");
+            sb.append(" 코스미등록");
         }
-        sb.append(" "+deliveryModelViewList.get(itemposition).getDelivery_course_cnt() + "건) ");
+
 
         holder.summary_row_item_1.setText(sb.toString());
+        sb = new StringBuffer();
+        sb.append(" "+deliveryModelViewList.get(itemposition).getDelivery_course_cnt() + "건 ");
+        holder.summary_row_item_2.setText(sb.toString());
 
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
@@ -86,13 +90,14 @@ public class DeliverySummaryViewAdapter extends RecyclerView.Adapter<DeliverySum
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView summary_row_item_check, summary_row_item_1;
+        public TextView summary_row_item_check, summary_row_item_1, summary_row_item_2;
         public Button summary_row_item_btn;
 
         ViewHolder(View itemView){
             super(itemView);
             summary_row_item_check = (CheckBox) itemView.findViewById(R.id.summary_row_item_check);
             summary_row_item_1 = (TextView) itemView.findViewById(R.id.summary_row_item_1);
+            summary_row_item_2 = (TextView) itemView.findViewById(R.id.summary_row_item_2);
             summary_row_item_btn = (Button) itemView.findViewById(R.id.summary_row_item_btn);
 
             /**

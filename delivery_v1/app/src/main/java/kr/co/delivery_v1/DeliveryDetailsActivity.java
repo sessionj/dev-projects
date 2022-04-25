@@ -1,6 +1,7 @@
 package kr.co.delivery_v1;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,6 +63,7 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     /**
      * 객체 셋팅
      */
+    private ProgressDialog progressDialog;
     private Button details_success_btn;
     private DeliveryDao deliveryDao;
     private DeliveryModelView deliveryModelView;
@@ -377,4 +379,27 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
         super.finish();
     }
 
+
+    public void loading() {
+        //로딩
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        progressDialog = new ProgressDialog(DeliveryDetailsActivity.this);
+                        progressDialog.setIndeterminate(true);
+                        progressDialog.setMessage("잠시만 기다려 주세요");
+                        progressDialog.show();
+                    }
+                }, 0);
+    }
+
+    public void loadingEnd() {
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                }, 0);
+    }
 }

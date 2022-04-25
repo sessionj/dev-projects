@@ -2573,6 +2573,7 @@ drawable gradient_2
 drawable gradient_bottom
 drawable header
 drawable ic_baseline_playlist_add_check_24
+drawable ic_baseline_replay_24
 drawable ic_clock_black_24dp
 drawable ic_keyboard_black_24dp
 drawable ic_launcher_background
@@ -3022,7 +3023,12 @@ id ratio
 id rectangles
 id recyceler_view
 id register
+id reqeust_false_replay
+id reqeust_false_txt
+id request_all_pull_area
 id request_btn
+id request_flase_replay_set_1
+id request_flase_replay_set_2
 id request_recyceler_view
 id reverseSawtooth
 id right
@@ -3097,6 +3103,7 @@ id stretch
 id submenuarrow
 id submit_area
 id summary_row_item_1
+id summary_row_item_2
 id summary_row_item_btn
 id summary_row_item_check
 id supportScrollUp
