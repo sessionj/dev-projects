@@ -37,6 +37,7 @@ public class DeliveryListViewItem {
     private String delivery_course;
     private String delivery_course_name;
     private int delivery_course_cnt;
+    private boolean isSelected;
 
     @Override
     public String toString() {
@@ -71,7 +72,16 @@ public class DeliveryListViewItem {
                 ", delivery_course='" + delivery_course + '\'' +
                 ", delivery_course_name='" + delivery_course_name + '\'' +
                 ", delivery_course_cnt=" + delivery_course_cnt +
+                ", isSelected=" + isSelected +
                 '}';
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public String getBillno() {

@@ -30,147 +30,146 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
     this.__insertionAdapterOfDeliveryModelView = new EntityInsertionAdapter<DeliveryModelView>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `tb_delivery` (`delivery_no`,`billno`,`input_date`,`input_time`,`transcode`,`sendingagencycode`,`arrivalagencycode`,`sendingmantel`,`sendingman`,`arrivalmantel`,`arrivalmantel2`,`arrivalman`,`zipcode`,`adress`,`prefare`,`fare`,`deliveryfare`,`ogideliveryfare`,`distance`,`payway`,`goods`,`pojang`,`qty`,`weight`,`memo`,`billstate`,`deliverycourse`,`creatdate`,`delivery_state`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `tb_delivery` (`billno`,`input_date`,`input_time`,`transcode`,`sendingagencycode`,`arrivalagencycode`,`sendingmantel`,`sendingman`,`arrivalmantel`,`arrivalmantel2`,`arrivalman`,`zipcode`,`adress`,`prefare`,`fare`,`deliveryfare`,`ogideliveryfare`,`distance`,`payway`,`goods`,`pojang`,`qty`,`weight`,`memo`,`billstate`,`deliverycourse`,`creatdate`,`delivery_state`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
       public void bind(SupportSQLiteStatement stmt, DeliveryModelView value) {
-        stmt.bindLong(1, value.getDelivery_no());
         if (value.getBillno() == null) {
-          stmt.bindNull(2);
+          stmt.bindNull(1);
         } else {
-          stmt.bindString(2, value.getBillno());
+          stmt.bindString(1, value.getBillno());
         }
         if (value.getInput_date() == null) {
-          stmt.bindNull(3);
+          stmt.bindNull(2);
         } else {
-          stmt.bindString(3, value.getInput_date());
+          stmt.bindString(2, value.getInput_date());
         }
         if (value.getInput_time() == null) {
-          stmt.bindNull(4);
+          stmt.bindNull(3);
         } else {
-          stmt.bindString(4, value.getInput_time());
+          stmt.bindString(3, value.getInput_time());
         }
         if (value.getTranscode() == null) {
-          stmt.bindNull(5);
+          stmt.bindNull(4);
         } else {
-          stmt.bindString(5, value.getTranscode());
+          stmt.bindString(4, value.getTranscode());
         }
         if (value.getSendingagencycode() == null) {
-          stmt.bindNull(6);
+          stmt.bindNull(5);
         } else {
-          stmt.bindString(6, value.getSendingagencycode());
+          stmt.bindString(5, value.getSendingagencycode());
         }
         if (value.getArrivalagencycode() == null) {
-          stmt.bindNull(7);
+          stmt.bindNull(6);
         } else {
-          stmt.bindString(7, value.getArrivalagencycode());
+          stmt.bindString(6, value.getArrivalagencycode());
         }
         if (value.getSendingmantel() == null) {
-          stmt.bindNull(8);
+          stmt.bindNull(7);
         } else {
-          stmt.bindString(8, value.getSendingmantel());
+          stmt.bindString(7, value.getSendingmantel());
         }
         if (value.getSendingman() == null) {
-          stmt.bindNull(9);
+          stmt.bindNull(8);
         } else {
-          stmt.bindString(9, value.getSendingman());
+          stmt.bindString(8, value.getSendingman());
         }
         if (value.getArrivalmantel() == null) {
-          stmt.bindNull(10);
+          stmt.bindNull(9);
         } else {
-          stmt.bindString(10, value.getArrivalmantel());
+          stmt.bindString(9, value.getArrivalmantel());
         }
         if (value.getArrivalmantel2() == null) {
-          stmt.bindNull(11);
+          stmt.bindNull(10);
         } else {
-          stmt.bindString(11, value.getArrivalmantel2());
+          stmt.bindString(10, value.getArrivalmantel2());
         }
         if (value.getArrivalman() == null) {
-          stmt.bindNull(12);
+          stmt.bindNull(11);
         } else {
-          stmt.bindString(12, value.getArrivalman());
+          stmt.bindString(11, value.getArrivalman());
         }
         if (value.getZipcode() == null) {
-          stmt.bindNull(13);
+          stmt.bindNull(12);
         } else {
-          stmt.bindString(13, value.getZipcode());
+          stmt.bindString(12, value.getZipcode());
         }
         if (value.getAdress() == null) {
-          stmt.bindNull(14);
+          stmt.bindNull(13);
         } else {
-          stmt.bindString(14, value.getAdress());
+          stmt.bindString(13, value.getAdress());
         }
         if (value.getPrefare() == null) {
-          stmt.bindNull(15);
+          stmt.bindNull(14);
         } else {
-          stmt.bindString(15, value.getPrefare());
+          stmt.bindString(14, value.getPrefare());
         }
         if (value.getFare() == null) {
-          stmt.bindNull(16);
+          stmt.bindNull(15);
         } else {
-          stmt.bindString(16, value.getFare());
+          stmt.bindString(15, value.getFare());
         }
         if (value.getDeliveryfare() == null) {
-          stmt.bindNull(17);
+          stmt.bindNull(16);
         } else {
-          stmt.bindString(17, value.getDeliveryfare());
+          stmt.bindString(16, value.getDeliveryfare());
         }
         if (value.getOgideliveryfare() == null) {
-          stmt.bindNull(18);
+          stmt.bindNull(17);
         } else {
-          stmt.bindString(18, value.getOgideliveryfare());
+          stmt.bindString(17, value.getOgideliveryfare());
         }
         if (value.getDistance() == null) {
-          stmt.bindNull(19);
+          stmt.bindNull(18);
         } else {
-          stmt.bindString(19, value.getDistance());
+          stmt.bindString(18, value.getDistance());
         }
         if (value.getPayway() == null) {
-          stmt.bindNull(20);
+          stmt.bindNull(19);
         } else {
-          stmt.bindString(20, value.getPayway());
+          stmt.bindString(19, value.getPayway());
         }
         if (value.getGoods() == null) {
-          stmt.bindNull(21);
+          stmt.bindNull(20);
         } else {
-          stmt.bindString(21, value.getGoods());
+          stmt.bindString(20, value.getGoods());
         }
         if (value.getPojang() == null) {
-          stmt.bindNull(22);
+          stmt.bindNull(21);
         } else {
-          stmt.bindString(22, value.getPojang());
+          stmt.bindString(21, value.getPojang());
         }
-        stmt.bindLong(23, value.getQty());
+        stmt.bindLong(22, value.getQty());
         if (value.getWeight() == null) {
-          stmt.bindNull(24);
+          stmt.bindNull(23);
         } else {
-          stmt.bindString(24, value.getWeight());
+          stmt.bindString(23, value.getWeight());
         }
         if (value.getMemo() == null) {
-          stmt.bindNull(25);
+          stmt.bindNull(24);
         } else {
-          stmt.bindString(25, value.getMemo());
+          stmt.bindString(24, value.getMemo());
         }
         if (value.getBillstate() == null) {
-          stmt.bindNull(26);
+          stmt.bindNull(25);
         } else {
-          stmt.bindString(26, value.getBillstate());
+          stmt.bindString(25, value.getBillstate());
         }
         if (value.getDeliverycourse() == null) {
-          stmt.bindNull(27);
+          stmt.bindNull(26);
         } else {
-          stmt.bindString(27, value.getDeliverycourse());
+          stmt.bindString(26, value.getDeliverycourse());
         }
         if (value.getCreatdate() == null) {
-          stmt.bindNull(28);
+          stmt.bindNull(27);
         } else {
-          stmt.bindString(28, value.getCreatdate());
+          stmt.bindString(27, value.getCreatdate());
         }
         if (value.getDelivery_state() == null) {
-          stmt.bindNull(29);
+          stmt.bindNull(28);
         } else {
-          stmt.bindString(29, value.getDelivery_state());
+          stmt.bindString(28, value.getDelivery_state());
         }
       }
     };
@@ -216,7 +215,6 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
     __db.assertNotSuspendingTransaction();
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfDeliveryNo = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_no");
       final int _cursorIndexOfBillno = CursorUtil.getColumnIndexOrThrow(_cursor, "billno");
       final int _cursorIndexOfInputDate = CursorUtil.getColumnIndexOrThrow(_cursor, "input_date");
       final int _cursorIndexOfInputTime = CursorUtil.getColumnIndexOrThrow(_cursor, "input_time");
@@ -249,9 +247,6 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       while(_cursor.moveToNext()) {
         final DeliveryModelView _item;
         _item = new DeliveryModelView();
-        final int _tmpDelivery_no;
-        _tmpDelivery_no = _cursor.getInt(_cursorIndexOfDeliveryNo);
-        _item.setDelivery_no(_tmpDelivery_no);
         final String _tmpBillno;
         if (_cursor.isNull(_cursorIndexOfBillno)) {
           _tmpBillno = null;
@@ -466,7 +461,6 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
     __db.assertNotSuspendingTransaction();
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfDeliveryNo = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_no");
       final int _cursorIndexOfBillno = CursorUtil.getColumnIndexOrThrow(_cursor, "billno");
       final int _cursorIndexOfInputDate = CursorUtil.getColumnIndexOrThrow(_cursor, "input_date");
       final int _cursorIndexOfInputTime = CursorUtil.getColumnIndexOrThrow(_cursor, "input_time");
@@ -499,9 +493,6 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       while(_cursor.moveToNext()) {
         final DeliveryModelView _item;
         _item = new DeliveryModelView();
-        final int _tmpDelivery_no;
-        _tmpDelivery_no = _cursor.getInt(_cursorIndexOfDeliveryNo);
-        _item.setDelivery_no(_tmpDelivery_no);
         final String _tmpBillno;
         if (_cursor.isNull(_cursorIndexOfBillno)) {
           _tmpBillno = null;
@@ -716,7 +707,6 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
     __db.assertNotSuspendingTransaction();
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfDeliveryNo = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_no");
       final int _cursorIndexOfBillno = CursorUtil.getColumnIndexOrThrow(_cursor, "billno");
       final int _cursorIndexOfInputDate = CursorUtil.getColumnIndexOrThrow(_cursor, "input_date");
       final int _cursorIndexOfInputTime = CursorUtil.getColumnIndexOrThrow(_cursor, "input_time");
@@ -748,9 +738,6 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       final DeliveryModelView _result;
       if(_cursor.moveToFirst()) {
         _result = new DeliveryModelView();
-        final int _tmpDelivery_no;
-        _tmpDelivery_no = _cursor.getInt(_cursorIndexOfDeliveryNo);
-        _result.setDelivery_no(_tmpDelivery_no);
         final String _tmpBillno;
         if (_cursor.isNull(_cursorIndexOfBillno)) {
           _tmpBillno = null;

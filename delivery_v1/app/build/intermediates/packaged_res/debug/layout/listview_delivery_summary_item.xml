@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/summary_row_item_1"
-                    android:textSize="13dp"
+                    android:textSize="14dp"
                     android:textColor="#666666"
                     android:layout_weight="8"
                     android:gravity="left"
@@ -63,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/grey_60"
             android:text="받기"/>
 
         </LinearLayout>

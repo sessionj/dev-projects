@@ -22,7 +22,7 @@ public class DeliveryRequest extends StringRequest {
     private Map<String, String> map;
     StringBuffer sb ;
 
-    public DeliveryRequest(DeliveryModelView deliveryModelView, Response.Listener<String> listener) {
+    public DeliveryRequest(DeliveryModelView deliveryModelView, Response.Listener<String> listener, StringBuffer sbr) {
 
         super(Method.POST, URL, listener, null);
         sb = new StringBuffer();
@@ -31,9 +31,16 @@ public class DeliveryRequest extends StringRequest {
         sb.append(CryptoKey.createCryptoKey(deliveryModelView.getArrivalagencycode())+"\t");
         sb.append(deliveryModelView.getArrivalagencycode()+"\t");
         sb.append(Label.DELIVERY_BASE_URL_DELIVERY_LIST+"\t");
-        //sb.append(deliveryModelView.getDeliverycourse()+"\t");
-        sb.append(deliveryModelView.getCreatdate());
-        Log.d("===", sb.toString());
+        sb.append(deliveryModelView.getCreatdate().replaceAll("-", ""));
+
+        Log.d("==================== param : ", deliveryModelView.getCreatdate());
+
+        if(sbr != null && sbr.toString().length() > 0){
+            sb.append("\t"+sbr.toString());
+        }else{
+            sb.append("\tAll");
+        }
+        Log.d(":: ", sb.toString());
         map.put("param", sb.toString());
     }
 

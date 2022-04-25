@@ -37,9 +37,9 @@ public final class AppDeliveryDatabase_Impl extends AppDeliveryDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `tb_delivery` (`delivery_no` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `billno` TEXT, `input_date` TEXT, `input_time` TEXT, `transcode` TEXT, `sendingagencycode` TEXT, `arrivalagencycode` TEXT, `sendingmantel` TEXT, `sendingman` TEXT, `arrivalmantel` TEXT, `arrivalmantel2` TEXT, `arrivalman` TEXT, `zipcode` TEXT, `adress` TEXT, `prefare` TEXT, `fare` TEXT, `deliveryfare` TEXT, `ogideliveryfare` TEXT, `distance` TEXT, `payway` TEXT, `goods` TEXT, `pojang` TEXT, `qty` INTEGER NOT NULL, `weight` TEXT, `memo` TEXT, `billstate` TEXT, `deliverycourse` TEXT, `creatdate` TEXT, `delivery_state` TEXT)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `tb_delivery` (`billno` TEXT NOT NULL, `input_date` TEXT, `input_time` TEXT, `transcode` TEXT, `sendingagencycode` TEXT, `arrivalagencycode` TEXT, `sendingmantel` TEXT, `sendingman` TEXT, `arrivalmantel` TEXT, `arrivalmantel2` TEXT, `arrivalman` TEXT, `zipcode` TEXT, `adress` TEXT, `prefare` TEXT, `fare` TEXT, `deliveryfare` TEXT, `ogideliveryfare` TEXT, `distance` TEXT, `payway` TEXT, `goods` TEXT, `pojang` TEXT, `qty` INTEGER NOT NULL, `weight` TEXT, `memo` TEXT, `billstate` TEXT, `deliverycourse` TEXT, `creatdate` TEXT, `delivery_state` TEXT, PRIMARY KEY(`billno`))");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4d157ea0376d9f605b596661041c6cad')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7c0fe57deb6eaef5ad2b332010320ed4')");
       }
 
       @Override
@@ -83,9 +83,8 @@ public final class AppDeliveryDatabase_Impl extends AppDeliveryDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsTbDelivery = new HashMap<String, TableInfo.Column>(29);
-        _columnsTbDelivery.put("delivery_no", new TableInfo.Column("delivery_no", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTbDelivery.put("billno", new TableInfo.Column("billno", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashMap<String, TableInfo.Column> _columnsTbDelivery = new HashMap<String, TableInfo.Column>(28);
+        _columnsTbDelivery.put("billno", new TableInfo.Column("billno", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("input_date", new TableInfo.Column("input_date", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("input_time", new TableInfo.Column("input_time", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTbDelivery.put("transcode", new TableInfo.Column("transcode", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -124,7 +123,7 @@ public final class AppDeliveryDatabase_Impl extends AppDeliveryDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "4d157ea0376d9f605b596661041c6cad", "27421932bb6c92054065b71122b1f1a3");
+    }, "7c0fe57deb6eaef5ad2b332010320ed4", "5818c54448af5b96447fae8db830cb37");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

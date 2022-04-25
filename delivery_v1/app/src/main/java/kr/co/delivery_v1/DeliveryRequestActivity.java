@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -49,6 +50,7 @@ import kr.co.delivery_v1.action.request.DeliveryRequest;
 import kr.co.delivery_v1.action.request.DeliveryRequestSummary;
 import kr.co.delivery_v1.adapter.DeliverySummaryViewAdapter;
 import kr.co.delivery_v1.adapter.DeliveryViewAdapter;
+import kr.co.delivery_v1.adapter.QuanitityListener;
 import kr.co.delivery_v1.comm.BasicUtils;
 import kr.co.delivery_v1.comm.DeviceInfoUtil;
 import kr.co.delivery_v1.comm.Label;
@@ -66,12 +68,13 @@ import kr.co.delivery_v1.models.LoginModelView;
  *   2. 할게 무쟈게 많구나 화면에서 정의를 좀 해보자
  *   3. git test
  */
-public class DeliveryRequestActivity extends AppCompatActivity {
+public class DeliveryRequestActivity extends AppCompatActivity implements QuanitityListener{
 
     final private static String TAG = "DeliveryRequestActivity ";
     private TextView deliveryavt_date_picker_area, deliveryavt_delivery_cource, deliveryavt_agencycode;
     private LinearLayout request_all_pull_area;
     private Button request_btn;
+    private CheckBox request_all_btn;
 
     private ProgressDialog progressDialog;
     private ImageView request_flase_replay_set_1;
@@ -102,6 +105,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
     private StringBuffer deliveryCourseParam = null;
     private LinearLayoutManager layoutManager;
     private boolean isResponse = true;
+    StringBuffer privateParam;
     /**
      * 초기화 및 셋팅
      */
@@ -128,7 +132,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
 
         request_btn = (Button) findViewById(R.id.request_btn);              // 클릭된 자료 가져오기
         request_all_pull_area = (LinearLayout) findViewById(R.id.request_all_pull_area);
-
+        request_all_btn = (CheckBox) findViewById(R.id.request_all_btn);
         request_flase_replay_set_1 = (ImageView) findViewById(R.id.request_flase_replay_set_1);
         request_flase_replay_set_2 = (TextView) findViewById(R.id.request_flase_replay_set_2);
 
@@ -137,10 +141,9 @@ public class DeliveryRequestActivity extends AppCompatActivity {
 
         deliveryModelView.setArrivalagencycode(agencyCode);
         deliveryModelView.setDeliverycourse(deliveryCourse);
-        deliveryModelView.setCreatdate(BasicUtils.getDays("yyyy-MM-dd"));
+        deliveryModelView.setCreatdate(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT));
 
         deliveryCourseParam = new StringBuffer();
-
 
     }
 
@@ -157,8 +160,13 @@ public class DeliveryRequestActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+
+                String[] tmpStr = deliveryavt_date_picker_area.getText().toString().split(" ");
+                requestSearchDay = tmpStr[0].toString();
+
                 Intent intent = new Intent(DeliveryRequestActivity.this, MainActivity.class);
                 intent.putExtra("requestSearchDay", requestSearchDay);
+                Log.d("보낸다 main 으로 ", requestSearchDay);
                 intent.putExtra("returnRequest", true);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
@@ -207,87 +215,24 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                     builder.create().show();
                     return;
                 }*/
+                if ( deliverySummaryViewAdapter.getBtnCheckList() != null && deliverySummaryViewAdapter.getBtnCheckList().size() == 0 ){
 
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DeliveryRequestActivity.this).setIcon(android.R.drawable.ic_btn_speak_now);
+                    builder.setTitle("경고");
+                    builder.setMessage("수신할 항목에 체크박스를 선택하세요");
+                    builder.setPositiveButton("닫기",null);
+                    builder.create().show();
+                    return;
+                }
                 builder.setTitle("알림");
                 builder.setMessage(deliveryModelView.getCreatdate() + " 배달자료를 수신하시겠습니까?");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                    Toast.makeText(getApplicationContext(), "YES Button Click", Toast.LENGTH_LONG).show();
-                    Response.Listener<String> responseListener = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try{
-                                roomDbRequest(response);
-
-                            }catch (Exception e){
-                                Log.d("log ", e.toString());
-                            }finally {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(DeliveryRequestActivity.this)
-                                        .setIcon(android.R.drawable.ic_btn_speak_now);
-                                builder.setTitle("안내");
-                                builder.setMessage("자료 수신 (총 "+successCnt+" 건) 완료" );
-                                builder.setPositiveButton("닫기",null);
-                                builder.create().show();
-                                return;
-                            }
-                        }
-
-                        /**
-                         * roomdb insert
-                         * @param response
-                         */
-                        private void roomDbRequest(String response) {
-
-                            ArrayList<DeliveryModelView> resultData = new ArrayList<DeliveryModelView>();
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
-
-                                for ( int i=0; i < resultarray.length(); i++){
-                                    JSONObject Object = resultarray.getJSONObject(i);
-                                    deliveryModelView = new DeliveryModelView();
-                                    deliveryModelView.setBillno(Object.getString("billno"));
-                                    deliveryModelView.setInput_date(Object.getString("input_date"));
-                                    deliveryModelView.setInput_time(Object.getString("input_time"));
-                                    deliveryModelView.setTranscode(Object.getString("transcode"));
-                                    deliveryModelView.setSendingagencycode(Object.getString("sendingagencycode"));
-                                    deliveryModelView.setArrivalagencycode(Object.getString("arrivalagencycode"));
-                                    deliveryModelView.setSendingmantel(Object.getString("sendingmantel"));
-                                    deliveryModelView.setSendingman(Object.getString("sendingman"));
-                                    deliveryModelView.setArrivalmantel(Object.getString("arrivalmantel"));
-                                    deliveryModelView.setArrivalman(Object.getString("arrivalman"));
-                                    deliveryModelView.setZipcode(Object.getString("zipcode"));
-                                    deliveryModelView.setAdress(Object.getString("adress"));
-                                    deliveryModelView.setPrefare(Object.getString("prefare"));
-                                    deliveryModelView.setFare(Object.getString("fare"));
-                                    deliveryModelView.setDeliveryfare(Object.getString("deliveryfare"));
-                                    deliveryModelView.setOgideliveryfare(Object.getString("ogideliveryfare"));
-                                    deliveryModelView.setDistance(Object.getString("distance"));
-                                    deliveryModelView.setPayway(Object.getString("payway"));
-                                    deliveryModelView.setGoods(Object.getString("goods"));
-                                    deliveryModelView.setPojang(Object.getString("pojang"));
-                                    deliveryModelView.setQty(Object.getInt("qty"));
-                                    deliveryModelView.setWeight(Object.getString("weight"));
-                                    deliveryModelView.setMemo(Object.getString("memo"));
-                                    deliveryModelView.setBillstate(Object.getString("billstate"));
-                                    deliveryModelView.setDeliverycourse(Object.getString("deliverycourse"));
-                                    deliveryModelView.setCreatdate(Object.getString("creatdate"));
-
-                                    appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelView);
-                                    successCnt ++;
-                                }
-                            } catch(JSONException e){
-                                e.printStackTrace();
-                            }
-                        }
-                    };
-
-                    DeliveryRequest deliveryRequest = new DeliveryRequest(deliveryModelView, responseListener );
-                    RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
-                    queue.add( deliveryRequest );
+                        Toast.makeText(getApplicationContext(), "YES Button Click", Toast.LENGTH_LONG).show();
+                        getDeliveryList(null);
                     }
                 });
 
@@ -355,6 +300,118 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                 setReplayEvent();
             }
         });
+
+        /**
+         * 전체 자료 받기 클릭스
+         */
+        request_all_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if ( request_all_btn.isChecked()){
+
+                    Toast.makeText(getApplicationContext(), "전체 선택", Toast.LENGTH_SHORT).show();
+
+                    for ( DeliveryListViewItem model : deliveryListViewItemList){
+                        model.setSelected(true);
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "전체 선택을 해제", Toast.LENGTH_SHORT).show();
+                    for ( DeliveryListViewItem model : deliveryListViewItemList){
+                        model.setSelected(false);
+                    }
+                }
+                deliverySummaryViewAdapter.allCheck();
+                // 화면에 반영
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    public void getDeliveryList(StringBuffer param){
+
+        if ( param == null || param.length() == 0){
+            return;
+        }
+
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    roomDbRequest(response);
+
+                }catch (Exception e){
+                    Log.d("log ", e.toString());
+                }finally {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DeliveryRequestActivity.this)
+                            .setIcon(android.R.drawable.ic_btn_speak_now);
+                    builder.setTitle("안내");
+                    builder.setMessage("자료 수신 (총 "+successCnt+" 건) 완료" );
+                    builder.setPositiveButton("확인",null);
+                    builder.create().show();
+                    return;
+                }
+            }
+
+            /**
+             * roomdb insert
+             * @param response
+             */
+            private void roomDbRequest(String response) {
+
+                ArrayList<DeliveryModelView> resultData = new ArrayList<DeliveryModelView>();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
+
+                    for ( int i=0; i < resultarray.length(); i++){
+                        JSONObject Object = resultarray.getJSONObject(i);
+                        deliveryModelView = new DeliveryModelView();
+                        deliveryModelView.setBillno(Object.getString("billno"));
+                        deliveryModelView.setInput_date(Object.getString("input_date"));
+                        deliveryModelView.setInput_time(Object.getString("input_time"));
+                        deliveryModelView.setTranscode(Object.getString("transcode"));
+                        deliveryModelView.setSendingagencycode(Object.getString("sendingagencycode"));
+                        deliveryModelView.setArrivalagencycode(Object.getString("arrivalagencycode"));
+                        deliveryModelView.setSendingmantel(Object.getString("sendingmantel"));
+                        deliveryModelView.setSendingman(Object.getString("sendingman"));
+                        deliveryModelView.setArrivalmantel(Object.getString("arrivalmantel"));
+                        deliveryModelView.setArrivalman(Object.getString("arrivalman"));
+                        deliveryModelView.setZipcode(Object.getString("zipcode"));
+                        deliveryModelView.setAdress(Object.getString("adress"));
+                        deliveryModelView.setPrefare(Object.getString("prefare"));
+                        deliveryModelView.setFare(Object.getString("fare"));
+                        deliveryModelView.setDeliveryfare(Object.getString("deliveryfare"));
+                        deliveryModelView.setOgideliveryfare(Object.getString("ogideliveryfare"));
+                        deliveryModelView.setDistance(Object.getString("distance"));
+                        deliveryModelView.setPayway(Object.getString("payway"));
+                        deliveryModelView.setGoods(Object.getString("goods"));
+                        deliveryModelView.setPojang(Object.getString("pojang"));
+                        deliveryModelView.setQty(Object.getInt("qty"));
+                        deliveryModelView.setWeight(Object.getString("weight"));
+                        deliveryModelView.setMemo(Object.getString("memo"));
+                        deliveryModelView.setBillstate(Object.getString("billstate"));
+                        deliveryModelView.setDeliverycourse(Object.getString("deliverycourse"));
+                        deliveryModelView.setCreatdate(Object.getString("creatdate"));
+
+                        appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelView);
+                        successCnt ++;
+                    }
+                } catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        //deliveryCourseParam = new StringBuffer();
+        // 체크 된 값의 집합
+
+        String[] tmpStr = deliveryavt_date_picker_area.getText().toString().split(" ");
+        deliveryModelView.setCreatdate(tmpStr[0].toString() );
+        DeliveryRequest deliveryRequest = new DeliveryRequest(deliveryModelView, responseListener, param  );
+        RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
+        queue.add( deliveryRequest );
     }
 
     /**
@@ -427,7 +484,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                             layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                             recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
                             recyclerView.setLayoutManager(layoutManager);
-                            deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(deliveryListViewItemList);
+                            deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(getApplicationContext(), deliveryListViewItemList, DeliveryRequestActivity.this::onQuanitityChange);
                             recyclerView.setAdapter(deliverySummaryViewAdapter);
 
                             if ( deliveryListViewItemList != null && deliveryListViewItemList.size() == 0){
@@ -459,7 +516,7 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                         layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
                         recyclerView.setLayoutManager(layoutManager);
-                        deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(deliveryListViewItemList);
+                        deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(getApplicationContext(), deliveryListViewItemList, DeliveryRequestActivity.this::onQuanitityChange);
                         recyclerView.setAdapter(deliverySummaryViewAdapter);
 
                         deliverySummaryViewAdapter.setOnitemButtonClickListener(new DeliverySummaryViewAdapter.OnitemButtonClickListener() {
@@ -469,8 +526,11 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                                 // pos 들어온 체크박스가 체크인지 아닌지 여부 검사
                                 deliveryListViewItemList.get(pos).getArrivalagencycode();
                                 deliveryListViewItemList.get(pos).getDelivery_course();
+
+
                                 String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
                                 Toast.makeText(getApplicationContext(), "받아올 자료 선택===========================================여기 . : " + tmpStr, Toast.LENGTH_LONG ).show();
+
                             }
                         });
 
@@ -484,26 +544,39 @@ public class DeliveryRequestActivity extends AppCompatActivity {
                                 String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
 
                                 Toast.makeText(getApplicationContext(), "받아올 자료 선택 : " + tmpStr, Toast.LENGTH_LONG ).show();
+
+                                privateParam = new StringBuffer();
+                                privateParam.append(deliveryListViewItemList.get(pos).getDelivery_course());
+                                //getDeliveryList(requestCourse);
+                                getListTypesTask getListTypesTask = new getListTypesTask(privateParam);
+                                getListTypesTask.execute();
                             }
                         });
                     }
                 }
             }
         };
+
         deliveryListViewItem = new DeliveryListViewItem();
         deliveryListViewItem.setArrivalagencycode(deliveryModelView.getArrivalagencycode() == null ? "" :deliveryModelView.getArrivalagencycode());
         deliveryListViewItem.setDeliverycourse(deliveryModelView.getDeliverycourse() == null ? "" :deliveryModelView.getDeliverycourse());
         deliveryListViewItem.setCreatdate(deliveryModelView.getCreatdate() == null ? "" :deliveryModelView.getCreatdate());
 
-        DeliveryRequestSummary deliveryRequestSummary = new DeliveryRequestSummary(deliveryListViewItem, responseViewListener, deliveryCourseParam); // <-- 파라미터 체크(deliveryCourseParam)
+        DeliveryRequestSummary deliveryRequestSummary = new DeliveryRequestSummary(deliveryListViewItem, responseViewListener); // <-- 파라미터 체크(deliveryCourseParam)
         RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
         queue.add( deliveryRequestSummary );
 
     }
 
+    @Override
+    public void onQuanitityChange(ArrayList<String> arrayList) {
+        Toast.makeText(this, arrayList.toString(), Toast.LENGTH_LONG).show();
+    }
+
     /**
      * 가져온 자료 화면에 표기
      */
+    @SuppressLint("StaticFieldLeak")
     private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
 
         ProgressDialog asyncDialog = new ProgressDialog(DeliveryRequestActivity.this);
@@ -522,6 +595,42 @@ public class DeliveryRequestActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             try {
                 setRequestStatus();
+                Thread.sleep(200 * 5);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            asyncDialog.dismiss();
+            super.onPostExecute(result);
+        }
+    }
+
+    private class getListTypesTask extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog asyncDialog = new ProgressDialog(DeliveryRequestActivity.this);
+        private StringBuffer sbr = new StringBuffer();
+        public getListTypesTask(StringBuffer privateParam) {
+            sbr = privateParam;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("자료를 확인중입니다..");
+
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            try {
+                getDeliveryList(sbr);
                 Thread.sleep(200 * 5);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -571,4 +680,9 @@ public class DeliveryRequestActivity extends AppCompatActivity {
             // CheckBox 가 아닌 View의 상태 변경.
         }
     }
+
+    private void setCheckBox(){
+
+    }
+
 }

@@ -3024,6 +3024,7 @@ int id recyceler_view 0x7f080183
 int id register 0x7f080184
 int id reqeust_false_replay 0x7f080185
 int id reqeust_false_txt 0x7f080186
+int id request_all_btn 0x7f080228
 int id request_all_pull_area 0x7f080187
 int id request_btn 0x7f080188
 int id request_flase_replay_set_1 0x7f080189

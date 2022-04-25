@@ -81,11 +81,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingLeft="10dp"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
             android:visibility="gone"
             android:id="@+id/request_all_pull_area"
             >
             <CheckBox
+                android:id="@+id/request_all_btn"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -94,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="전체 자료 받기"
-                android:paddingLeft="10dp"
+                android:paddingLeft="15dp"
                 />
 
         </LinearLayout>
@@ -123,6 +124,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:background="@drawable/gradient_bottom"
+                android:visibility="gone"
                 />
 
             <LinearLayout
@@ -131,6 +133,7 @@
                 android:layout_gravity="center"
                 android:orientation="vertical"
                 android:id="@+id/reqeust_false_replay"
+                android:visibility="gone"
                 >
 
                 <ImageView

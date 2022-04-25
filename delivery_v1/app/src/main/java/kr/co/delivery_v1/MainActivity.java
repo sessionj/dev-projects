@@ -106,10 +106,6 @@ public class MainActivity extends AppCompatActivity {
         datapicker_view = (TextView) findViewById(R.id.date_picker_area);
         list_count = (TextView) findViewById(R.id.list_count);
         roomDb_phoneNumber = DeviceInfoUtil.getRoomSelecter(this, 2);
-        if ( "".equals(roomDb_phoneNumber)){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
         deliveryModelView.setDeliverycourse(DeviceInfoUtil.getRoomSelecter(this, 4));
 
     }
@@ -141,6 +137,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+        Log.d("============ phoneNumber : ", roomDb_phoneNumber);
+        if ( "".equals(roomDb_phoneNumber) || roomDb_phoneNumber == null){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
+
         getIntentValue();
         taskAsync = new CheckTypesTask();
         taskAsync.equals("");

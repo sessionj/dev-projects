@@ -152,7 +152,7 @@ public class DeviceInfoUtil {
                     }
                 }
             }else{
-                Log.d(" 목록이 비었습니다.", "");
+                Log.d(" room DB 목록이 비었습니다.", "");
             }
         }catch (Exception e){
             e.printStackTrace();

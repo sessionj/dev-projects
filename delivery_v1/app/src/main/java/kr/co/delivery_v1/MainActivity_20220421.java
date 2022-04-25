@@ -223,7 +223,7 @@ public class MainActivity_20220421 extends AppCompatActivity {
             public void onItemClick(View v, int pos) {
 
                 Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
-                intent.putExtra("billNo", arr.get(pos).getBillno().toString());
+                intent.putExtra("billNo",  Integer.valueOf(arr.get(pos).getBillno()));
                 startActivity(intent);
             }
         });

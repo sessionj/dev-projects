@@ -1,5 +1,6 @@
 package kr.co.delivery_v1.models;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -11,11 +12,10 @@ import kr.co.delivery_v1.comm.Label;
  */
 @Entity(tableName = Label.DELIVERY_BASE_ROOM_DELIVERY_DATABASE_NAME)
 public class DeliveryModelView {
+    @NonNull
+    @PrimaryKey()
+    private String billno;
 
-    @PrimaryKey(autoGenerate = true)
-    private int delivery_no;
-
-    @ColumnInfo(name = "billno")                private String billno;
     @ColumnInfo(name = "input_date")            private String input_date;
     @ColumnInfo(name = "input_time")            private String input_time;
     @ColumnInfo(name = "transcode")             private String transcode;
@@ -47,8 +47,7 @@ public class DeliveryModelView {
     @Override
     public String toString() {
         return "DeliveryModelView{" +
-                "delivery_no=" + delivery_no +
-                ", billno='" + billno + '\'' +
+                "billno='" + billno + '\'' +
                 ", input_date='" + input_date + '\'' +
                 ", input_time='" + input_time + '\'' +
                 ", transcode='" + transcode + '\'' +
@@ -77,14 +76,6 @@ public class DeliveryModelView {
                 ", creatdate='" + creatdate + '\'' +
                 ", delivery_state='" + delivery_state + '\'' +
                 '}';
-    }
-
-    public int getDelivery_no() {
-        return delivery_no;
-    }
-
-    public void setDelivery_no(int delivery_no) {
-        this.delivery_no = delivery_no;
     }
 
     public String getBillno() {

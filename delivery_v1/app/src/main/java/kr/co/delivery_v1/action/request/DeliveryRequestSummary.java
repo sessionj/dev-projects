@@ -25,7 +25,7 @@ public class DeliveryRequestSummary extends StringRequest {
     private Map<String, String> map;
     StringBuffer sb ;
 
-    public DeliveryRequestSummary(DeliveryListViewItem deliveryListViewItem, Response.Listener<String> listener, StringBuffer sbr) {
+    public DeliveryRequestSummary(DeliveryListViewItem deliveryListViewItem, Response.Listener<String> listener) {
 
         super(Method.POST, URL, listener, null);
         sb = new StringBuffer();
@@ -35,9 +35,8 @@ public class DeliveryRequestSummary extends StringRequest {
         sb.append(deliveryListViewItem.getArrivalagencycode()+"\t");
         sb.append(Label.DELIVERY_BASE_URL_DELIVERY_SUMMARY+"\t");
         sb.append(deliveryListViewItem.getCreatdate());
-        if (!TextUtils.isEmpty(sbr)){
-            sb.append("\t"+sbr.toString());
-        }
+        sb.append("\tAll");
+
         Log.d("===", sb.toString());
         map.put("param", sb.toString());
     }

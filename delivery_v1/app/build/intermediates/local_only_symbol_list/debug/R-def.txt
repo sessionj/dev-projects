@@ -86,6 +86,7 @@ id recyceler_view
 id register
 id reqeust_false_replay
 id reqeust_false_txt
+id request_all_btn
 id request_all_pull_area
 id request_btn
 id request_flase_replay_set_1
