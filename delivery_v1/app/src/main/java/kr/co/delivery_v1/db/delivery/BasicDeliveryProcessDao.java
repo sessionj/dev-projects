@@ -38,15 +38,19 @@ public interface BasicDeliveryProcessDao {
     /*@Query("SELECT * FROM tb_delivery  where creatdate = :createDt and deliverycourse = :deliveryCourse" )
     List<DeliveryModelView> getDayList(String createDt, String deliveryCourse);*/
 
-    //임시
-    @Query("SELECT * FROM tb_delivery  where creatdate = :createDt order by creatdate desc" )
-    List<DeliveryModelView> getDayList(String createDt);
+    @Query("SELECT * FROM tb_delivery  "
+            + "WHERE creatdate = :createDt "
+            + "AND deliverycourse =:deliveryCourse "
+            + "ORDER BY deliverycourse DESC" )
+    List<DeliveryModelView> getDayList(String createDt, String deliveryCourse);
+
 
     /**
      * db select
      * @return
      */
-    @Query("SELECT * FROM tb_delivery where billno = :billNo")
+    @Query("SELECT * FROM tb_delivery "
+          +"WHERE  billno = :billNo")
     DeliveryModelView getDayArticle(String billNo);
 
     /**
@@ -55,4 +59,13 @@ public interface BasicDeliveryProcessDao {
     @Query("DELETE FROM tb_delivery")
     void applicationData_deleteAll();
 
+    /**
+     * 상태 없데이트
+     * @param billNo
+     * @param deliveryStatus
+     */
+    @Query("UPDATE tb_delivery "
+         + "SET delivery_state =:deliveryStatus "
+         + "WHERE billno = :billNo ")
+    void isUpdateDelivery(String billNo, String deliveryStatus);
 }

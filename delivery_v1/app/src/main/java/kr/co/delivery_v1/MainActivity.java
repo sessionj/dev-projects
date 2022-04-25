@@ -19,9 +19,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,63 +57,58 @@ import kr.co.delivery_v1.models.LoginModelView;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    int nCurrentPermission = 0;
-    static final int PERMISSION_REQUEST = 0x0000001;
-    private static final int PERMISSIONS_REQUEST_CODE = 22;
     private boolean loginAccess = false;
 
-    private DeliveryModelView deliveryModelView;
-    private DeliveryDao deliveryDao;
-    private String roomDb_phoneNumber = "";
-    private String device_phoneNumber = "";
+    private DeliveryViewAdapter deliveryViewAdapter;
     private List<DeliveryModelView> deliveryList;
+    private DeliveryModelView deliveryModelView;
+    private List<DeliveryModelView>  arr;
+    private DeliveryDao deliveryDao;
+    private RecyclerView recyclerView;
 
-    TextView datapicker_view;
-    private String befSearchDate;
-    private String aftSearchDate;
+
+    private TextView datapicker_view, list_count;
+    private String befSearchDate, aftSearchDate;
 
     private Calendar c;
-    private int mYear;
-    private int mMonth;
-    private int mDay;
-    private List<DeliveryModelView>  arr;
-    private DeliveryViewAdapter deliveryViewAdapter;
+    private int mYear, mMonth, mDay;
 
-    private TextView list_count;
-
+    private String roomDb_phoneNumber = "";
+    private String device_phoneNumber = "";
     private String requestSearchDay = "";
     private String viewSearchDay = "";
-
-    private RecyclerView recyclerView;
-    private CheckTypesTask taskAsync;
-
     private boolean changeDate = false;
-
+    private CheckTypesTask taskAsync;
     /**
      * 초기화, 셋팅
      */
-    private void init(){
+    private void initialization(){
 
         c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
-        deliveryList = new ArrayList<DeliveryModelView>();
-        deliveryModelView = new DeliveryModelView();
         deliveryDao = new DeliveryDao(this);
-        //deliveryDao.applicationData_deleteAll();
-        datapicker_view = (TextView) findViewById(R.id.date_picker_area);
+        deliveryModelView = new DeliveryModelView();
+        deliveryList = new ArrayList<DeliveryModelView>();
+
         list_count = (TextView) findViewById(R.id.list_count);
+        datapicker_view = (TextView) findViewById(R.id.date_picker_area);
         roomDb_phoneNumber = DeviceInfoUtil.getRoomSelecter(this, 2);
         deliveryModelView.setDeliverycourse(DeviceInfoUtil.getRoomSelecter(this, 4));
 
+        //deliveryDao.applicationData_deleteAll();
+
+        if ( "".equals(roomDb_phoneNumber) || roomDb_phoneNumber == null){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     /**
      * getParam (Intent)
      */
-    private void getIntentValue(){
+    private void initializationSetIntentValue(){
 
         Intent intent = getIntent();
         if (!TextUtils.isEmpty(intent.getStringExtra("requestSearchDay") )){
@@ -136,26 +131,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        init();
-        Log.d("============ phoneNumber : ", roomDb_phoneNumber);
-        if ( "".equals(roomDb_phoneNumber) || roomDb_phoneNumber == null){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
-
-        getIntentValue();
+        initialization();
+        initializationSetIntentValue();
         taskAsync = new CheckTypesTask();
-        taskAsync.equals("");
+        taskAsync.execute();
+
         //task.execute();
-        pageRecyclerListView();
+        //pageRecyclerListView();
 
         /*try{
             new CheckTypesTask().execute();
         }catch (Exception e){
             e.printStackTrace();
         }*/
+
         /**
-         * 상단 날짜 검색 구간 ---------------------------------------------------------
+         * 상단 날짜 검색 구간 ########################################################################################################
          */
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -177,43 +168,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         /**
-         * 상단 날짜 검색 구간 ---------------------------------------------------------
+         * 상단 날짜 검색 구간 ########################################################################################################
          */
 
+        /**
+         * 상단 날짜 변경 검색 ########################################################################################################
+         */
         datapicker_view.addTextChangedListener(new TextWatcher() {
-            @Override
+            @Override   // 변경 전 묹자열
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // 변경 전 묹자열.
                 datapicker_view = (TextView) findViewById(R.id.date_picker_area);
                 befSearchDate = datapicker_view.getText().toString();
-                Log.d("변경전 : ", befSearchDate);
             }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //editText에 포커스가 되어있고 텍스트 입력 시 동작
-            }
+            @Override   // editText에 포커스, 텍스트 입력시 동작함
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
-            @Override
+            @Override   // 텍스트가 변경된 이후 호출됨
             public void afterTextChanged(Editable s) {
-                // 텍스트가 변경된 이후 호출됨
+
                 changeDate = true;
                 datapicker_view = (TextView) findViewById(R.id.date_picker_area);
                 aftSearchDate = datapicker_view.getText().toString();
-                Log.d("변경후 : ", aftSearchDate);
 
                 if ( !befSearchDate.equals(aftSearchDate)){
-                    Log.d("날짜가 변경되었습니다.",  aftSearchDate);
                     datapicker_view = (TextView) findViewById(R.id.date_picker_area);
                     befSearchDate = datapicker_view.getText().toString();
                     if ( befSearchDate != null && befSearchDate.length() > 0){
                         requestSearchDay = BasicUtils.getDateControl(befSearchDate, 0,0,-1);
-                        pageRecyclerListView();
-                        //taskAsync.equals("");
+                        searchpageRecyclerListView();
                     }
                 }
             }
         });
+        /**
+         * 상단 날짜 변경 검색 ########################################################################################################
+         */
+    }
+
+    public void searchpageRecyclerListView(){
+        taskAsync = new CheckTypesTask();
+        taskAsync.execute();
+
+        //pageRecyclerListView();
     }
 
     @Override
@@ -222,6 +219,9 @@ public class MainActivity extends AppCompatActivity {
         deliveryViewAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Async (비동기 처리시)
+     */
     private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
 
         ProgressDialog asyncDialog = new ProgressDialog(MainActivity.this);
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             Log.d("================ onPreExecute() ", "실행중");
-            asyncDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             asyncDialog.setMessage("로딩중입니다..");
 
             // show dialog
@@ -241,7 +241,8 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             try {
                 try {
-                    //pageRecyclerListView();
+                    pageRecyclerListView();
+                    Thread.sleep(200 * 5);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -257,54 +258,62 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
         }
     }
-
     /**
      * 화면 목록 셋팅
      */
     private void pageRecyclerListView() {
 
-        arr = new ArrayList<DeliveryModelView>();
-
-        if ( requestSearchDay != null){
-            deliveryModelView.setCreatdate(requestSearchDay.replace("-", ""));
-        }else{
-            deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace(" ",""));
-        }
-        Toast.makeText(getApplicationContext(), "자료 가져오기 버튼 클릭" + deliveryModelView.getCreatdate(), Toast.LENGTH_SHORT).show();
-        arr = deliveryDao.getDeliveryList(deliveryModelView);
-
-        /**
-         * 배달 자료가 없으면 받는 화면으로 이동
-         * 검색이 이루어진 이후에는 자료가 없어도 이동하지 않는다.
-         */
-        if ( (arr == null || arr.size() == 0 ) && !changeDate ){
-            Log.d("", "====================================================>");
-            Intent intent = new Intent(this, DeliveryRequestActivity.class);
-            intent.putExtra("requestSearchDay", requestSearchDay);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
-
-        recyclerView = findViewById(R.id.recyceler_view );
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, 1)); // 아이템별 구분선 넣기
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        list_count.setText("총 " + arr.size() + "건");
-        deliveryViewAdapter = new DeliveryViewAdapter(arr);
-        recyclerView.setAdapter(deliveryViewAdapter);
-        //dialog.show();
-        deliveryViewAdapter.setOnitemClickListener(new DeliveryViewAdapter.OnitemClickListener() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onItemClick(View v, int pos) {
+            public void run() {
+                arr = new ArrayList<DeliveryModelView>();
 
-                Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
-                intent.putExtra("billNo", arr.get(pos).getBillno().toString());
-                intent.putExtra("requestSearchDay", requestSearchDay);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                if (requestSearchDay != null) {
+                    deliveryModelView.setCreatdate(requestSearchDay.replace("-", ""));
+                } else {
+                    deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace(" ", ""));
+                }
+                arr = deliveryDao.getDeliveryList(deliveryModelView);
+
+                /**
+                 * 배달 자료가 없으면 받는 화면으로 이동
+                 * 검색이 이루어진 이후에는 자료가 없어도 이동하지 않는다.
+                 */
+                if ((arr == null || arr.size() == 0) && !changeDate) {
+                    Log.d("", "====================================================>");
+                    //Intent intent = new Intent(this, DeliveryRequestActivity.class);
+                    //intent.putExtra("requestSearchDay", requestSearchDay);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //startActivity(intent);
+                }
+
+                recyclerView = findViewById(R.id.recyceler_view);
+                recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                list_count.setText("총 /" + arr.size() + "건 ");
+                deliveryViewAdapter = new DeliveryViewAdapter(arr);
+                recyclerView.setAdapter(deliveryViewAdapter);
+                //dialog.show();
+                deliveryViewAdapter.setOnitemClickListener(new DeliveryViewAdapter.OnitemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int pos) {
+
+                        Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
+                        intent.putExtra("billNo", arr.get(pos).getBillno().toString());
+                        intent.putExtra("requestSearchDay", requestSearchDay);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }
 
+    /**
+     * 매뉴 활성화 (상단 우측 "자료가져오기" 버튼 생성)
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -320,10 +329,8 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.main_request_delivery_btn:
-                Toast.makeText(getApplicationContext(), "자료 가져오기 버튼 클릭", Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(this, DeliveryRequestActivity.class);
                 intent.putExtra("requestSearchDay", requestSearchDay);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -332,66 +339,5 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    public boolean chkPermission() {
-        // 위험 권한을 모두 승인했는지 여부
-        boolean mPermissionsGranted = false;
-        // 승인 받기 위한 권한 목록
-        String[] mRequiredPermissions = new String[]{
-                Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO
-        };
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // 필수 권한을 가지고 있는지 확인한다.
-            mPermissionsGranted = hasPermissions(mRequiredPermissions);
-
-            // 필수 권한 중에 한 개라도 없는 경우
-            if (!mPermissionsGranted) {
-                // 권한을 요청한다.
-                ActivityCompat.requestPermissions(MainActivity.this, mRequiredPermissions, PERMISSIONS_REQUEST_CODE);
-            }
-        } else {
-            mPermissionsGranted = true;
-        }
-
-        return mPermissionsGranted;
-    }
-
-
-    public boolean hasPermissions(String[] permissions) {
-        // 필수 권한을 가지고 있는지 확인한다.
-        for (String permission : permissions) {
-            if (checkCallingOrSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSIONS_REQUEST_CODE) {
-            // 권한을 모두 승인했는지 여부
-            boolean chkFlag = false;
-            // 승인한 권한은 0 값, 승인 안한 권한은 -1을 값으로 가진다.
-            for (int g : grantResults) {
-                if (g == -1) {
-                    chkFlag = true;
-                    break;
-                }
-            }
-
-            // 권한 중 한 개라도 승인 안 한 경우
-            if (chkFlag){
-                chkPermission();
-            }
-        }
-    }
-
-
-
-
 }
 

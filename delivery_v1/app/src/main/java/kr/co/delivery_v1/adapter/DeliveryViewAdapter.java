@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.delivery_v1.R;
+import kr.co.delivery_v1.comm.Label;
 import kr.co.delivery_v1.models.DeliveryModelView;
 
 
@@ -90,7 +91,12 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
          * 배달코스
          */
         sb = new StringBuffer();
-        sb.append(deliveryModelViewList.get(itemposition).getDeliverycourse() + " ");
+        if ( deliveryModelViewList.get(itemposition).getDelivery_state().equals("N")){
+            sb.append(Label.DELIVERY_DELIVERY_STATUS_N);
+        }else{
+            sb.append(Label.DELIVERY_DELIVERY_STATUS_Y);
+        }
+        //sb.append(deliveryModelViewList.get(itemposition).getDeliverycourse() + " ");
         holder.rowItem_4.setText(sb.toString());
 
         Log.e("StudyApp", "onBindViewHolder" + itemposition);

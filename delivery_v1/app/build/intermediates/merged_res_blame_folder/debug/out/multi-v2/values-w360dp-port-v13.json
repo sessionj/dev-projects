@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w360dp-port-v13\\values-w360dp-port-v13.xml",
+            "outputFile": "C:\\dev_\\source\\delivery_v1\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w360dp-port-v13\\values-w360dp-port-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\shadow\\.gradle\\caches\\transforms-3\\e28f006988a95f750d6b8550309c18b4\\transformed\\material-1.7.0-alpha01\\res\\values-w360dp-port-v13\\values-w360dp-port-v13.xml",
+                    "source": "C:\\Users\\j\\.gradle\\caches\\transforms-3\\e28f006988a95f750d6b8550309c18b4\\transformed\\material-1.7.0-alpha01\\res\\values-w360dp-port-v13\\values-w360dp-port-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

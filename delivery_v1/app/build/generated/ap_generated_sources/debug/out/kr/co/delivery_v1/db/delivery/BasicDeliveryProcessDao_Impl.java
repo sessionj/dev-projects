@@ -25,6 +25,8 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
 
   private final SharedSQLiteStatement __preparedStmtOfApplicationData_deleteAll;
 
+  private final SharedSQLiteStatement __preparedStmtOfIsUpdateDelivery;
+
   public BasicDeliveryProcessDao_Impl(RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfDeliveryModelView = new EntityInsertionAdapter<DeliveryModelView>(__db) {
@@ -180,6 +182,13 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
         return _query;
       }
     };
+    this.__preparedStmtOfIsUpdateDelivery = new SharedSQLiteStatement(__db) {
+      @Override
+      public String createQuery() {
+        final String _query = "UPDATE tb_delivery SET delivery_state =? WHERE billno = ? ";
+        return _query;
+      }
+    };
   }
 
   @Override
@@ -205,6 +214,32 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
     } finally {
       __db.endTransaction();
       __preparedStmtOfApplicationData_deleteAll.release(_stmt);
+    }
+  }
+
+  @Override
+  public void isUpdateDelivery(final String billNo, final String deliveryStatus) {
+    __db.assertNotSuspendingTransaction();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfIsUpdateDelivery.acquire();
+    int _argIndex = 1;
+    if (deliveryStatus == null) {
+      _stmt.bindNull(_argIndex);
+    } else {
+      _stmt.bindString(_argIndex, deliveryStatus);
+    }
+    _argIndex = 2;
+    if (billNo == null) {
+      _stmt.bindNull(_argIndex);
+    } else {
+      _stmt.bindString(_argIndex, billNo);
+    }
+    __db.beginTransaction();
+    try {
+      _stmt.executeUpdateDelete();
+      __db.setTransactionSuccessful();
+    } finally {
+      __db.endTransaction();
+      __preparedStmtOfIsUpdateDelivery.release(_stmt);
     }
   }
 
@@ -449,14 +484,20 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
   }
 
   @Override
-  public List<DeliveryModelView> getDayList(final String createDt) {
-    final String _sql = "SELECT * FROM tb_delivery  where creatdate = ? order by creatdate desc";
-    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+  public List<DeliveryModelView> getDayList(final String createDt, final String deliveryCourse) {
+    final String _sql = "SELECT * FROM tb_delivery  WHERE creatdate = ? AND deliverycourse =? ORDER BY deliverycourse DESC";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 2);
     int _argIndex = 1;
     if (createDt == null) {
       _statement.bindNull(_argIndex);
     } else {
       _statement.bindString(_argIndex, createDt);
+    }
+    _argIndex = 2;
+    if (deliveryCourse == null) {
+      _statement.bindNull(_argIndex);
+    } else {
+      _statement.bindString(_argIndex, deliveryCourse);
     }
     __db.assertNotSuspendingTransaction();
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
@@ -696,7 +737,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
 
   @Override
   public DeliveryModelView getDayArticle(final String billNo) {
-    final String _sql = "SELECT * FROM tb_delivery where billno = ?";
+    final String _sql = "SELECT * FROM tb_delivery WHERE  billno = ?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
     if (billNo == null) {
