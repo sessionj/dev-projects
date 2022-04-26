@@ -101,5 +101,5 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="145dp"
-        android:background="@drawable/login"/>
+        android:background="@drawable/login" />
 </RelativeLayout>

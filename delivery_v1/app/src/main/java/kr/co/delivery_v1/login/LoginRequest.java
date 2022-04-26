@@ -19,7 +19,6 @@ public class LoginRequest extends StringRequest {
     public LoginRequest(String phoneNumber, String agencyCode, String deliveryCourse, Response.Listener<String> listener) {
 
         super(Method.POST, URL, listener, null);
-        Log.d("==============>", "여기는 찍히는");
         map = new HashMap<>();
         map.put("param", phoneNumber+"\t"+agencyCode+"\t"+deliveryCourse);
     }

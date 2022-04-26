@@ -20,4 +20,9 @@ public class Label {
     public final static String DELIVERY_DELIVERY_STATUS_N                = "배달중";
     public final static String DELIVERY_DELIVERY_STATUS_Y                = "배달완료";
 
+    public final static String DELIVERY_DELIVERY_EMPTY_QUESTION          = "검색한 날짜에 자료가 없습니다. 자료수신항목으로 이동하시겠습니까?";
+    public final static String DELIVERY_DELIVERY_ACT_MOVETO_REQEUST      = "ACTM_REQUEST";
+    public final static String DELIVERY_DELIVERY_ACT_MOVETO_LOGIN       = "ACTM_LOGIN";
+
+
 }

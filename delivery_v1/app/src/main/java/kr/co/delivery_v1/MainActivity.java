@@ -3,8 +3,10 @@ package kr.co.delivery_v1;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -79,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
     private String viewSearchDay = "";
     private boolean changeDate = false;
     private CheckTypesTask taskAsync;
+    private TextView main_list_empty ;
+
     /**
      * 초기화, 셋팅
      */
@@ -96,13 +101,8 @@ public class MainActivity extends AppCompatActivity {
         datapicker_view = (TextView) findViewById(R.id.date_picker_area);
         roomDb_phoneNumber = DeviceInfoUtil.getRoomSelecter(this, 2);
         deliveryModelView.setDeliverycourse(DeviceInfoUtil.getRoomSelecter(this, 4));
-
+        main_list_empty = (TextView) findViewById(R.id.main_list_empty);
         //deliveryDao.applicationData_deleteAll();
-
-        if ( "".equals(roomDb_phoneNumber) || roomDb_phoneNumber == null){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
     }
 
     /**
@@ -112,11 +112,20 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (!TextUtils.isEmpty(intent.getStringExtra("requestSearchDay") )){
-            requestSearchDay = intent.getStringExtra("requestSearchDay");
-            viewSearchDay =  BasicUtils.getDateControl(intent.getStringExtra("requestSearchDay"), 0, 0, 1) + " (" + BasicUtils.getDayOfweek(requestSearchDay, Label.DELIVERY_STANDARD_DATE_FORMAT)+")" ;
+            /**
+             * 파라미터 셋팅
+             * 날짜가 넘어오면 검색 데이터는 -1
+             * 보여주는 데이터는 넘어온 데이터 그대로
+             */
+            requestSearchDay = BasicUtils.getDateControl(intent.getStringExtra("requestSearchDay"), 0,0,-1) ;
+            viewSearchDay =  intent.getStringExtra("requestSearchDay")  ;
         }else{
+
+            /**
+             * 파라미터가 없을경우
+             */
             requestSearchDay = BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT);
-            viewSearchDay = BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT) + " (" + BasicUtils.getDayOfweek(requestSearchDay, Label.DELIVERY_STANDARD_DATE_FORMAT)+")";
+            viewSearchDay = BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT);
         }
         // 달력 일자 셋팅팅
         datapicker_view.setText(viewSearchDay);
@@ -130,9 +139,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initialization();
         initializationSetIntentValue();
+
+        if ( "".equals(roomDb_phoneNumber) || roomDb_phoneNumber == null){
+            moveActivity("DDL");
+            return ;
+        }
         taskAsync = new CheckTypesTask();
         taskAsync.execute();
 
@@ -268,29 +281,57 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 arr = new ArrayList<DeliveryModelView>();
 
-                if (requestSearchDay != null) {
-                    deliveryModelView.setCreatdate(requestSearchDay.replace("-", ""));
+               /* if (requestSearchDay != null) {
+                    deliveryModelView.setCreatdate(BasicUtils.getDateControl(requestSearchDay,0,0,-1) );
                 } else {
-                    deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT).replace(" ", ""));
-                }
+                    deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT));
+                }*/
+
+                deliveryModelView.setCreatdate(requestSearchDay);
+
+                Log.d("============= 세팅시 일자 : " , deliveryModelView.getCreatdate());
+
                 arr = deliveryDao.getDeliveryList(deliveryModelView);
 
                 /**
-                 * 배달 자료가 없으면 받는 화면으로 이동
-                 * 검색이 이루어진 이후에는 자료가 없어도 이동하지 않는다.
+                 * 오늘 날짜에 해당하는 자료가 없을경우 화면 이동(5일 이전)
+                 * 오늘이 아닌 일자에 검색시에는 대화물음창
                  */
-                if ((arr == null || arr.size() == 0) && !changeDate) {
-                    Log.d("", "====================================================>");
-                    //Intent intent = new Intent(this, DeliveryRequestActivity.class);
-                    //intent.putExtra("requestSearchDay", requestSearchDay);
-                    //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    //startActivity(intent);
+                Log.d("======================>", "" + arr);
+                if ((arr == null || arr.size() == 0) ) {
+
+                    isEmptyList();
+                    // 오늘 날짜면 이동 그렇지 않으면 물어본다
+                    if ( deliveryModelView.getCreatdate() != (BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT))){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this).setIcon(android.R.drawable.ic_btn_speak_now);
+
+                        builder.setTitle("알림");
+                        builder.setMessage( BasicUtils.getDateControl(deliveryModelView.getCreatdate(),0,0,1)  + Label.DELIVERY_DELIVERY_EMPTY_QUESTION);
+                        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                moveActivity(Label.DELIVERY_DELIVERY_ACT_MOVETO_REQEUST);
+                            }
+                        });
+
+                        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }else{
+                        moveActivity(Label.DELIVERY_DELIVERY_ACT_MOVETO_REQEUST);
+                        return;
+                    }
                 }
 
                 recyclerView = findViewById(R.id.recyceler_view);
                 recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                list_count.setText("총 /" + arr.size() + "건 ");
+                list_count.setText("총 (1/"+arr.size()+"건)");
                 deliveryViewAdapter = new DeliveryViewAdapter(arr);
                 recyclerView.setAdapter(deliveryViewAdapter);
                 //dialog.show();
@@ -300,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
                         intent.putExtra("billNo", arr.get(pos).getBillno().toString());
-                        intent.putExtra("requestSearchDay", requestSearchDay);
+                        intent.putExtra("requestSearchDay", BasicUtils.getDateControl(requestSearchDay,0,0,1) );
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
@@ -332,12 +373,46 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.main_request_delivery_btn:
                 Intent intent = new Intent(this, DeliveryRequestActivity.class);
-                intent.putExtra("requestSearchDay", requestSearchDay);
+                intent.putExtra("requestSearchDay", BasicUtils.getDateControl(requestSearchDay,0,0,1));
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * 엑티비티 이동 (순서 체크)
+     * @param route
+     */
+    public void moveActivity(String route){
+
+        Log.d("route : ", route);
+
+        if ( !TextUtils.isEmpty(route)){
+            if ( route.equals(Label.DELIVERY_DELIVERY_ACT_MOVETO_LOGIN)){
+
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return;
+            }else if(route.equals(Label.DELIVERY_DELIVERY_ACT_MOVETO_REQEUST)){
+                Intent intent = new Intent(this, DeliveryRequestActivity.class);
+                intent.putExtra("requestSearchDay", BasicUtils.getDateControl(requestSearchDay,0,0,1)  );
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return;
+            }
+        }
+    }
+
+    /**
+     * 검색시 자료가 없을시에 표기된다.
+     */
+    public void isEmptyList(){
+        // 객체 호출
+        main_list_empty.setVisibility(View.VISIBLE);
+
     }
 }
 

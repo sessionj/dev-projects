@@ -141,12 +141,10 @@ public class DeviceInfoUtil {
                     Log.d("tmpArr room db getPhonenumber : ","" + loginModel.getPhonenumber());
                     Log.d("tmpArr room db getAgencycode : ", "" + loginModel.getAgencycode());
                     Log.d("tmpArr room db getDeliverycourse : ", "" + loginModel.getDeliverycourse());
-                    Log.d("tmpArr room db getId : ", "" + loginModel.getId());
                     switch (type){
-                        case 1 : roomDb_selecter = String.valueOf(loginModel.getId()); break;
-                        case 2 : roomDb_selecter = loginModel.getPhonenumber(); break;
-                        case 3 : roomDb_selecter = loginModel.getAgencycode(); break;
-                        case 4 : roomDb_selecter = loginModel.getDeliverycourse(); break;
+                        case 2 : roomDb_selecter = loginModel.getPhonenumber();     break;
+                        case 3 : roomDb_selecter = loginModel.getAgencycode();      break;
+                        case 4 : roomDb_selecter = loginModel.getDeliverycourse();  break;
                         default:
                             break;
                     }

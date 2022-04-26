@@ -74,17 +74,21 @@
         <activity
             android:name="kr.co.delivery_v1.DeliveryDetailsActivity"
             android:exported="false"
-            android:parentActivityName="kr.co.delivery_v1.MainActivity" /> <!-- 배달 자료를 받아올 엑티비티 return -->
+            android:parentActivityName="kr.co.delivery_v1.MainActivity"
+            android:screenOrientation="portrait" /> <!-- 배달 자료를 받아올 엑티비티 return -->
         <activity
             android:name="kr.co.delivery_v1.DeliveryRequestActivity"
             android:exported="false"
-            android:parentActivityName="kr.co.delivery_v1.MainActivity" />
+            android:parentActivityName="kr.co.delivery_v1.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="kr.co.delivery_v1.RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name="kr.co.delivery_v1.AppStartActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name="kr.co.delivery_v1.login.LoginActivity"
             android:exported="true"

@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 import java.util.List;
 import kr.co.delivery_v1.R;
+import kr.co.delivery_v1.comm.DeviceInfoUtil;
 import kr.co.delivery_v1.db.AppDatabase;
 import kr.co.delivery_v1.db.BasicProcessDao;
 
@@ -34,25 +35,19 @@ public class LoginActivity extends AppCompatActivity {
     private List<LoginModelView> tmpArray ;
     private LoginModelView tmpEntity ;
 
-    /**
-     * 액션바 제거
-     * room DB 연결
-     * room DB 데이터 제거
-     */
-    private void init(){
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-        appDatabase = AppDatabase.getInstance(this);
-        appDatabase.basicProcessDao().applicationData_deleteAll();
-        Log.d("========== ", appDatabase.basicProcessDao().getAll().toString());
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        init();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        appDatabase = AppDatabase.getInstance(this);
+        //appDatabase.basicProcessDao().applicationData_deleteAll();
+        Log.d("========== ", appDatabase.basicProcessDao().getAll().toString());
+
         // 최초에 전화번호 인증 한번
 
         // 아이디 값 찾기
@@ -93,14 +88,13 @@ public class LoginActivity extends AppCompatActivity {
                                 //String userPass = jsonObject.getString("passwd");
                                 // room db에 저장한다.
                                 // 전화번호, 현재 시간, 영업소코드, 배달코스
-                                roomDbRequest(loginModel, response);
+                                roomDbRequest(loginModel);
 
                                 Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(LoginActivity.this, kr.co.delivery_v1.MainActivity.class);
                                 intent.putExtra("loginAuth", success);
-                                //intent.putExtra("passwd", userPass);
-
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
 
                             } else {//로그인 실패시
@@ -116,10 +110,9 @@ public class LoginActivity extends AppCompatActivity {
                     /**
                      * roomdb insert
                      * @param loginEntity
-                     * @param response
+                     * @param
                      */
-                    private void roomDbRequest(LoginModelView loginEntity, String response) {
-
+                    private void roomDbRequest(LoginModelView loginEntity) {
                         appDatabase.basicProcessDao().applicationData_insert(loginEntity);
                     }
                 };
@@ -127,7 +120,6 @@ public class LoginActivity extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue( LoginActivity.this );
                 queue.add( loginRequest );
             }
-
         });
     }
 }

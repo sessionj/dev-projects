@@ -66,6 +66,7 @@ id details_billno
 id details_createdate
 id details_delivery_course
 id details_parts_and_packing
+id details_parts_fare
 id details_success_btn
 id email
 id female
@@ -76,6 +77,7 @@ id list_count
 id list_empty
 id login_button
 id logout
+id main_list_empty
 id main_request_delivery_btn
 id male
 id map_view

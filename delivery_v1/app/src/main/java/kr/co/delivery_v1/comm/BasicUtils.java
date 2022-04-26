@@ -263,4 +263,50 @@ public class BasicUtils {
         }
         return false;
     }
+
+    /**
+     *
+     * @param targetStr
+     * @param maxByte
+     * @param endCut
+     * @return
+     */
+    public static String getStrCut(String targetStr, int maxByte, boolean endCut){
+
+        if ( !TextUtils.isEmpty(targetStr)){
+
+            targetStr = strReverse(targetStr);
+            Log.d("1 strReverse : ", targetStr);
+            int buffer = 0;
+            int idx = 0;
+            while (true){
+                int unicode = targetStr.charAt(idx);
+                Log.d("2 unicode : ",""+ unicode);
+                buffer += unicode > 127 ? 2 : 1;
+                if (buffer > maxByte) break;
+                idx ++;
+            }
+            if (endCut){
+                return strReverse( targetStr.substring(0,idx));
+            }else{
+                return strReverse(targetStr.substring(targetStr.length()-idx));
+            }
+        }
+        return "";
+    }
+
+    private static String strReverse(String targetStr){
+        String reverse = "";
+        for(int i=0; i < targetStr.length(); i++){
+            reverse = targetStr.split("")[i]+reverse;
+        }
+        return reverse;
+    }
+
+    public static String addComma(String str){
+        if ( !TextUtils.isEmpty(str)){
+            return str.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
+        }
+        return "";
+    }
 }

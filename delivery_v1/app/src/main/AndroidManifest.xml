@@ -30,7 +30,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Delivery_v1"
         android:usesCleartextTraffic="true"
-
         >
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -51,17 +50,21 @@
         <activity
             android:name=".DeliveryDetailsActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" /> <!-- 배달 자료를 받아올 엑티비티 return -->
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/> <!-- 배달 자료를 받아올 엑티비티 return -->
         <activity
             android:name=".DeliveryRequestActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AppStartActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".login.LoginActivity"
             android:exported="true"

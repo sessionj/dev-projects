@@ -120,7 +120,6 @@ public class MainActivity_20220418 extends AppCompatActivity {
                 Log.d("tmpArr room db getPhonenumber : ","" + loginModel.getPhonenumber());
                 Log.d("tmpArr room db getAgencycode : ", "" + loginModel.getAgencycode());
                 Log.d("tmpArr room db getDeliverycourse : ", "" + loginModel.getDeliverycourse());
-                Log.d("tmpArr room db getId : ", "" + loginModel.getId());
             }
         }
     }

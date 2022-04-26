@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.delivery_v1.R;
+import kr.co.delivery_v1.comm.BasicUtils;
 import kr.co.delivery_v1.comm.Label;
 import kr.co.delivery_v1.models.DeliveryModelView;
 
@@ -59,12 +60,17 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
 
         int itemposition = position;
 
-        /**
+        /**`
          *  row1 : 주소
          */
         sb = new StringBuffer();
+        /*if (deliveryModelViewList.get(itemposition).getAdress().replaceAll("(\r\n|\r|\n|\n\r)", " ").getBytes().length >= 30 ){
+            Log.d("byte : ", deliveryModelViewList.get(itemposition).getAdress());
+            sb.append(BasicUtils.getStrCut(deliveryModelViewList.get(itemposition).getAdress().replaceAll("(\r\n|\r|\n|\n\r)", " "), 30, false));
+        }else{
+            sb.append(deliveryModelViewList.get(itemposition).getAdress().replaceAll("(\r\n|\r|\n|\n\r)", " ") + " ");
+        }*/
         sb.append(deliveryModelViewList.get(itemposition).getAdress().replaceAll("(\r\n|\r|\n|\n\r)", " ") + " ");
-
         holder.rowItem_1.setText(sb.toString());
 
         /**

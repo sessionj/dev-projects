@@ -96,6 +96,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
     private String etc_btn_check = "";
     private int successCnt = 0;
     private String requestSearchDay = "";
+    private String viewRequestSearchDay = "";
 
     //private RecyclerView recyclerView;
     private DeliverySummaryViewAdapter deliverySummaryViewAdapter;
@@ -124,8 +125,6 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         //delivery_check = (CheckBox) findViewById(R.id.checkbox_delivery_check);
         deliveryavt_agencycode.setText(agencyCode);
         deliveryavt_delivery_cource.setText(deliveryCourse);
-        deliveryavt_date_picker_area.setText(BasicUtils.getDays("yyyy-MM-dd") + " ("+BasicUtils.getDayOfweek(BasicUtils.getDays("yyyy-MM-dd"), "yyyy-MM-dd")+")");
-
 
         request_btn = (Button) findViewById(R.id.request_btn);              // 클릭된 자료 가져오기
         request_all_pull_area = (LinearLayout) findViewById(R.id.request_all_pull_area);
@@ -138,9 +137,9 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
 
         deliveryModelView.setArrivalagencycode(agencyCode);
         deliveryModelView.setDeliverycourse(deliveryCourse);
-        deliveryModelView.setCreatdate(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT));
-
+        //deliveryModelView.setCreatdate(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT));
         deliveryCourseParam = new StringBuffer();
+
 
     }
 
@@ -148,31 +147,22 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
      * getParam (Intent)
      */
     private void getIntentValue(){
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         requestSearchDay = intent.getStringExtra("requestSearchDay") == null ? "" : intent.getStringExtra("requestSearchDay");
-        Toast.makeText(getApplicationContext(), "금일 자료가 없기에 화면 이동", Toast.LENGTH_SHORT).show();
-    }
+        Toast.makeText(getApplicationContext(), "금일 자료가 없기에 화면 이동됨", Toast.LENGTH_SHORT).show();
+        Log.d("==========> request : ", requestSearchDay);*/
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
+        Intent intent = getIntent();
+        requestSearchDay = intent.getStringExtra("requestSearchDay") == null ? BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT) : intent.getStringExtra("requestSearchDay");
+        viewRequestSearchDay = requestSearchDay + "("+BasicUtils.getDayOfweek(requestSearchDay, Label.DELIVERY_STANDARD_DATE_FORMAT)+")";
 
-                String[] tmpStr = deliveryavt_date_picker_area.getText().toString().split(" ");
-                requestSearchDay = tmpStr[0].toString();
-
-                Intent intent = new Intent(DeliveryRequestActivity.this, MainActivity.class);
-                intent.putExtra("requestSearchDay", requestSearchDay);
-                Log.d("보낸다 main 으로 ", requestSearchDay);
-                intent.putExtra("returnRequest", true);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                finish();
-                startActivity(intent);
-                return true;
-            default:
-                break;
+        if ( !TextUtils.isEmpty(requestSearchDay)){
+            deliveryavt_date_picker_area.setText(viewRequestSearchDay);
+        }else{
+            deliveryavt_date_picker_area.setText(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT) + "("+BasicUtils.getDayOfweek( BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT), Label.DELIVERY_STANDARD_DATE_FORMAT  )+")");
         }
-        return super.onOptionsItemSelected(item);
+
+        deliveryModelView.setCreatdate(requestSearchDay);
     }
 
     @Override
@@ -324,6 +314,27 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+
+                String[] tmpStr = deliveryavt_date_picker_area.getText().toString().split(" ");
+                requestSearchDay = tmpStr[0].toString();
+
+                Intent intent = new Intent(DeliveryRequestActivity.this, MainActivity.class);
+                intent.putExtra("requestSearchDay", requestSearchDay);
+                Log.d("보낸다 main 으로 ", requestSearchDay);
+                intent.putExtra("returnRequest", true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                startActivity(intent);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     /**
      *
      */
@@ -362,38 +373,39 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
                     successCnt = 0;
+                    DeliveryModelView deliveryModelViewResult = null;
                     for ( int i=0; i < resultarray.length(); i++){
                         JSONObject Object = resultarray.getJSONObject(i);
-                        deliveryModelView = new DeliveryModelView();
-                        deliveryModelView.setBillno(Object.getString("billno"));
-                        deliveryModelView.setInput_date(Object.getString("input_date"));
-                        deliveryModelView.setInput_time(Object.getString("input_time"));
-                        deliveryModelView.setTranscode(Object.getString("transcode"));
-                        deliveryModelView.setSendingagencycode(Object.getString("sendingagencycode"));
-                        deliveryModelView.setArrivalagencycode(Object.getString("arrivalagencycode"));
-                        deliveryModelView.setSendingmantel(Object.getString("sendingmantel"));
-                        deliveryModelView.setSendingman(Object.getString("sendingman"));
-                        deliveryModelView.setArrivalmantel(Object.getString("arrivalmantel"));
-                        deliveryModelView.setArrivalman(Object.getString("arrivalman"));
-                        deliveryModelView.setZipcode(Object.getString("zipcode"));
-                        deliveryModelView.setAdress(Object.getString("adress"));
-                        deliveryModelView.setPrefare(Object.getString("prefare"));
-                        deliveryModelView.setFare(Object.getString("fare"));
-                        deliveryModelView.setDeliveryfare(Object.getString("deliveryfare"));
-                        deliveryModelView.setOgideliveryfare(Object.getString("ogideliveryfare"));
-                        deliveryModelView.setDistance(Object.getString("distance"));
-                        deliveryModelView.setPayway(Object.getString("payway"));
-                        deliveryModelView.setGoods(Object.getString("goods"));
-                        deliveryModelView.setPojang(Object.getString("pojang"));
-                        deliveryModelView.setQty(Object.getInt("qty"));
-                        deliveryModelView.setWeight(Object.getString("weight"));
-                        deliveryModelView.setMemo(Object.getString("memo"));
-                        deliveryModelView.setBillstate(Object.getString("billstate"));
+                        deliveryModelViewResult = new DeliveryModelView();
+                        deliveryModelViewResult.setBillno(Object.getString("billno"));
+                        deliveryModelViewResult.setInput_date(Object.getString("input_date"));
+                        deliveryModelViewResult.setInput_time(Object.getString("input_time"));
+                        deliveryModelViewResult.setTranscode(Object.getString("transcode"));
+                        deliveryModelViewResult.setSendingagencycode(Object.getString("sendingagencycode"));
+                        deliveryModelViewResult.setArrivalagencycode(Object.getString("arrivalagencycode"));
+                        deliveryModelViewResult.setSendingmantel(Object.getString("sendingmantel"));
+                        deliveryModelViewResult.setSendingman(Object.getString("sendingman"));
+                        deliveryModelViewResult.setArrivalmantel(Object.getString("arrivalmantel"));
+                        deliveryModelViewResult.setArrivalman(Object.getString("arrivalman"));
+                        deliveryModelViewResult.setZipcode(Object.getString("zipcode"));
+                        deliveryModelViewResult.setAdress(Object.getString("adress"));
+                        deliveryModelViewResult.setPrefare(Object.getString("prefare"));
+                        deliveryModelViewResult.setFare(Object.getString("fare"));
+                        deliveryModelViewResult.setDeliveryfare(Object.getString("deliveryfare"));
+                        deliveryModelViewResult.setOgideliveryfare(Object.getString("ogideliveryfare"));
+                        deliveryModelViewResult.setDistance(Object.getString("distance"));
+                        deliveryModelViewResult.setPayway(Object.getString("payway"));
+                        deliveryModelViewResult.setGoods(Object.getString("goods"));
+                        deliveryModelViewResult.setPojang(Object.getString("pojang"));
+                        deliveryModelViewResult.setQty(Object.getInt("qty"));
+                        deliveryModelViewResult.setWeight(Object.getString("weight"));
+                        deliveryModelViewResult.setMemo(Object.getString("memo"));
+                        deliveryModelViewResult.setBillstate(Object.getString("billstate"));
                         // deliveryCourse 는 받는 순간 100번으로 변경
                         //deliveryModelView.setDeliverycourse(Object.getString("deliverycourse"));
-                        deliveryModelView.setDeliverycourse(deliveryCourse);
+                        deliveryModelViewResult.setDeliverycourse(deliveryCourse);
                         deliveryModelView.setCreatdate(Object.getString("creatdate"));
-                        appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelView);
+                        appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelViewResult);
                         successCnt ++;
                     }
                 } catch(JSONException e){
@@ -421,7 +433,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         // 메세지, 다시시도 화면 숨기기
         reqeust_false_txt.setVisibility(View.GONE);
         reqeust_false_replay.setVisibility(View.GONE);
-        setRequestStatus();
+        //setRequestStatus();
 
         CheckTypesTask tasking = new CheckTypesTask();
         tasking.execute();
@@ -461,8 +473,6 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
 
                             try {
                                 if ( response != null && response.length() > 0){
-
-                                    Log.d("왜 안찍힘", "허허허");
 
                                     JSONObject jsonObject = new JSONObject(response);
                                     JSONArray resultarray = jsonObject.getJSONArray("rows");//배열의 이름
@@ -505,14 +515,14 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                                     reqeust_false_txt.setVisibility(View.VISIBLE);
                                     reqeust_false_replay.setVisibility(View.VISIBLE);
 
-                                    request_all_pull_area.setVisibility(View.GONE);
-                                    request_btn.setVisibility(View.GONE);
+                                    //request_all_pull_area.setVisibility(View.GONE);
+                                    //request_btn.setVisibility(View.GONE);
                                 }else{
                                     reqeust_false_txt.setVisibility(View.GONE);
                                     reqeust_false_replay.setVisibility(View.GONE);
 
-                                    request_all_pull_area.setVisibility(View.VISIBLE);
-                                    request_btn.setVisibility(View.VISIBLE);
+                                    //request_all_pull_area.setVisibility(View.VISIBLE);
+                                    //request_btn.setVisibility(View.VISIBLE);
 
                                 }
                                 layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
@@ -558,11 +568,20 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                         }
                     }
                 };
-
+                /**
+                 * param setting
+                 */
                 deliveryListViewItem = new DeliveryListViewItem();
-                deliveryListViewItem.setArrivalagencycode(deliveryModelView.getArrivalagencycode() == null ? "" :deliveryModelView.getArrivalagencycode());
-                deliveryListViewItem.setDeliverycourse(deliveryModelView.getDeliverycourse() == null ? "" :deliveryModelView.getDeliverycourse());
+                deliveryListViewItem.setArrivalagencycode(agencyCode == null ? "" : agencyCode);
+                deliveryListViewItem.setDeliverycourse(deliveryCourse == null ? "" : deliveryCourse);
                 deliveryListViewItem.setCreatdate(deliveryModelView.getCreatdate() == null ? "" :deliveryModelView.getCreatdate());
+
+                Log.d("===> ", ""+ TextUtils.isEmpty(deliveryListViewItem.getArrivalagencycode()));
+                Log.d("===> ", ""+  TextUtils.isEmpty(deliveryListViewItem.getDelivery_course()));
+                Log.d("===> ", ""+  TextUtils.isEmpty(requestSearchDay));
+                if ( TextUtils.isEmpty(deliveryListViewItem.getArrivalagencycode()) || TextUtils.isEmpty(deliveryListViewItem.getDelivery_course()) || TextUtils.isEmpty(deliveryListViewItem.getCreatdate())){
+                    //return;
+                }
 
                 DeliveryRequestSummary deliveryRequestSummary = new DeliveryRequestSummary(deliveryListViewItem, responseViewListener); // <-- 파라미터 체크(deliveryCourseParam)
                 RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
@@ -612,6 +631,9 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         }
     }
 
+    /**
+     *
+     */
     private class getListTypesTask extends AsyncTask<Void, Void, Void> {
 
         ProgressDialog asyncDialog = new ProgressDialog(DeliveryRequestActivity.this);
@@ -648,6 +670,9 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         }
     }
 
+    /**
+     *
+     */
     public class CheckableLinerLayout extends LinearLayout implements Checkable{
 
         public CheckableLinerLayout(Context context, @Nullable AttributeSet attrs) {
@@ -683,8 +708,6 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
             // CheckBox 가 아닌 View의 상태 변경.
         }
     }
-
-
 
     private void roomDbCheck(){
         DeliveryDao deliveryDao = new DeliveryDao(getApplicationContext());

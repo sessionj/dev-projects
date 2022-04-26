@@ -72,7 +72,8 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     /**
      * 화면 셋팅
      */
-    private TextView details_billno, details_createdate, details_address, details_parts_and_packing, details_delivery_course, details_delivery_status, details_arrival_name, details_arrivalman_tel1, details_arrivalman_tel2;
+    private TextView details_billno, details_createdate, details_address, details_parts_and_packing, details_delivery_course,
+            details_delivery_status, details_arrival_name, details_arrivalman_tel1, details_arrivalman_tel2, details_parts_fare;
 
     Button btn_photo;
     ImageView iv_photo;
@@ -91,32 +92,7 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     private ViewGroup mapViewContainer;
     private String requestSearchDay ="";
 // 이벤트 처리
-    @Override
-    public boolean onSupportNavigateUp()
-    {
-        Log.d("클릭", "클릭됨 ========================================= ");
-        Intent intent = new Intent(DeliveryDetailsActivity.this, MainActivity.class);
 
-        intent.putExtra("requestSearchDay", requestSearchDay);
-        startActivity(intent);
-        return super.onSupportNavigateUp();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                Intent intent = new Intent(DeliveryDetailsActivity.this, MainActivity.class);
-                intent.putExtra("requestSearchDay", requestSearchDay);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                finish();
-                startActivity(intent);
-                return true;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     /**
      * getParam (Intent)
@@ -125,7 +101,7 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         requestSearchDay = intent.getStringExtra("requestSearchDay") == null ? "" : intent.getStringExtra("requestSearchDay");
-
+        Log.d("==========> detail : ", requestSearchDay);
     }
 
     @Override
@@ -154,6 +130,8 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
         details_arrivalman_tel1 = (TextView) findViewById(R.id.details_arrivalman_tel1);
         details_arrivalman_tel2 = (TextView) findViewById(R.id.details_arrivalman_tel2);
         details_parts_and_packing = (TextView) findViewById(R.id.details_parts_and_packing);
+        details_parts_fare = (TextView) findViewById(R.id.details_parts_fare);
+
 
         deliveryDao = new DeliveryDao(this);
         deliveryModelView = new DeliveryModelView();
@@ -176,6 +154,7 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
         details_address.setText(resultView.getAdress().toString());
         details_arrival_name.setText(resultView.getArrivalman().toString());
         details_parts_and_packing.setText(resultView.getGoods().toString() + "(" + resultView.getPojang().toString() + ") | " + resultView.getQty() + "ea");
+        details_parts_fare.setText("￦ "+BasicUtils.addComma(resultView.getDeliveryfare()));
 
         /**
          * 화면 셋팅 ------------------------------- //
@@ -284,6 +263,33 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
                 }
             }
         });*/
+    }
+
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        Log.d("클릭", "클릭됨 ========================================= ");
+        Intent intent = new Intent(DeliveryDetailsActivity.this, MainActivity.class);
+
+        intent.putExtra("requestSearchDay", requestSearchDay);
+        startActivity(intent);
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(DeliveryDetailsActivity.this, MainActivity.class);
+                intent.putExtra("requestSearchDay", requestSearchDay);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                startActivity(intent);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
