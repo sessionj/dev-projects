@@ -47,5 +47,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
 
-    //implementation 'io.github.ParkSangGwon:tedpermission:2.3.0'
+    // 테드퍼미션
+
+
 }

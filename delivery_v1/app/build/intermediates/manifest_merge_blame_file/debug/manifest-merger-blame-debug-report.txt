@@ -45,211 +45,198 @@
 22-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:17:5-79
 22-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:17:22-77
 23
-24    <uses-feature
-24-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:18:5-83
-25        android:name="android.hardware.camera"
-25-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:18:19-57
-26        android:required="true" />
-26-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:18:58-81
+24    <!-- Include required permissions for Google Maps API to run. -->
+25    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+25-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:23:5-79
+25-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:23:22-76
+26
 27    <uses-feature
-27-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:18:5-83
-28        android:name="android.hardware.camera"
-28-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:18:19-57
+27-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:26:5-28:35
+28        android:glEsVersion="0x00020000"
+28-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:27:9-41
 29        android:required="true" />
-29-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:18:58-81
+29-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:28:9-32
 30
-31    <!-- Include required permissions for Google Maps API to run. -->
-32    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-32-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:23:5-79
-32-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:23:22-76
-33
-34    <uses-feature
-34-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:26:5-28:35
-35        android:glEsVersion="0x00020000"
-35-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:27:9-41
-36        android:required="true" />
-36-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:28:9-32
-37
-38    <queries>
-38-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:30:5-34:15
-39
-40        <!-- Needs to be explicitly declared on Android R+ -->
-41        <package android:name="com.google.android.apps.maps" />
-41-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:33:9-64
-41-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:33:18-61
-42    </queries>
-43
-44    <application
-44-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:24:5-82:19
-45        android:allowBackup="true"
-45-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:25:9-35
-46        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-46-->[androidx.core:core:1.7.0] C:\Users\shadow\.gradle\caches\transforms-3\b9e4376e452ce4f1a2bbb1fc4b534124\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
-47        android:debuggable="true"
-48        android:extractNativeLibs="false"
-49        android:icon="@mipmap/ic_launcher"
-49-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:26:9-43
-50        android:label="@string/app_name"
-50-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:27:9-41
-51        android:networkSecurityConfig="@xml/network_security_config"
-51-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:28:9-69
-52        android:roundIcon="@mipmap/ic_launcher_round"
-52-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:29:9-54
-53        android:supportsRtl="true"
-53-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:30:9-35
-54        android:testOnly="true"
-55        android:theme="@style/Theme.Delivery_v1"
-55-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:31:9-49
-56        android:usesCleartextTraffic="true" >
-56-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:32:9-44
-57        <provider
-57-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:34:9-42:20
-58            android:name="androidx.core.content.FileProvider"
-58-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:35:13-62
-59            android:authorities="kr.co.delivery_v1"
-59-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:36:13-52
-60            android:exported="false"
-60-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:37:13-37
-61            android:grantUriPermissions="true" >
-61-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:38:13-47
-62            <meta-data
-62-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:39:13-41:54
-63                android:name="android.support.FILE_PROVIDER_PATHS"
-63-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:40:17-67
-64                android:resource="@xml/file_paths" />
-64-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:41:17-51
-65        </provider>
-66
+31    <queries>
+31-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:30:5-34:15
+32
+33        <!-- Needs to be explicitly declared on Android R+ -->
+34        <package android:name="com.google.android.apps.maps" />
+34-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:33:9-64
+34-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:33:18-61
+35    </queries>
+36
+37    <application
+37-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:20:5-78:19
+38        android:allowBackup="true"
+38-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:21:9-35
+39        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+39-->[androidx.core:core:1.7.0] C:\Users\shadow\.gradle\caches\transforms-3\b9e4376e452ce4f1a2bbb1fc4b534124\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
+40        android:debuggable="true"
+41        android:extractNativeLibs="false"
+42        android:icon="@mipmap/ic_launcher"
+42-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:22:9-43
+43        android:label="@string/app_name"
+43-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:23:9-41
+44        android:networkSecurityConfig="@xml/network_security_config"
+44-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:24:9-69
+45        android:roundIcon="@mipmap/ic_launcher_round"
+45-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:25:9-54
+46        android:supportsRtl="true"
+46-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:26:9-35
+47        android:testOnly="true"
+48        android:theme="@style/Theme.Delivery_v1"
+48-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:27:9-49
+49        android:usesCleartextTraffic="true" >
+49-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:28:9-44
+50        <provider
+50-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:30:9-38:20
+51            android:name="androidx.core.content.FileProvider"
+51-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:31:13-62
+52            android:authorities="kr.co.delivery_v1"
+52-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:32:13-52
+53            android:exported="false"
+53-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:33:13-37
+54            android:grantUriPermissions="true" >
+54-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:34:13-47
+55            <meta-data
+55-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:35:13-37:54
+56                android:name="android.support.FILE_PROVIDER_PATHS"
+56-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:36:17-67
+57                android:resource="@xml/file_paths" />
+57-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:37:17-51
+58        </provider>
+59
+60        <activity
+60-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:40:9-42:40
+61            android:name="kr.co.delivery_v1.PhotoActivity"
+61-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:41:13-42
+62            android:exported="false" />
+62-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:42:13-37
+63
+64        <meta-data
+64-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:43:9-45:53
+65            android:name="com.kakao.sdk.AppKey"
+65-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:44:13-48
+66            android:value="@string/kakao_app_key" /> <!-- 배달 자료를 받아올 엑티비티 return -->
+66-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:45:13-50
 67        <activity
-67-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:44:9-46:40
-68            android:name="kr.co.delivery_v1.PhotoActivity"
-68-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:45:13-42
-69            android:exported="false" />
-69-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:46:13-37
-70
-71        <meta-data
-71-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:47:9-49:53
-72            android:name="com.kakao.sdk.AppKey"
-72-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:48:13-48
-73            android:value="@string/kakao_app_key" /> <!-- 배달 자료를 받아올 엑티비티 return -->
-73-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:49:13-50
-74        <activity
-74-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:50:9-54:51
-75            android:name="kr.co.delivery_v1.DeliveryDetailsActivity"
-75-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:51:13-52
-76            android:exported="false"
-76-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:52:13-37
-77            android:parentActivityName="kr.co.delivery_v1.MainActivity"
-77-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:53:13-55
-78            android:screenOrientation="portrait" /> <!-- 배달 자료를 받아올 엑티비티 return -->
-78-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:54:13-49
-79        <activity
-79-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:55:9-59:51
-80            android:name="kr.co.delivery_v1.DeliveryRequestActivity"
-80-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:56:13-52
-81            android:exported="false"
-81-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:57:13-37
-82            android:parentActivityName="kr.co.delivery_v1.MainActivity"
-82-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:58:13-55
-83            android:screenOrientation="portrait" />
-83-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:59:13-49
-84        <activity
-84-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:60:9-63:51
-85            android:name="kr.co.delivery_v1.RegisterActivity"
-85-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:61:13-45
-86            android:exported="false"
-86-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:62:13-37
-87            android:screenOrientation="portrait" />
-87-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:63:13-49
-88        <activity
-88-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:64:9-67:51
-89            android:name="kr.co.delivery_v1.AppStartActivity"
-89-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:65:13-45
-90            android:exported="false"
-90-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:66:13-37
-91            android:screenOrientation="portrait" />
-91-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:67:13-49
-92        <activity
-92-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:68:9-71:52
-93            android:name="kr.co.delivery_v1.login.LoginActivity"
-93-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:69:13-48
-94            android:exported="true"
-94-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:70:13-36
-95            android:screenOrientation="portrait" />
-95-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:71:13-49
-96        <activity
-96-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:72:9-81:20
-97            android:name="kr.co.delivery_v1.MainActivity"
-97-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:73:13-41
-98            android:exported="true"
-98-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:74:13-36
-99            android:screenOrientation="portrait" >
-99-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:75:13-49
-100            <intent-filter>
-100-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:76:13-80:29
-101                <action android:name="android.intent.action.MAIN" />
-101-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:77:17-69
-101-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:77:25-66
-102
-103                <category android:name="android.intent.category.LAUNCHER" />
-103-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:79:17-77
-103-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:79:27-74
-104            </intent-filter>
-105        </activity>
-106        <!-- Needs to be explicitly declared on P+ -->
-107        <uses-library
-107-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:39:9-41:40
-108            android:name="org.apache.http.legacy"
-108-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:40:13-50
-109            android:required="false" />
-109-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:41:13-37
-110
-111        <service
-111-->[androidx.room:room-runtime:2.4.2] C:\Users\shadow\.gradle\caches\transforms-3\529ed1f508e44b840e653cb9efe5e89f\transformed\room-runtime-2.4.2\AndroidManifest.xml:25:9-28:40
-112            android:name="androidx.room.MultiInstanceInvalidationService"
-112-->[androidx.room:room-runtime:2.4.2] C:\Users\shadow\.gradle\caches\transforms-3\529ed1f508e44b840e653cb9efe5e89f\transformed\room-runtime-2.4.2\AndroidManifest.xml:26:13-74
-113            android:directBootAware="true"
-113-->[androidx.room:room-runtime:2.4.2] C:\Users\shadow\.gradle\caches\transforms-3\529ed1f508e44b840e653cb9efe5e89f\transformed\room-runtime-2.4.2\AndroidManifest.xml:27:13-43
-114            android:exported="false" />
-114-->[androidx.room:room-runtime:2.4.2] C:\Users\shadow\.gradle\caches\transforms-3\529ed1f508e44b840e653cb9efe5e89f\transformed\room-runtime-2.4.2\AndroidManifest.xml:28:13-37
-115
-116        <activity
-116-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\shadow\.gradle\caches\transforms-3\ffe70ef51fdfc11e12725c673ccb85be\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
-117            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-117-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\shadow\.gradle\caches\transforms-3\ffe70ef51fdfc11e12725c673ccb85be\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:19-85
-118            android:exported="false"
-118-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\shadow\.gradle\caches\transforms-3\ffe70ef51fdfc11e12725c673ccb85be\transformed\play-services-base-18.0.1\AndroidManifest.xml:22:19-43
-119            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-119-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\shadow\.gradle\caches\transforms-3\ffe70ef51fdfc11e12725c673ccb85be\transformed\play-services-base-18.0.1\AndroidManifest.xml:21:19-78
-120
-121        <meta-data
-121-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\shadow\.gradle\caches\transforms-3\26d9a639564b428ed238f08f71cfefe7\transformed\play-services-basement-18.0.0\AndroidManifest.xml:21:9-23:69
-122            android:name="com.google.android.gms.version"
-122-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\shadow\.gradle\caches\transforms-3\26d9a639564b428ed238f08f71cfefe7\transformed\play-services-basement-18.0.0\AndroidManifest.xml:22:13-58
-123            android:value="@integer/google_play_services_version" />
-123-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\shadow\.gradle\caches\transforms-3\26d9a639564b428ed238f08f71cfefe7\transformed\play-services-basement-18.0.0\AndroidManifest.xml:23:13-66
-124
-125        <provider
-125-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
-126            android:name="androidx.startup.InitializationProvider"
-126-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:27:13-67
-127            android:authorities="kr.co.delivery_v1.androidx-startup"
-127-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:28:13-68
-128            android:exported="false" >
-128-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:29:13-37
-129            <meta-data
-129-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
-130                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-130-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:32:17-75
-131                android:value="androidx.startup" />
-131-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:33:17-49
-132            <meta-data
-132-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\shadow\.gradle\caches\transforms-3\bdba8a1b7f77d959878d5a52670cf96f\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
-133                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-133-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\shadow\.gradle\caches\transforms-3\bdba8a1b7f77d959878d5a52670cf96f\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
-134                android:value="androidx.startup" />
-134-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\shadow\.gradle\caches\transforms-3\bdba8a1b7f77d959878d5a52670cf96f\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
-135        </provider>
-136    </application>
-137
-138</manifest>
+67-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:46:9-50:51
+68            android:name="kr.co.delivery_v1.DeliveryDetailsActivity"
+68-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:47:13-52
+69            android:exported="false"
+69-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:48:13-37
+70            android:parentActivityName="kr.co.delivery_v1.MainActivity"
+70-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:49:13-55
+71            android:screenOrientation="portrait" /> <!-- 배달 자료를 받아올 엑티비티 return -->
+71-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:50:13-49
+72        <activity
+72-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:51:9-55:51
+73            android:name="kr.co.delivery_v1.DeliveryRequestActivity"
+73-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:52:13-52
+74            android:exported="false"
+74-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:53:13-37
+75            android:parentActivityName="kr.co.delivery_v1.MainActivity"
+75-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:54:13-55
+76            android:screenOrientation="portrait" />
+76-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:55:13-49
+77        <activity
+77-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:56:9-59:51
+78            android:name="kr.co.delivery_v1.RegisterActivity"
+78-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:57:13-45
+79            android:exported="false"
+79-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:58:13-37
+80            android:screenOrientation="portrait" />
+80-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:59:13-49
+81        <activity
+81-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:60:9-63:51
+82            android:name="kr.co.delivery_v1.AppStartActivity"
+82-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:61:13-45
+83            android:exported="false"
+83-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:62:13-37
+84            android:screenOrientation="portrait" />
+84-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:63:13-49
+85        <activity
+85-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:64:9-67:52
+86            android:name="kr.co.delivery_v1.login.LoginActivity"
+86-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:65:13-48
+87            android:exported="true"
+87-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:66:13-36
+88            android:screenOrientation="portrait" />
+88-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:67:13-49
+89        <activity
+89-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:68:9-77:20
+90            android:name="kr.co.delivery_v1.MainActivity"
+90-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:69:13-41
+91            android:exported="true"
+91-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:70:13-36
+92            android:screenOrientation="portrait" >
+92-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:71:13-49
+93            <intent-filter>
+93-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:72:13-76:29
+94                <action android:name="android.intent.action.MAIN" />
+94-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:73:17-69
+94-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:73:25-66
+95
+96                <category android:name="android.intent.category.LAUNCHER" />
+96-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:75:17-77
+96-->X:\export\daesin_mobile\dev-projects\delivery_v1\app\src\main\AndroidManifest.xml:75:27-74
+97            </intent-filter>
+98        </activity>
+99        <!-- Needs to be explicitly declared on P+ -->
+100        <uses-library
+100-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:39:9-41:40
+101            android:name="org.apache.http.legacy"
+101-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:40:13-50
+102            android:required="false" />
+102-->[com.google.android.gms:play-services-maps:18.0.2] C:\Users\shadow\.gradle\caches\transforms-3\76fdcf0f73e3d547c71b316357038b79\transformed\play-services-maps-18.0.2\AndroidManifest.xml:41:13-37
+103
+104        <service
+104-->[androidx.room:room-runtime:2.4.2] C:\Users\shadow\.gradle\caches\transforms-3\529ed1f508e44b840e653cb9efe5e89f\transformed\room-runtime-2.4.2\AndroidManifest.xml:25:9-28:40
+105            android:name="androidx.room.MultiInstanceInvalidationService"
+105-->[androidx.room:room-runtime:2.4.2] C:\Users\shadow\.gradle\caches\transforms-3\529ed1f508e44b840e653cb9efe5e89f\transformed\room-runtime-2.4.2\AndroidManifest.xml:26:13-74
+106            android:directBootAware="true"
+106-->[androidx.room:room-runtime:2.4.2] C:\Users\shadow\.gradle\caches\transforms-3\529ed1f508e44b840e653cb9efe5e89f\transformed\room-runtime-2.4.2\AndroidManifest.xml:27:13-43
+107            android:exported="false" />
+107-->[androidx.room:room-runtime:2.4.2] C:\Users\shadow\.gradle\caches\transforms-3\529ed1f508e44b840e653cb9efe5e89f\transformed\room-runtime-2.4.2\AndroidManifest.xml:28:13-37
+108
+109        <activity
+109-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\shadow\.gradle\caches\transforms-3\ffe70ef51fdfc11e12725c673ccb85be\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+110            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+110-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\shadow\.gradle\caches\transforms-3\ffe70ef51fdfc11e12725c673ccb85be\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+111            android:exported="false"
+111-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\shadow\.gradle\caches\transforms-3\ffe70ef51fdfc11e12725c673ccb85be\transformed\play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+112            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+112-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\shadow\.gradle\caches\transforms-3\ffe70ef51fdfc11e12725c673ccb85be\transformed\play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+113
+114        <meta-data
+114-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\shadow\.gradle\caches\transforms-3\26d9a639564b428ed238f08f71cfefe7\transformed\play-services-basement-18.0.0\AndroidManifest.xml:21:9-23:69
+115            android:name="com.google.android.gms.version"
+115-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\shadow\.gradle\caches\transforms-3\26d9a639564b428ed238f08f71cfefe7\transformed\play-services-basement-18.0.0\AndroidManifest.xml:22:13-58
+116            android:value="@integer/google_play_services_version" />
+116-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\shadow\.gradle\caches\transforms-3\26d9a639564b428ed238f08f71cfefe7\transformed\play-services-basement-18.0.0\AndroidManifest.xml:23:13-66
+117
+118        <provider
+118-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
+119            android:name="androidx.startup.InitializationProvider"
+119-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:27:13-67
+120            android:authorities="kr.co.delivery_v1.androidx-startup"
+120-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:28:13-68
+121            android:exported="false" >
+121-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:29:13-37
+122            <meta-data
+122-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
+123                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+123-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:32:17-75
+124                android:value="androidx.startup" />
+124-->[androidx.emoji2:emoji2:1.0.0] C:\Users\shadow\.gradle\caches\transforms-3\2c96a293c0a835e94af1ddc4d74ff22d\transformed\emoji2-1.0.0\AndroidManifest.xml:33:17-49
+125            <meta-data
+125-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\shadow\.gradle\caches\transforms-3\bdba8a1b7f77d959878d5a52670cf96f\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
+126                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+126-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\shadow\.gradle\caches\transforms-3\bdba8a1b7f77d959878d5a52670cf96f\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
+127                android:value="androidx.startup" />
+127-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\shadow\.gradle\caches\transforms-3\bdba8a1b7f77d959878d5a52670cf96f\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
+128        </provider>
+129    </application>
+130
+131</manifest>
