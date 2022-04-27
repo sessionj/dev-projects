@@ -49,5 +49,5 @@ dependencies {
 
     // 테드퍼미션--> 이걸 사용하려니 에러가
     // implementation 'io.github.ParkSangGwon:tedpermission:2.3.0'
-
+    implementation "com.google.code.gson:gson:2.8.7"
 }

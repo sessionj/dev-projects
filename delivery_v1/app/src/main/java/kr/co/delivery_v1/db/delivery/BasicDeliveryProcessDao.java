@@ -15,57 +15,36 @@ import kr.co.delivery_v1.models.DeliveryModelView;
 @Dao
 public interface BasicDeliveryProcessDao {
 
-    /**
-     * db insert
-     * 전화번호, 영업소코드, 배달코스
-     * @param deliveryModelView
-     */
+    // 배달 정보 저장
     @Insert(onConflict = REPLACE)
     void applicationData_insert( DeliveryModelView deliveryModelView);
 
-    /**
-     * db select
-     * @return
-     */
+    // 배달 정보 전체 조회
     @Query("SELECT * FROM tb_delivery")
     List<DeliveryModelView> getDayList();
 
-    /**
-     * db select
-     * @return
-     */
-
-    /*@Query("SELECT * FROM tb_delivery  where creatdate = :createDt and deliverycourse = :deliveryCourse" )
-    List<DeliveryModelView> getDayList(String createDt, String deliveryCourse);*/
-
-    @Query("SELECT * FROM tb_delivery  "
-            + "WHERE creatdate = :createDt "
-            + "AND deliverycourse =:deliveryCourse "
-            + "ORDER BY deliverycourse DESC" )
+    // 배달 정보 조회 (생성일자, 코스별)
+    @Query("SELECT * FROM tb_delivery  WHERE creatdate = :createDt AND deliverycourse =:deliveryCourse ORDER BY deliverycourse DESC" )
     List<DeliveryModelView> getDayList(String createDt, String deliveryCourse);
 
 
-    /**
-     * db select
-     * @return
-     */
-    @Query("SELECT * FROM tb_delivery "
-          +"WHERE  billno = :billNo")
+    // 배달 정보 조회 (운송장 단일정보)
+    @Query("SELECT * FROM tb_delivery WHERE  billno = :billNo")
     DeliveryModelView getDayArticle(String billNo);
 
-    /**
-     * 전체 데이터 삭제
-     */
+    // 배달 정보 전체 삭제
     @Query("DELETE FROM tb_delivery")
     void applicationData_deleteAll();
 
-    /**
-     * 상태 없데이트
-     * @param billNo
-     * @param deliveryStatus
-     */
+    // 배달 정보 변경
     @Query("UPDATE tb_delivery "
          + "SET delivery_state =:deliveryStatus "
          + "WHERE billno = :billNo ")
     void isUpdateDelivery(String billNo, String deliveryStatus);
 }
+
+
+/*@Query("SELECT * FROM tb_delivery  where creatdate = :createDt and deliverycourse = :deliveryCourse" )
+    List<DeliveryModelView> getDayList(String createDt, String deliveryCourse);*/
+
+
