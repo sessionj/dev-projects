@@ -47,6 +47,16 @@
         android:testOnly="true"
         android:theme="@style/Theme.Delivery_v1"
         android:usesCleartextTraffic="true" >
+        <activity
+            android:name="kr.co.delivery_v1.EnterAppActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="kr.co.delivery_v1"
@@ -88,13 +98,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="kr.co.delivery_v1.MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!-- Needs to be explicitly declared on P+ -->
         <uses-library

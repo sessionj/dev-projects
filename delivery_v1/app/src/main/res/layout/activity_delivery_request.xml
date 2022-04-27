@@ -28,7 +28,7 @@
                 android:gravity="left"
                 android:paddingTop="17dp"
                 android:paddingLeft="15dp"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/grey_90"
                 android:textSize="20dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

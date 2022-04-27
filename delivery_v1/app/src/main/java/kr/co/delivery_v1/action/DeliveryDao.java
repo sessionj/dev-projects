@@ -24,7 +24,7 @@ public class DeliveryDao {
      */
     public List<DeliveryModelView> getDeliveryList(DeliveryModelView deliveryModelView){
 
-        Log.d("DeliveryDao ======== 검색 일자 : ", "" + deliveryModelView.getCreatdate());
+        Log.d("DeliveryDao ======== 검색 일자 : ", "" + deliveryModelView.getCreatdate().replaceAll("-", "") + ", "+deliveryModelView.getDeliverycourse());
         List<DeliveryModelView> deliveryModelViewArrayList = new ArrayList<DeliveryModelView>();
         //deliveryModelViewArrayList = appDeliveryDatabase.basicDeliveryProcessDao().getDayList(deliveryModelView.getCreatdate(), deliveryModelView.getDeliverycourse());
         deliveryModelViewArrayList = appDeliveryDatabase.basicDeliveryProcessDao().getDayList(deliveryModelView.getCreatdate().replaceAll("-", ""), deliveryModelView.getDeliverycourse());

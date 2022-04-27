@@ -1,13 +1,16 @@
 package kr.co.delivery_v1;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -27,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -60,6 +64,8 @@ import kr.co.delivery_v1.models.DeliveryModelView;
 public class DeliveryDetailsActivity extends AppCompatActivity {
 
     final private static String TAG = "PhotoActivity ";
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
     /**
      * 객체 셋팅
      */
@@ -75,9 +81,6 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     private TextView details_billno, details_createdate, details_address, details_parts_and_packing, details_delivery_course,
             details_delivery_status, details_arrival_name, details_arrivalman_tel1, details_arrivalman_tel2, details_parts_fare;
 
-    Button btn_photo;
-    ImageView iv_photo;
-    String mCurrentPhotoPath;
     final static int TAKE_PICTURE = 1;
     final static int REQUEST_TAKE_PHOTO = 1;
     /**
@@ -91,8 +94,29 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     private String billNo;
     private ViewGroup mapViewContainer;
     private String requestSearchDay ="";
+
+    private ImageView delivery_photo;
+    private Button details_success_upload_btn;
+    private boolean cameraPermission = false;
+
 // 이벤트 처리
 
+    @Override
+    public void onBackPressed() {
+        // 키 두번 누르면 종료(2초 안에)
+        /*long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+        {
+            finish();
+        }
+        else
+        {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }*/
+    }
 
     /**
      * getParam (Intent)
@@ -198,189 +222,90 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
         }
 
         details_success_btn = (Button) findViewById(R.id.details_success_btn);
-        /*details_success_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "배달 처리 시작 카메로 어플 실행 ㄱㄱ ", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), PhotoActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });*/
-        // https://ebbnflow.tistory.com/177
-        iv_photo = (ImageView) findViewById(R.id.delivery_photo);
-        btn_photo = findViewById(R.id.btn_photo);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "권한 설정 완료");
-            } else {
-                Log.d(TAG, "권한 설정 요청");
-                ActivityCompat.requestPermissions(DeliveryDetailsActivity.this, new String[]{
-                        Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        }
+        delivery_photo = (ImageView) findViewById(R.id.delivery_photo);
+        details_success_upload_btn = (Button) findViewById(R.id.details_success_upload_btn);
         details_success_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.details_success_btn:
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, TAKE_PICTURE);
-                        //dispatchTakePictureIntent();
-                        /**
-                         * java.lang.IllegalArgumentException: Couldn't find meta-data for provider with authority kr.co.delivery_v1.fileprovider
-                         *         at androidx.core.content.FileProvider.parsePathStrategy(FileProvider.java:662)
-                         *         at androidx.core.content.FileProvider.getPathStrategy(FileProvider.java:635)
-                         *         at androidx.core.content.FileProvider.getUriForFile(FileProvider.java:441)
-                         *         at kr.co.delivery_v1.DeliveryDetailsActivity.dispatchTakePictureIntent(DeliveryDetailsActivity.java:347)
-                         *         at kr.co.delivery_v1.DeliveryDetailsActivity.access$000(DeliveryDetailsActivity.java:59)
-                         *         at kr.co.delivery_v1.DeliveryDetailsActivity$1.onClick(DeliveryDetailsActivity.java:248)
-                         *         at android.view.View.performClick(View.java:6312)
-                         *         at android.widget.TextView.performClick(TextView.java:11202)
-                         *         at com.google.android.material.button.MaterialButton.performClick(MaterialButton.java:1217)
-                         *         at android.view.View$PerformClick.run(View.java:23985)
-                         *         at android.os.Handler.handleCallback(Handler.java:751)
-                         *         at android.os.Handler.dispatchMessage(Handler.java:95)
-                         *         at android.os.Looper.loop(Looper.java:154)
-                         *         at android.app.ActivityThread.main(ActivityThread.java:6816)
-                         *         at java.lang.reflect.Method.invoke(Native Method)
-                         *         at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1563)
-                         *         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1451)
-                         */
-                        break;
+                /*Toast.makeText(getApplicationContext(), "배달 처리 시작 카메로 어플 실행 ㄱㄱ ", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), PhotoActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);*/
+
+                /**
+                 * 카메라 권한 실행
+                 */
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        cameraPermission = true;
+                        Log.d(TAG, "권한 설정 완료");
+                    } else {
+                        Log.d(TAG, "권한 설정 요청");
+                        ActivityCompat.requestPermissions(DeliveryDetailsActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    }
                 }
+
+                if ( cameraPermission) {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, TAKE_PICTURE);
+                }
+
+
+                /*details_success_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        switch (v.getId()) {
+                            case R.id.details_success_btn:
+                                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(cameraIntent, TAKE_PICTURE);
+                                break;
+                        }
+                    }
+                });*/
+
             }
         });
-
-        /*details_success_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.btn_photo:
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, TAKE_PICTURE);
-                        break;
-                }
-            }
-        });*/
     }
 
-    @Override
-    public boolean onSupportNavigateUp()
-    {
-        Log.d("클릭", "클릭됨 ========================================= ");
-        Intent intent = new Intent(DeliveryDetailsActivity.this, MainActivity.class);
-
-        intent.putExtra("requestSearchDay", requestSearchDay);
-        startActivity(intent);
-        return super.onSupportNavigateUp();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                Intent intent = new Intent(DeliveryDetailsActivity.this, MainActivity.class);
-                intent.putExtra("requestSearchDay", requestSearchDay);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                finish();
-                startActivity(intent);
-                return true;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+    // 권한 요청
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d(TAG,"onRequestPermissionsResult");
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-            Log.d(TAG,"Permission :" + permissions[0] + "was " + grantResults[0]);
+        Log.d(TAG, "onRequestPermissionsResult");
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
+            Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
+            cameraPermission = true;
         }
     }
 
-    /**
-     * API 29 이상일 경우 미만일 경우 나누어 Bitmap 생성
-     * @param requestCode
-     * @param resultCode
-     * @param intent
-     */
+    // 카메라로 촬영한 사진의 썸네일을 가져와 이미지뷰에 띄워줌
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        delivery_photo.setVisibility(View.VISIBLE);
+        details_success_upload_btn.setVisibility(View.VISIBLE);
+        Log.d("tab ", "onActivityResult, requestCode : " + requestCode);
 
         super.onActivityResult(requestCode, resultCode, intent);
-        try {
-            switch (requestCode) {
-                case REQUEST_TAKE_PHOTO: {
-                    if (resultCode == RESULT_OK) {
-                        File file = new File(mCurrentPhotoPath);
-                        Bitmap bitmap;
-                        if (Build.VERSION.SDK_INT >= 29) {
-                            ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), Uri.fromFile(file));
-                            try {
-                                bitmap = ImageDecoder.decodeBitmap(source);
-                                if (bitmap != null) { iv_photo.setImageBitmap(bitmap);
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try { bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
-                                if (bitmap != null) {
-                                    iv_photo.setImageBitmap(bitmap);
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    } break;
+
+        switch (requestCode) {
+            case TAKE_PICTURE:
+                // 카메라가 실행된후 찍지 않고 뒤로가기 버튼을 클릭해도 requestCode 가 1 이 들어온다.
+
+                Bitmap bitmap = (Bitmap) intent.getExtras().get("data");
+                if (bitmap != null) {
+                    delivery_photo.setImageBitmap(bitmap);
                 }
-            }
-        } catch (Exception error) {
-            error.printStackTrace();
-        }
-    }
-
-    /**
-     * 사진 촬영후 썸네일만 띄워줌 이미지를 파일로 저장
-     * @return
-     * @throws IOException
-     */
-    private File createImageFile() throws IOException {
-        Log.d(TAG, " ======= createImageFile");
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile( imageFileName, ".jpg", storageDir );
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    /**
-     * 카메라 인텐트 실행 부분
-     */
-    private void dispatchTakePictureIntent() {
-        Log.d(TAG, " ======= dispatchTakePictureIntent");
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-
-            }
-            if(photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "kr.co.delivery_v1.fileprovider", photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+                break;
+            default:
+                Bitmap tmpBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.tmp_img);
+                delivery_photo.setImageBitmap(tmpBitMap);
+                break;
         }
     }
 
     @Override
     public void finish() {
+        Log.d(TAG," .finish");
         mapViewContainer.clearFocus();
         super.finish();
     }

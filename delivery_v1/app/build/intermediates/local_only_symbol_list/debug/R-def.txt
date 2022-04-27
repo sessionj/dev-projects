@@ -22,6 +22,7 @@ color red
 color teal_200
 color teal_700
 color white
+color yellow
 dimen appbar_padding_top
 dimen spacing_large
 dimen spacing_medium
@@ -45,13 +46,14 @@ drawable ic_baseline_replay_24
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable img
+drawable img_1
 drawable line_sample
 drawable login
 drawable logo
+drawable tmp_img
 id area_agency
 id area_delivery
 id area_phone
-id btn_photo
 id date_picker_area
 id delivery_number
 id delivery_photo
@@ -68,10 +70,11 @@ id details_delivery_course
 id details_parts_and_packing
 id details_parts_fare
 id details_success_btn
+id details_success_upload_btn
 id email
+id enter_txt
 id female
 id header
-id iv_photo
 id layout
 id list_count
 id list_empty
@@ -102,6 +105,8 @@ id summary_row_item_1
 id summary_row_item_2
 id summary_row_item_btn
 id summary_row_item_check
+id surfaceView
+id take_photo
 id toolbar
 id user_agencycode
 id user_phone_number
@@ -110,6 +115,7 @@ layout activity_app_start
 layout activity_camera
 layout activity_delivery_details
 layout activity_delivery_request
+layout activity_enter_app
 layout activity_login
 layout activity_main
 layout activity_picker_dialog

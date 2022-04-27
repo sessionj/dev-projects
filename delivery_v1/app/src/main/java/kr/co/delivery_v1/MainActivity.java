@@ -60,6 +60,9 @@ import kr.co.delivery_v1.models.LoginModelView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+
     private boolean loginAccess = false;
 
     private DeliveryViewAdapter deliveryViewAdapter;
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private List<DeliveryModelView>  arr;
     private DeliveryDao deliveryDao;
     private RecyclerView recyclerView;
-
+    private int deliverySuccessCnt = 0;
 
     private TextView datapicker_view, list_count;
     private String befSearchDate, aftSearchDate;
@@ -84,6 +87,52 @@ public class MainActivity extends AppCompatActivity {
     private CheckTypesTask taskAsync;
     private TextView main_list_empty ;
 
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+        {
+            finish();
+        }
+        else
+        {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 매뉴 활성화 (상단 우측 "자료가져오기" 버튼 생성)
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    /**
+     * activity 이동 [배달 자료 받아오는 화면으로]
+     * 버튼이 있으면 ID를 가져와서 체크해서 이벤트 발생하면 된다.
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_request_delivery_btn:
+                Intent intent = new Intent(this, DeliveryRequestActivity.class);
+                intent.putExtra("requestSearchDay", BasicUtils.getDateControl(requestSearchDay,0,0,1));
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     /**
      * 초기화, 셋팅
      */
@@ -102,7 +151,12 @@ public class MainActivity extends AppCompatActivity {
         roomDb_phoneNumber = DeviceInfoUtil.getRoomSelecter(this, 2);
         deliveryModelView.setDeliverycourse(DeviceInfoUtil.getRoomSelecter(this, 4));
         main_list_empty = (TextView) findViewById(R.id.main_list_empty);
+        // 데이터 삭제시
         //deliveryDao.applicationData_deleteAll();
+
+        List<DeliveryModelView> tmpArr = new ArrayList<DeliveryModelView>();
+        tmpArr = deliveryDao.getDeliveryList();
+        Log.d("tmp : ",""+ tmpArr);
     }
 
     /**
@@ -128,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             viewSearchDay = BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT);
         }
         // 달력 일자 셋팅팅
-        datapicker_view.setText(viewSearchDay);
+
 
         // request 화면에서 받아온건지 체크
         //changeDate = intent.getExtras().getBoolean("returnRequest");
@@ -139,13 +193,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*if ( DeviceInfoUtil.getRoomSelecter(this, 2) == null || DeviceInfoUtil.getRoomSelecter(this, 2).length() == 0) {
+            moveActivity("DDL");
+        }*/
+
         initialization();
         initializationSetIntentValue();
-
-        if ( "".equals(roomDb_phoneNumber) || roomDb_phoneNumber == null){
+        datapicker_view.setText(viewSearchDay + " ("+BasicUtils.getDayOfweek(viewSearchDay, Label.DELIVERY_STANDARD_DATE_FORMAT)+")");
+        /*if ( "".equals(roomDb_phoneNumber) || roomDb_phoneNumber == null){
             moveActivity("DDL");
             return ;
-        }
+        }*/
         taskAsync = new CheckTypesTask();
         taskAsync.execute();
 
@@ -241,7 +300,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            Log.d("================ onPreExecute() ", "실행중");
             asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             asyncDialog.setMessage("로딩중입니다..");
 
@@ -280,26 +338,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 arr = new ArrayList<DeliveryModelView>();
-
-               /* if (requestSearchDay != null) {
-                    deliveryModelView.setCreatdate(BasicUtils.getDateControl(requestSearchDay,0,0,-1) );
-                } else {
-                    deliveryModelView.setCreatdate(BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT));
-                }*/
-
                 deliveryModelView.setCreatdate(requestSearchDay);
-
-                Log.d("============= 세팅시 일자 : " , deliveryModelView.getCreatdate());
-
                 arr = deliveryDao.getDeliveryList(deliveryModelView);
 
-                /**
-                 * 오늘 날짜에 해당하는 자료가 없을경우 화면 이동(5일 이전)
-                 * 오늘이 아닌 일자에 검색시에는 대화물음창
-                 */
-                Log.d("======================>", "" + arr);
                 if ((arr == null || arr.size() == 0) ) {
-
                     isEmptyList();
                     // 오늘 날짜면 이동 그렇지 않으면 물어본다
                     if ( deliveryModelView.getCreatdate() != (BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT))){
@@ -327,11 +369,11 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                 }
-
+                searchProcessHistory(arr);
                 recyclerView = findViewById(R.id.recyceler_view);
                 recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                list_count.setText("총 (1/"+arr.size()+"건)");
+                list_count.setText("["+deliverySuccessCnt+"/"+arr.size()+"]건");
                 deliveryViewAdapter = new DeliveryViewAdapter(arr);
                 recyclerView.setAdapter(deliveryViewAdapter);
                 //dialog.show();
@@ -348,37 +390,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-
-    /**
-     * 매뉴 활성화 (상단 우측 "자료가져오기" 버튼 생성)
-     * @param menu
-     * @return
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    /**
-     * activity 이동 [배달 자료 받아오는 화면으로]
-     * 버튼이 있으면 ID를 가져와서 체크해서 이벤트 발생하면 된다.
-     * @param item
-     * @return
-     */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.main_request_delivery_btn:
-                Intent intent = new Intent(this, DeliveryRequestActivity.class);
-                intent.putExtra("requestSearchDay", BasicUtils.getDateControl(requestSearchDay,0,0,1));
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     /**
@@ -413,6 +424,24 @@ public class MainActivity extends AppCompatActivity {
         // 객체 호출
         main_list_empty.setVisibility(View.VISIBLE);
 
+    }
+
+    /**
+     * 상단
+     * @param arr
+     */
+    private void searchProcessHistory(List<DeliveryModelView> arr){
+
+        DeliveryModelView entity = null;
+        if ( arr != null && arr.size() > 0){
+            entity = new DeliveryModelView();
+            for ( int i=0; i <arr.size(); i++){
+                entity = arr.get(i);
+                if ( entity.getDelivery_state().equals("Y")){
+                    deliverySuccessCnt ++;
+                }
+            }
+        }
     }
 }
 

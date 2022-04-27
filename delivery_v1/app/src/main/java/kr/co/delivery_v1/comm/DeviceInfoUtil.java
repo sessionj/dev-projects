@@ -121,6 +121,8 @@ public class DeviceInfoUtil {
         return phoneNum;
     }
 
+
+
     /**
      * room 정보 (phone) 가져오기
      * @param context

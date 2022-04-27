@@ -4,20 +4,24 @@
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
-        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_register.xml.flat",
-        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\layout\\activity_register.xml"
+        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\drawable-v24_img.png.flat",
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\drawable-v24\\img.png"
     },
     {
-        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.webp"
+        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_register.xml.flat",
+        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\layout\\activity_register.xml"
     },
     {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxhdpi_ic_launcher.webp.flat",
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\drawable-v24_tmp_img.jpg.flat",
+        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\drawable-v24\\tmp_img.jpg"
     },
     {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\xml_bar_layout.xml.flat",
@@ -108,6 +112,10 @@
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\layout\\activity_main.xml"
     },
     {
+        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_enter_app.xml.flat",
+        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\layout\\activity_enter_app.xml"
+    },
+    {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\drawable-v24_logo.gif.flat",
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\drawable-v24\\logo.gif"
     },
@@ -154,6 +162,10 @@
     {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_picker_dialog.xml.flat",
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\layout\\activity_picker_dialog.xml"
+    },
+    {
+        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\drawable-v24_img_1.png.flat",
+        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\drawable-v24\\img_1.png"
     },
     {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_launcher_background.xml.flat",

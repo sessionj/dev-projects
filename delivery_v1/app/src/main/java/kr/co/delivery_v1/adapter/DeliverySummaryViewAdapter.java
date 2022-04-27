@@ -83,7 +83,7 @@ public class DeliverySummaryViewAdapter extends RecyclerView.Adapter<DeliverySum
                 sb.append(deliveryModelViewList.get(itemposition).getDelivery_course_name());
             }
         }else{
-            sb.append(" 코스미등록");
+            sb.append(" 코스명없음");
         }
         holder.summary_row_item_1.setText(sb.toString());
 

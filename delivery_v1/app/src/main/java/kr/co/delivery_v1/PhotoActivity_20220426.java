@@ -39,8 +39,8 @@ public class PhotoActivity_20220426 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        iv_photo = findViewById(R.id.iv_photo);
-        btn_photo = findViewById(R.id.btn_photo);
+        //iv_photo = findViewById(R.id.iv_photo);
+        //btn_photo = findViewById(R.id.btn_photo);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "권한 설정 완료");
@@ -54,11 +54,11 @@ public class PhotoActivity_20220426 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
-                    case R.id.btn_photo:
+                    /*case R.id.btn_photo:
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(cameraIntent, TAKE_PICTURE);
-                        //dispatchTakePictureIntent(); <-- 이게 오류가 남
-                        break;
+                        dispatchTakePictureIntent(); // <-- 이게 오류가 남
+                        break;*/
                 }
             }
         });

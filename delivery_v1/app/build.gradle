@@ -47,7 +47,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
 
-    // 테드퍼미션
-
+    // 테드퍼미션--> 이걸 사용하려니 에러가
+    // implementation 'io.github.ParkSangGwon:tedpermission:2.3.0'
 
 }

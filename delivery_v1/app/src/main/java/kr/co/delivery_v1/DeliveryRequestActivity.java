@@ -154,12 +154,12 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
 
         Intent intent = getIntent();
         requestSearchDay = intent.getStringExtra("requestSearchDay") == null ? BasicUtils.getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT) : intent.getStringExtra("requestSearchDay");
-        viewRequestSearchDay = requestSearchDay + "("+BasicUtils.getDayOfweek(requestSearchDay, Label.DELIVERY_STANDARD_DATE_FORMAT)+")";
+        viewRequestSearchDay = requestSearchDay + " ("+BasicUtils.getDayOfweek(requestSearchDay, Label.DELIVERY_STANDARD_DATE_FORMAT)+")";
 
         if ( !TextUtils.isEmpty(requestSearchDay)){
             deliveryavt_date_picker_area.setText(viewRequestSearchDay);
         }else{
-            deliveryavt_date_picker_area.setText(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT) + "("+BasicUtils.getDayOfweek( BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT), Label.DELIVERY_STANDARD_DATE_FORMAT  )+")");
+            deliveryavt_date_picker_area.setText(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT) + " ("+BasicUtils.getDayOfweek( BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT), Label.DELIVERY_STANDARD_DATE_FORMAT  )+")");
         }
 
         deliveryModelView.setCreatdate(requestSearchDay);
@@ -404,7 +404,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                         // deliveryCourse 는 받는 순간 100번으로 변경
                         //deliveryModelView.setDeliverycourse(Object.getString("deliverycourse"));
                         deliveryModelViewResult.setDeliverycourse(deliveryCourse);
-                        deliveryModelView.setCreatdate(Object.getString("creatdate"));
+                        deliveryModelViewResult.setCreatdate(Object.getString("creatdate"));
                         appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelViewResult);
                         successCnt ++;
                     }
@@ -419,6 +419,8 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         // 체크 된 값의 집합
 
         String[] tmpStr = deliveryavt_date_picker_area.getText().toString().split(" ");
+        Log.d("========> crdt :" , tmpStr[0]);
+        Log.d("========> crdt :" , tmpStr[0].toString());
         deliveryModelView.setCreatdate(tmpStr[0].toString() );
         DeliveryRequest deliveryRequest = new DeliveryRequest(deliveryModelView, responseListener, param  );
         RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
@@ -656,7 +658,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         protected Void doInBackground(Void... arg0) {
             try {
                 getDeliveryList(sbr);
-                Thread.sleep(200 * 5);
+                Thread.sleep(300 * 5);
             } catch (Exception e) {
                 e.printStackTrace();
             }

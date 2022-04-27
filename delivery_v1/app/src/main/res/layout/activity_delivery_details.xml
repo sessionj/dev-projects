@@ -67,49 +67,53 @@
                     android:background="@drawable/gradient_bottom"
                     android:paddingTop="7dp"
                     android:text="자동차부품 | 박스 (수량)"
-                    android:textSize="17dp"/>
+                    android:textSize="17dp" />
+
                 <TextView
                     android:id="@+id/details_parts_fare"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:background="@drawable/gradient_bottom"
+                    android:gravity="right"
                     android:paddingTop="7dp"
                     android:text="비용"
                     android:textColor="@color/red"
                     android:textSize="17dp"
-                    android:gravity="right"
                     android:textStyle="bold" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-            <TextView
 
-                android:id="@+id/details_arrival_name"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/gradient_bottom"
-                android:gravity="left"
-                android:paddingTop="7dp"
-                android:layout_weight="1"
-                android:text="홍길동"
-                android:textSize="17dp" />
+                <TextView
 
-            <TextView
-                android:id="@+id/details_delivery_course"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingTop="7dp"
-                android:text="배달코스"
-                android:textColor="@color/red"
-                android:textSize="17dp"
-                android:background="@drawable/gradient_bottom"/>
+                    android:id="@+id/details_arrival_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/gradient_bottom"
+                    android:gravity="left"
+                    android:paddingTop="7dp"
+                    android:text="홍길동"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:id="@+id/details_delivery_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/gradient_bottom"
+                    android:gravity="right"
+                    android:paddingTop="7dp"
+                    android:text="배달코스"
+                    android:textColor="@color/red"
+                    android:textSize="17dp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -165,16 +169,28 @@
                 android:layout_marginTop="12dp"
                 android:background="@color/red"
                 android:paddingBottom="3dp"
-                android:text="배달 처리"
+                android:text="사진 찍기"
+                android:textColor="@color/white"
                 android:textSize="20dp" />
 
             <ImageView
                 android:id="@+id/delivery_photo"
                 android:layout_width="match_parent"
-                android:layout_height="680dp"
+                android:layout_height="480dp"
                 android:visibility="gone"
-                tools:ignore="MissingConstraints" />
+                />
 
+            <Button
+                android:id="@+id/details_success_upload_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                android:background="@color/red"
+                android:textColor="@color/white"
+                android:paddingBottom="3dp"
+                android:text="배달 완료 처리"
+                android:textSize="20dp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
