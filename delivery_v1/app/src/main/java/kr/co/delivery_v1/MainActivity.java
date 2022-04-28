@@ -72,13 +72,10 @@ public class MainActivity extends AppCompatActivity {
     private DeliveryDao deliveryDao;
     private RecyclerView recyclerView;
     private int deliverySuccessCnt = 0;
-
     private TextView datapicker_view, list_count;
     private String befSearchDate, aftSearchDate;
-
     private Calendar c;
     private int mYear, mMonth, mDay;
-
     private String roomDb_phoneNumber = "";
     private String device_phoneNumber = "";
     private String requestSearchDay = "";

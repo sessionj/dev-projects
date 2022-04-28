@@ -50,7 +50,7 @@ public class EnterAppActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                // 로그인 여부 체크 후 선택하여 처리
+                // 로그인 여부 체크 후 선택하여 처리 (room DB)
                 if (DeviceInfoUtil.getRoomSelecter(getApplicationContext(), 2) == null
                         || DeviceInfoUtil.getRoomSelecter(getApplicationContext(), 2).equals("")
                         || TextUtils.isEmpty(DeviceInfoUtil.getRoomSelecter(getApplicationContext(), 2))){
