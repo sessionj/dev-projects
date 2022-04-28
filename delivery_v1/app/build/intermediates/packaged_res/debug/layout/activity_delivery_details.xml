@@ -73,7 +73,7 @@
                     android:id="@+id/details_parts_fare"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:background="@drawable/gradient_bottom"
                     android:gravity="right"
                     android:paddingTop="7dp"
@@ -163,25 +163,25 @@
                 tools:ignore="Orientation" />
 
             <Button
-                android:id="@+id/details_success_btn"
+                android:id="@+id/btnCapture"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="12dp"
-                android:background="@color/red"
+                android:background="@color/grey_90"
                 android:paddingBottom="3dp"
-                android:text="사진 찍기"
+                android:text="배달처리캡쳐(재촬영)"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
             <ImageView
-                android:id="@+id/delivery_photo"
+                android:id="@+id/ivCapture"
                 android:layout_width="match_parent"
                 android:layout_height="480dp"
-                android:visibility="gone"
+
                 />
 
             <Button
-                android:id="@+id/details_success_upload_btn"
+                android:id="@+id/btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="12dp"
@@ -190,7 +190,7 @@
                 android:paddingBottom="3dp"
                 android:text="배달 완료 처리"
                 android:textSize="20dp"
-                android:visibility="gone" />
+                 />
 
         </LinearLayout>
 

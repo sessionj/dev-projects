@@ -2740,6 +2740,8 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id btnCapture
+id btnSave
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -2791,7 +2793,6 @@ id decelerateAndComplete
 id decor_content_parent
 id default_activity_button
 id delivery_number
-id delivery_photo
 id deliveryavt_agencycode
 id deliveryavt_date_picker_area
 id deliveryavt_delivery_cource
@@ -2811,8 +2812,6 @@ id details_createdate
 id details_delivery_course
 id details_parts_and_packing
 id details_parts_fare
-id details_success_btn
-id details_success_upload_btn
 id dialog_button
 id dimensions
 id direct
@@ -2902,6 +2901,7 @@ id item2
 id item3
 id item4
 id item_touch_helper_previous_elevation
+id ivCapture
 id jumpToEnd
 id jumpToStart
 id labeled
@@ -4772,6 +4772,7 @@ styleable include constraintSet
 xml bar_layout
 xml fadein
 xml fadeout
+xml file_path
 xml file_paths
 xml hold
 xml network_security_config

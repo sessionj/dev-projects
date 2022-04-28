@@ -1,5 +1,7 @@
 package kr.co.delivery_v1.models;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -43,6 +45,7 @@ public class DeliveryModelView {
     @ColumnInfo(name = "deliverycourse")        private String deliverycourse;
     @ColumnInfo(name = "creatdate")             private String creatdate;
     @ColumnInfo(name = "delivery_state")        private String delivery_state;
+    @ColumnInfo(name = "delivery_picture_path") private String delivery_picture_path;
 
     @Override
     public String toString() {
@@ -75,6 +78,7 @@ public class DeliveryModelView {
                 ", deliverycourse='" + deliverycourse + '\'' +
                 ", creatdate='" + creatdate + '\'' +
                 ", delivery_state='" + delivery_state + '\'' +
+                ", delivery_picture_path='" + delivery_picture_path + '\'' +
                 '}';
     }
 
@@ -305,5 +309,13 @@ public class DeliveryModelView {
 
     public void setArrivalmantel2(String arrivalmantel2) {
         this.arrivalmantel2 = arrivalmantel2;
+    }
+
+    public String getDelivery_picture_path() {
+        return delivery_picture_path;
+    }
+
+    public void setDelivery_picture_path(String delivery_picture_path) {
+        this.delivery_picture_path = delivery_picture_path;
     }
 }

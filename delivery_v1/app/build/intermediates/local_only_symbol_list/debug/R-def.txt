@@ -54,9 +54,10 @@ drawable tmp_img
 id area_agency
 id area_delivery
 id area_phone
+id btnCapture
+id btnSave
 id date_picker_area
 id delivery_number
-id delivery_photo
 id deliveryavt_agencycode
 id deliveryavt_date_picker_area
 id deliveryavt_delivery_cource
@@ -69,12 +70,11 @@ id details_createdate
 id details_delivery_course
 id details_parts_and_packing
 id details_parts_fare
-id details_success_btn
-id details_success_upload_btn
 id email
 id enter_txt
 id female
 id header
+id ivCapture
 id layout
 id list_count
 id list_empty
@@ -143,6 +143,7 @@ style menustyle
 xml bar_layout
 xml fadein
 xml fadeout
+xml file_path
 xml file_paths
 xml hold
 xml network_security_config

@@ -25,14 +25,14 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
 
   private final SharedSQLiteStatement __preparedStmtOfApplicationData_deleteAll;
 
-  private final SharedSQLiteStatement __preparedStmtOfIsUpdateDelivery;
+  private final SharedSQLiteStatement __preparedStmtOfIsDeliveryStatusChange;
 
   public BasicDeliveryProcessDao_Impl(RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfDeliveryModelView = new EntityInsertionAdapter<DeliveryModelView>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `tb_delivery` (`billno`,`input_date`,`input_time`,`transcode`,`sendingagencycode`,`arrivalagencycode`,`sendingmantel`,`sendingman`,`arrivalmantel`,`arrivalmantel2`,`arrivalman`,`zipcode`,`adress`,`prefare`,`fare`,`deliveryfare`,`ogideliveryfare`,`distance`,`payway`,`goods`,`pojang`,`qty`,`weight`,`memo`,`billstate`,`deliverycourse`,`creatdate`,`delivery_state`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `tb_delivery` (`billno`,`input_date`,`input_time`,`transcode`,`sendingagencycode`,`arrivalagencycode`,`sendingmantel`,`sendingman`,`arrivalmantel`,`arrivalmantel2`,`arrivalman`,`zipcode`,`adress`,`prefare`,`fare`,`deliveryfare`,`ogideliveryfare`,`distance`,`payway`,`goods`,`pojang`,`qty`,`weight`,`memo`,`billstate`,`deliverycourse`,`creatdate`,`delivery_state`,`delivery_picture_path`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -173,6 +173,11 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
         } else {
           stmt.bindString(28, value.getDelivery_state());
         }
+        if (value.getDelivery_picture_path() == null) {
+          stmt.bindNull(29);
+        } else {
+          stmt.bindString(29, value.getDelivery_picture_path());
+        }
       }
     };
     this.__preparedStmtOfApplicationData_deleteAll = new SharedSQLiteStatement(__db) {
@@ -182,7 +187,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
         return _query;
       }
     };
-    this.__preparedStmtOfIsUpdateDelivery = new SharedSQLiteStatement(__db) {
+    this.__preparedStmtOfIsDeliveryStatusChange = new SharedSQLiteStatement(__db) {
       @Override
       public String createQuery() {
         final String _query = "UPDATE tb_delivery SET delivery_state =? WHERE billno = ? ";
@@ -218,9 +223,9 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
   }
 
   @Override
-  public void isUpdateDelivery(final String billNo, final String deliveryStatus) {
+  public void isDeliveryStatusChange(final String billNo, final String deliveryStatus) {
     __db.assertNotSuspendingTransaction();
-    final SupportSQLiteStatement _stmt = __preparedStmtOfIsUpdateDelivery.acquire();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfIsDeliveryStatusChange.acquire();
     int _argIndex = 1;
     if (deliveryStatus == null) {
       _stmt.bindNull(_argIndex);
@@ -239,7 +244,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       __db.setTransactionSuccessful();
     } finally {
       __db.endTransaction();
-      __preparedStmtOfIsUpdateDelivery.release(_stmt);
+      __preparedStmtOfIsDeliveryStatusChange.release(_stmt);
     }
   }
 
@@ -278,6 +283,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       final int _cursorIndexOfDeliverycourse = CursorUtil.getColumnIndexOrThrow(_cursor, "deliverycourse");
       final int _cursorIndexOfCreatdate = CursorUtil.getColumnIndexOrThrow(_cursor, "creatdate");
       final int _cursorIndexOfDeliveryState = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_state");
+      final int _cursorIndexOfDeliveryPicturePath = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_picture_path");
       final List<DeliveryModelView> _result = new ArrayList<DeliveryModelView>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final DeliveryModelView _item;
@@ -474,6 +480,13 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
           _tmpDelivery_state = _cursor.getString(_cursorIndexOfDeliveryState);
         }
         _item.setDelivery_state(_tmpDelivery_state);
+        final String _tmpDelivery_picture_path;
+        if (_cursor.isNull(_cursorIndexOfDeliveryPicturePath)) {
+          _tmpDelivery_picture_path = null;
+        } else {
+          _tmpDelivery_picture_path = _cursor.getString(_cursorIndexOfDeliveryPicturePath);
+        }
+        _item.setDelivery_picture_path(_tmpDelivery_picture_path);
         _result.add(_item);
       }
       return _result;
@@ -530,6 +543,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       final int _cursorIndexOfDeliverycourse = CursorUtil.getColumnIndexOrThrow(_cursor, "deliverycourse");
       final int _cursorIndexOfCreatdate = CursorUtil.getColumnIndexOrThrow(_cursor, "creatdate");
       final int _cursorIndexOfDeliveryState = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_state");
+      final int _cursorIndexOfDeliveryPicturePath = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_picture_path");
       final List<DeliveryModelView> _result = new ArrayList<DeliveryModelView>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final DeliveryModelView _item;
@@ -726,6 +740,13 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
           _tmpDelivery_state = _cursor.getString(_cursorIndexOfDeliveryState);
         }
         _item.setDelivery_state(_tmpDelivery_state);
+        final String _tmpDelivery_picture_path;
+        if (_cursor.isNull(_cursorIndexOfDeliveryPicturePath)) {
+          _tmpDelivery_picture_path = null;
+        } else {
+          _tmpDelivery_picture_path = _cursor.getString(_cursorIndexOfDeliveryPicturePath);
+        }
+        _item.setDelivery_picture_path(_tmpDelivery_picture_path);
         _result.add(_item);
       }
       return _result;
@@ -776,6 +797,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       final int _cursorIndexOfDeliverycourse = CursorUtil.getColumnIndexOrThrow(_cursor, "deliverycourse");
       final int _cursorIndexOfCreatdate = CursorUtil.getColumnIndexOrThrow(_cursor, "creatdate");
       final int _cursorIndexOfDeliveryState = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_state");
+      final int _cursorIndexOfDeliveryPicturePath = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_picture_path");
       final DeliveryModelView _result;
       if(_cursor.moveToFirst()) {
         _result = new DeliveryModelView();
@@ -971,6 +993,13 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
           _tmpDelivery_state = _cursor.getString(_cursorIndexOfDeliveryState);
         }
         _result.setDelivery_state(_tmpDelivery_state);
+        final String _tmpDelivery_picture_path;
+        if (_cursor.isNull(_cursorIndexOfDeliveryPicturePath)) {
+          _tmpDelivery_picture_path = null;
+        } else {
+          _tmpDelivery_picture_path = _cursor.getString(_cursorIndexOfDeliveryPicturePath);
+        }
+        _result.setDelivery_picture_path(_tmpDelivery_picture_path);
       } else {
         _result = null;
       }

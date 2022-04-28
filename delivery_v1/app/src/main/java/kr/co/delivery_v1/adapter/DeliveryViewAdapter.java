@@ -1,6 +1,13 @@
 package kr.co.delivery_v1.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,9 +80,7 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
         sb.append(deliveryModelViewList.get(itemposition).getAdress().replaceAll("(\r\n|\r|\n|\n\r)", " ") + " ");
         holder.rowItem_1.setText(sb.toString());
 
-        /**
-         * 밥는사람, 전화번호,
-         */
+        // 수화주, 수화주 전화번호
         sb = new StringBuffer();
         sb.append(deliveryModelViewList.get(itemposition).getArrivalman() + " ");
         sb.append("(");
@@ -83,9 +88,7 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
         sb.append(")");
         holder.rowItem_2.setText(sb.toString());
 
-        /**
-         * 전화번호
-         */
+        // 운송장번호, 상품명, 포장, 수량
         sb = new StringBuffer();
         sb.append(deliveryModelViewList.get(itemposition).getBillno() + " ");
         sb.append(deliveryModelViewList.get(itemposition).getGoods() + " ");
@@ -93,9 +96,7 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
         sb.append(deliveryModelViewList.get(itemposition).getQty() + " ");
         holder.rowItem_3.setText(sb.toString());
 
-        /**
-         * 배달코스
-         */
+        //배달 처리 여부
         sb = new StringBuffer();
         if ( deliveryModelViewList.get(itemposition).getDelivery_state().equals("N")){
             sb.append(Label.DELIVERY_DELIVERY_STATUS_N);
@@ -104,7 +105,6 @@ public class DeliveryViewAdapter extends RecyclerView.Adapter<DeliveryViewAdapte
         }
         //sb.append(deliveryModelViewList.get(itemposition).getDeliverycourse() + " ");
         holder.rowItem_4.setText(sb.toString());
-
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
 

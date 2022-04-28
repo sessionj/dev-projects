@@ -27,7 +27,6 @@ public interface BasicDeliveryProcessDao {
     @Query("SELECT * FROM tb_delivery  WHERE creatdate = :createDt AND deliverycourse =:deliveryCourse ORDER BY deliverycourse DESC" )
     List<DeliveryModelView> getDayList(String createDt, String deliveryCourse);
 
-
     // 배달 정보 조회 (운송장 단일정보)
     @Query("SELECT * FROM tb_delivery WHERE  billno = :billNo")
     DeliveryModelView getDayArticle(String billNo);
@@ -40,7 +39,7 @@ public interface BasicDeliveryProcessDao {
     @Query("UPDATE tb_delivery "
          + "SET delivery_state =:deliveryStatus "
          + "WHERE billno = :billNo ")
-    void isUpdateDelivery(String billNo, String deliveryStatus);
+    void isDeliveryStatusChange(String billNo, String deliveryStatus);
 }
 
 

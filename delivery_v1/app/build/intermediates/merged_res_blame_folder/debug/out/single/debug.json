@@ -140,6 +140,10 @@
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
+        "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\xml_file_path.xml.flat",
+        "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\xml\\file_path.xml"
+    },
+    {
         "merged": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\build\\intermediates\\merged_res\\debug\\xml_fadeout.xml.flat",
         "source": "X:\\export\\daesin_mobile\\dev-projects\\delivery_v1\\app\\src\\main\\res\\xml\\fadeout.xml"
     },

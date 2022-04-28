@@ -10,9 +10,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +48,9 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,7 +75,6 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
      * 객체 셋팅
      */
     private ProgressDialog progressDialog;
-    private Button details_success_btn;
     private DeliveryDao deliveryDao;
     private DeliveryModelView deliveryModelView;
     private DeliveryModelView resultView;
@@ -81,8 +85,6 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     private TextView details_billno, details_createdate, details_address, details_parts_and_packing, details_delivery_course,
             details_delivery_status, details_arrival_name, details_arrivalman_tel1, details_arrivalman_tel2, details_parts_fare;
 
-    final static int TAKE_PICTURE = 1;
-    final static int REQUEST_TAKE_PHOTO = 1;
     /**
      * GPS
      */
@@ -95,27 +97,20 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     private ViewGroup mapViewContainer;
     private String requestSearchDay ="";
 
-    private ImageView delivery_photo;
-    private Button details_success_upload_btn;
-    private boolean cameraPermission = false;
+
+    public static final int REQUEST_TAKE_PHOTO = 10;
+    public static final int REQUEST_PERMISSION = 11;
+
+    private Button btnCamera, btnSave;
+    private ImageView ivCapture;
+    private String mCurrentPhotoPath;
+    private boolean isFileSave = true;
 
 // 이벤트 처리
 
     @Override
     public void onBackPressed() {
-        // 키 두번 누르면 종료(2초 안에)
-        /*long tempTime = System.currentTimeMillis();
-        long intervalTime = tempTime - backPressedTime;
 
-        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
-        {
-            finish();
-        }
-        else
-        {
-            backPressedTime = tempTime;
-            Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     /**
@@ -221,85 +216,298 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
             mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Label.DELIVERY_DEFAULT_POINT_LAT, Label.DELIVERY_DEFAULT_POINT_LNG), true);
         }
 
-        details_success_btn = (Button) findViewById(R.id.details_success_btn);
-        delivery_photo = (ImageView) findViewById(R.id.delivery_photo);
-        details_success_upload_btn = (Button) findViewById(R.id.details_success_upload_btn);
-        details_success_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Toast.makeText(getApplicationContext(), "배달 처리 시작 카메로 어플 실행 ㄱㄱ ", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), PhotoActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);*/
+        /**
+         * 카메라 영역 #########################################################################################
+         */
+        // 카메라 셋팅
+        ivCapture = findViewById(R.id.ivCapture);   //ImageView 선언
+        btnCamera = findViewById(R.id.btnCapture);  //Button 선언
+        btnSave = findViewById(R.id.btnSave);       //Button 선언
 
-                /**
-                 * 카메라 권한 실행
-                 */
+        screenManipulationProcess();
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        cameraPermission = true;
-                        Log.d(TAG, "권한 설정 완료");
-                    } else {
-                        Log.d(TAG, "권한 설정 요청");
-                        ActivityCompat.requestPermissions(DeliveryDetailsActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                    }
+        // 이미지 로드
+        loadImgArr();
+        //촬영
+        btnCamera.setOnClickListener(v -> captureCamera());
+        //저장
+        btnSave.setOnClickListener(v -> {
+            try {
+                BitmapDrawable drawable = (BitmapDrawable) ivCapture.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                //찍은 사진이 없으면
+                if (bitmap == null) {
+                    Toast.makeText(this, "저장할 사진이 없습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    //저장
+                    Log.d(TAG, " bitmap : " + bitmap);
+                    saveImg();
+                    mCurrentPhotoPath = ""; //initialize
+                }
+                if (isFileSave){
+                    // 파일 저장이 완료 Local DB(room) Update
+                    resultView.setDelivery_state("Y");
+                    deliveryDao.isDeliveryStatusChange(resultView);
+
+                    // 본사로 완료 파일 전송
+
                 }
 
-                if ( cameraPermission) {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, TAKE_PICTURE);
-                }
-
-
-                /*details_success_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override public void onClick(View v) {
-                        switch (v.getId()) {
-                            case R.id.details_success_btn:
-                                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(cameraIntent, TAKE_PICTURE);
-                                break;
-                        }
-                    }
-                });*/
-
+            } catch (Exception e) {
+                Log.w(TAG, "SAVE ERROR!", e);
             }
         });
+        /**
+         * 카메라 영역 #########################################################################################
+         */
+
+
+
     }
 
-    // 권한 요청
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d(TAG, "onRequestPermissionsResult");
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
-            Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
-            cameraPermission = true;
+    // 화면 조작
+    private void screenManipulationProcess() {
+        // 배달 완료처리가 되어있을경우 저장버튼 숨김
+        if ( !TextUtils.isEmpty(resultView.getDelivery_state())){
+            btnSave.setVisibility(View.GONE);
         }
     }
 
-    // 카메라로 촬영한 사진의 썸네일을 가져와 이미지뷰에 띄워줌
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        delivery_photo.setVisibility(View.VISIBLE);
-        details_success_upload_btn.setVisibility(View.VISIBLE);
-        Log.d("tab ", "onActivityResult, requestCode : " + requestCode);
+    private void captureCamera() {
+        // 오류 이후 다시 실행할수도 있기에 다시 초기화
+        isFileSave = true;
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Log.d(TAG, " captureCamera");
+        // 인텐트를 처리 할 카메라 액티비티가 있는지 확인
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
 
-        super.onActivityResult(requestCode, resultCode, intent);
+            // 촬영한 사진을 저장할 파일 생성
+            File photoFile = null;
 
-        switch (requestCode) {
-            case TAKE_PICTURE:
-                // 카메라가 실행된후 찍지 않고 뒤로가기 버튼을 클릭해도 requestCode 가 1 이 들어온다.
+            try {
+                //임시로 사용할 파일이므로 경로는 캐시폴더로
+                File tempDir = getCacheDir();
 
-                Bitmap bitmap = (Bitmap) intent.getExtras().get("data");
-                if (bitmap != null) {
-                    delivery_photo.setImageBitmap(bitmap);
+                //임시촬영파일 세팅
+                String timeStamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
+                String imageFileName = "Capture_" + timeStamp + "_"; //ex) Capture_20201206_
+
+                File tempImage = File.createTempFile(
+                        imageFileName,                              /* 파일이름 */
+                        Label.DELIVERY_DELIVERY_PICTURE_EXTENSION,  /* 파일형식 */
+                        tempDir                                     /* 경로 */
+                );
+
+                // ACTION_VIEW 인텐트를 사용할 경로 (임시파일의 경로)
+                mCurrentPhotoPath = tempImage.getAbsolutePath();
+                Log.d(TAG, " mCurrentPhotoPath : " + mCurrentPhotoPath);
+                photoFile = tempImage;
+
+            } catch (IOException e) {
+                //에러 로그는 이렇게 관리하는 편이 좋다.
+                Log.w(TAG, Label.DELIVERY_DELIVERY_PICTURE_FILE_CREATE_ERROR, e);
+            }
+
+            //파일이 정상적으로 생성되었다면 계속 진행
+            if (photoFile != null) {
+                Log.d(TAG, " photoFile : " + photoFile);
+                //Uri 가져오기
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        getPackageName() + Label.DELIVERY_DELIVERY_PICTURE_PROVIDER,
+                        photoFile);
+                //인텐트에 Uri담기
+
+                Log.d(TAG, " photoURI : " + photoURI);
+
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
+                //인텐트 실행
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+
+                // 화면 로딩
+                ivCapture.setVisibility(View.VISIBLE);
+                btnSave.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    //이미지저장 메소드
+    private void saveImg() {
+
+        try {
+            //저장할 파일 경로
+            File storageDir = new File(getFilesDir() + Label.DELIVERY_DELIVERY_PICTURE_DIR);
+            if (!storageDir.exists()) //폴더가 없으면 생성.
+                storageDir.mkdirs();
+
+            //String filename = "캡쳐파일" + ".jpg";
+            String filename = billNo+Label.DELIVERY_DELIVERY_PICTURE_EXTENSION;
+
+            // 기존에 있다면 삭제
+            File file = new File(storageDir, filename);
+            boolean deleted = file.delete();
+            Log.w(TAG, "Delete Dup Check : " + deleted);
+            FileOutputStream output = null;
+
+            try {
+                output = new FileOutputStream(file);
+                BitmapDrawable drawable = (BitmapDrawable) ivCapture.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 70, output); //해상도에 맞추어 Compress
+            } catch (FileNotFoundException e) {
+                isFileSave = false;
+                e.printStackTrace();
+            } finally {
+                try {
+                    assert output != null;
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                break;
-            default:
-                Bitmap tmpBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.tmp_img);
-                delivery_photo.setImageBitmap(tmpBitMap);
-                break;
+            }
+
+            Log.e(TAG, "Captured Saved");
+            Toast.makeText(this,  Label.DELIVERY_DELIVERY_PICTURE_SAVE_OK, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.w(TAG, "Capture Saving Error!", e);
+            Toast.makeText(this, Label.DELIVERY_DELIVERY_PICTURE_SAVE_FAIL, Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    private void loadImgArr() {
+        try {
+
+            //File storageDir = new File(getFilesDir() + "/capture");
+            File storageDir = new File(getFilesDir() + Label.DELIVERY_DELIVERY_PICTURE_DIR);
+
+            //String filename = "캡쳐파일" + ".jpg";
+            String filename = billNo+Label.DELIVERY_DELIVERY_PICTURE_EXTENSION;
+
+            File file = new File(storageDir, filename);
+
+            if ( file.isFile()){
+                Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+                ivCapture.setImageBitmap(bitmap);
+            }else{
+                // 캡쳐된 내용이 없으면 영역 숨기기
+                ivCapture.setVisibility(View.GONE);
+                btnSave.setVisibility(View.GONE);
+            }
+
+        } catch (Exception e) {
+            Log.w(TAG, "Capture loading Error!", e);
+            Toast.makeText(this, "load failed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        try {
+            //after capture
+            switch (requestCode) {
+                case REQUEST_TAKE_PHOTO: {
+                    if (resultCode == RESULT_OK) {
+
+                        File file = new File(mCurrentPhotoPath);
+                        Bitmap bitmap = MediaStore.Images.Media
+                                .getBitmap(getContentResolver(), Uri.fromFile(file));
+
+                        if (bitmap != null) {
+                            ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
+                            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                                    ExifInterface.ORIENTATION_UNDEFINED);
+
+//                            //사진해상도가 너무 높으면 비트맵으로 로딩
+//                            BitmapFactory.Options options = new BitmapFactory.Options();
+//                            options.inSampleSize = 8; //8분의 1크기로 비트맵 객체 생성
+//                            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+
+                            Bitmap rotatedBitmap = null;
+                            switch (orientation) {
+
+                                case ExifInterface.ORIENTATION_ROTATE_90:
+                                    rotatedBitmap = rotateImage(bitmap, 90);
+                                    break;
+
+                                case ExifInterface.ORIENTATION_ROTATE_180:
+                                    rotatedBitmap = rotateImage(bitmap, 180);
+                                    break;
+
+                                case ExifInterface.ORIENTATION_ROTATE_270:
+                                    rotatedBitmap = rotateImage(bitmap, 270);
+                                    break;
+
+                                case ExifInterface.ORIENTATION_NORMAL:
+                                default:
+                                    rotatedBitmap = bitmap;
+                            }
+
+                            //Rotate한 bitmap을 ImageView에 저장
+                            ivCapture.setImageBitmap(rotatedBitmap);
+
+                        }
+                    }
+                    break;
+                }
+            }
+
+        } catch (Exception e) {
+            Log.w(TAG, "onActivityResult Error !", e);
+        }
+    }
+
+    //카메라에 맞게 이미지 로테이션
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkPermission(); //권한체크
+    }
+
+    //권한 확인
+    public void checkPermission() {
+        int permissionCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        int permissionRead = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int permissionWrite = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        //권한이 없으면 권한 요청
+        if (permissionCamera != PackageManager.PERMISSION_GRANTED
+                || permissionRead != PackageManager.PERMISSION_GRANTED
+                || permissionWrite != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                Toast.makeText(this, "이 앱을 실행하기 위해 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+            }
+
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
+
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION: {
+                // 권한이 취소되면 result 배열은 비어있다.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(this, "권한 확인", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(this, "권한 없음", Toast.LENGTH_LONG).show();
+                    finish(); //권한이 없으면 앱 종료
+                }
+            }
         }
     }
 

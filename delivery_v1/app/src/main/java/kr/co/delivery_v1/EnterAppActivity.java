@@ -29,9 +29,7 @@ public class EnterAppActivity extends AppCompatActivity {
         actionBar.hide();
         moveMain(2);
 
-        /**
-         * 문자열 색상 변경
-         */
+        // 색상 변경
         TextView textView = findViewById(R.id.enter_txt);
         String word = "배달通";
         String content = textView.getText().toString();

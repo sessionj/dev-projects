@@ -2739,6 +2739,8 @@ int id bounce 0x7f080063
 int id bounceBoth 0x7f080064
 int id bounceEnd 0x7f080065
 int id bounceStart 0x7f080066
+int id btnCapture 0x7f08022d
+int id btnSave 0x7f08022e
 int id buttonPanel 0x7f080067
 int id cache_measures 0x7f080068
 int id callMeasure 0x7f080069
@@ -2790,7 +2792,6 @@ int id decelerateAndComplete 0x7f080096
 int id decor_content_parent 0x7f080097
 int id default_activity_button 0x7f080098
 int id delivery_number 0x7f080099
-int id delivery_photo 0x7f08009a
 int id deliveryavt_agencycode 0x7f08009b
 int id deliveryavt_date_picker_area 0x7f08009c
 int id deliveryavt_delivery_cource 0x7f08009d
@@ -2810,8 +2811,6 @@ int id details_createdate 0x7f0800aa
 int id details_delivery_course 0x7f0800ab
 int id details_parts_and_packing 0x7f0800ac
 int id details_parts_fare 0x7f0800ad
-int id details_success_btn 0x7f0800ae
-int id details_success_upload_btn 0x7f0800af
 int id dialog_button 0x7f0800b0
 int id dimensions 0x7f0800b1
 int id direct 0x7f0800b2
@@ -2901,6 +2900,7 @@ int id item2 0x7f080105
 int id item3 0x7f080106
 int id item4 0x7f080107
 int id item_touch_helper_previous_elevation 0x7f080108
+int id ivCapture 0x7f08022f
 int id jumpToEnd 0x7f080109
 int id jumpToStart 0x7f08010a
 int id labeled 0x7f08010b
@@ -6619,6 +6619,7 @@ int styleable include_constraintSet 0
 int xml bar_layout 0x7f120000
 int xml fadein 0x7f120001
 int xml fadeout 0x7f120002
+int xml file_path 0x7f12000b
 int xml file_paths 0x7f120003
 int xml hold 0x7f120004
 int xml network_security_config 0x7f120005

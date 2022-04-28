@@ -23,7 +23,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Delivery_v1"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
+        >
         <activity
             android:name=".EnterAppActivity"
             android:exported="true" >
@@ -36,7 +39,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="kr.co.delivery_v1"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
