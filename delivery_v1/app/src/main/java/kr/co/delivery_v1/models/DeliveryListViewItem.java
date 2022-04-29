@@ -37,6 +37,7 @@ public class DeliveryListViewItem {
     private String delivery_course;
     private String delivery_course_name;
     private int delivery_course_cnt;
+    private int combination_key;
     private boolean isSelected;
 
     @Override
@@ -72,6 +73,7 @@ public class DeliveryListViewItem {
                 ", delivery_course='" + delivery_course + '\'' +
                 ", delivery_course_name='" + delivery_course_name + '\'' +
                 ", delivery_course_cnt=" + delivery_course_cnt +
+                ", combination_key='" + combination_key + '\'' +
                 ", isSelected=" + isSelected +
                 '}';
     }
@@ -322,5 +324,13 @@ public class DeliveryListViewItem {
 
     public void setDelivery_course_cnt(int delivery_course_cnt) {
         this.delivery_course_cnt = delivery_course_cnt;
+    }
+
+    public int getCombination_key() {
+        return combination_key;
+    }
+
+    public void setCombination_key(int combination_key) {
+        this.combination_key = combination_key;
     }
 }

@@ -2,7 +2,6 @@ package kr.co.delivery_v1;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,15 +19,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,18 +46,15 @@ import kr.co.delivery_v1.action.DeliveryDao;
 import kr.co.delivery_v1.action.request.DeliveryRequest;
 import kr.co.delivery_v1.action.request.DeliveryRequestSummary;
 import kr.co.delivery_v1.adapter.DeliverySummaryViewAdapter;
-import kr.co.delivery_v1.adapter.DeliveryViewAdapter;
 import kr.co.delivery_v1.adapter.QuanitityListener;
 import kr.co.delivery_v1.comm.BasicUtils;
 import kr.co.delivery_v1.comm.DeviceInfoUtil;
 import kr.co.delivery_v1.comm.Label;
-import kr.co.delivery_v1.db.AppDatabase;
-import kr.co.delivery_v1.db.delivery.AppDeliveryDatabase;
-import kr.co.delivery_v1.login.LoginActivity;
-import kr.co.delivery_v1.login.LoginRequest;
+import kr.co.delivery_v1.db.delivery.BasicDeliveryDatabase;
+import kr.co.delivery_v1.db.delivery.BasicDeliveryRequestDatabase;
 import kr.co.delivery_v1.models.DeliveryListViewItem;
 import kr.co.delivery_v1.models.DeliveryModelView;
-import kr.co.delivery_v1.models.LoginModelView;
+import kr.co.delivery_v1.models.DeliveryRequestModelView;
 
 /**
  *  # 규칙
@@ -91,8 +84,9 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
     private int mMonth;
     private int mDay;
     private List<DeliveryListViewItem> deliveryListViewItemList;
-    private AppDeliveryDatabase appDeliveryDatabase;
-
+    private BasicDeliveryDatabase basicDeliveryDatabase;
+    private BasicDeliveryRequestDatabase basicDeliveryRequestDatabase;
+    private List<DeliveryRequestModelView> deliveryRequestModelViewList;
     private String etc_btn_check = "";
     private int successCnt = 0;
     private String requestSearchDay = "";
@@ -103,13 +97,18 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
     private StringBuffer deliveryCourseParam = null;
     private LinearLayoutManager layoutManager;
     private boolean isResponse = true;
-    StringBuffer privateParam;
+    private StringBuffer privateParam;
+    private DeliveryRequestModelView deliveryRequestModelView;
+    private String deliveryCourseName = "";
+    private int combination_key;
+    private ArrayList<DeliveryRequestModelView> deliveryRequestModelViewArrayList;
     /**
      * 초기화 및 셋팅
      */
     private void init(){
 
-        appDeliveryDatabase = AppDeliveryDatabase.getInstance(this);
+        basicDeliveryDatabase = BasicDeliveryDatabase.getInstance(this);
+        basicDeliveryRequestDatabase = BasicDeliveryRequestDatabase.getInstance(this);
         c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
@@ -219,7 +218,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                     public void onClick(DialogInterface dialog, int which) {
 
                         Toast.makeText(getApplicationContext(), "YES Button Click", Toast.LENGTH_LONG).show();
-                        getDeliveryList(null);
+                        getDeliveryList(null, 0);
                     }
                 });
 
@@ -312,6 +311,14 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                 // 화면에 반영
             }
         });
+
+
+        // 임시
+        List<DeliveryRequestModelView> listTmp = new ArrayList<DeliveryRequestModelView>();
+        listTmp = basicDeliveryRequestDatabase.basicDeliveryRequestProcessDao().getDeliveryRequestList();
+
+        Log.d(TAG, " list : " + listTmp);
+
     }
 
     @Override
@@ -338,12 +345,13 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
     /**
      *
      */
-    public void getDeliveryList(StringBuffer param){
+    public void getDeliveryList(StringBuffer param, int _combination_key){
 
         if ( param == null || param.length() == 0){
             return;
         }
 
+        combination_key = _combination_key;
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -353,6 +361,17 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                 }catch (Exception e){
                     Log.d("log ", e.toString());
                 }finally {
+
+                    deliveryRequestModelView = new DeliveryRequestModelView();
+                    deliveryRequestModelView.setDelivery_count(successCnt);
+                    deliveryRequestModelView.setDeliverycourse(param.toString());
+                    deliveryRequestModelView.setReqdate(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT));
+                    deliveryRequestModelView.setRequestdate(BasicUtils.getDays(Label.DELIVERY_STANDARD_DATE_FORMAT_TIME));
+                    deliveryRequestModelView.setDeliverycoursenm(deliveryCourseName);
+                    deliveryRequestModelView.setCombination_key(combination_key);
+                    basicDeliveryRequestDatabase.basicDeliveryRequestProcessDao().isDeliveryRequestAdd(deliveryRequestModelView);
+                    checkDeliveryDataCheck();
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(DeliveryRequestActivity.this).setIcon(android.R.drawable.ic_btn_speak_now);
                     builder.setTitle("안내");
                     builder.setMessage("자료 수신 (총 "+successCnt+" 건) 완료" );
@@ -405,9 +424,14 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                         //deliveryModelView.setDeliverycourse(Object.getString("deliverycourse"));
                         deliveryModelViewResult.setDeliverycourse(deliveryCourse);
                         deliveryModelViewResult.setCreatdate(Object.getString("creatdate"));
-                        appDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelViewResult);
+                        deliveryModelViewResult.setDeliverycoursenm(Object.getString("deliverycoursenm"));
+
+                        basicDeliveryDatabase.basicDeliveryProcessDao().applicationData_insert(deliveryModelViewResult);
                         successCnt ++;
+                        deliveryCourseName = deliveryModelViewResult.getDeliverycoursenm();
                     }
+
+
                 } catch(JSONException e){
                     e.printStackTrace();
                 } finally {
@@ -415,12 +439,8 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                 }
             }
         };
-        //deliveryCourseParam = new StringBuffer();
-        // 체크 된 값의 집합
 
         String[] tmpStr = deliveryavt_date_picker_area.getText().toString().split(" ");
-        Log.d("========> crdt :" , tmpStr[0]);
-        Log.d("========> crdt :" , tmpStr[0].toString());
         deliveryModelView.setCreatdate(tmpStr[0].toString() );
         DeliveryRequest deliveryRequest = new DeliveryRequest(deliveryModelView, responseListener, param  );
         RequestQueue queue = Volley.newRequestQueue( DeliveryRequestActivity.this );
@@ -465,6 +485,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                      */
                     private void requestDeliveryView(String response) {
 
+                        deliveryRequestModelViewList = basicDeliveryRequestDatabase.basicDeliveryRequestProcessDao().getDeliveryRequestList();
                         isResponse = true;
 
                         if ( response == null && response.length() == 0){
@@ -487,6 +508,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                                         deliveryListViewItem.setDelivery_course(Object.getString("course"));
                                         deliveryListViewItem.setDelivery_course_name(Object.getString("course_name"));
                                         deliveryListViewItem.setDelivery_course_cnt(Object.getInt("course_cnt"));
+                                        deliveryListViewItem.setCombination_key(Object.getInt("combination_key"));
                                         deliveryListViewItemList.add(deliveryListViewItem);
                                     }
 
@@ -498,13 +520,12 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                                     layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                                     recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
                                     recyclerView.setLayoutManager(layoutManager);
-                                    deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(getApplicationContext(), deliveryListViewItemList, DeliveryRequestActivity.this::onQuanitityChange);
+                                    deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(getApplicationContext(), deliveryListViewItemList, DeliveryRequestActivity.this::onQuanitityChange, deliveryRequestModelViewList);
                                     recyclerView.setAdapter(deliverySummaryViewAdapter);
 
                                     if ( deliveryListViewItemList != null && deliveryListViewItemList.size() == 0){
                                         isResponse = false;
                                     }
-
 
                                 }else{
                                     isResponse = false;
@@ -530,7 +551,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                                 layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                                 recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
                                 recyclerView.setLayoutManager(layoutManager);
-                                deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(getApplicationContext(), deliveryListViewItemList, DeliveryRequestActivity.this::onQuanitityChange);
+                                deliverySummaryViewAdapter = new DeliverySummaryViewAdapter(getApplicationContext(), deliveryListViewItemList, DeliveryRequestActivity.this::onQuanitityChange, deliveryRequestModelViewList);
                                 recyclerView.setAdapter(deliverySummaryViewAdapter);
 
                                 deliverySummaryViewAdapter.setOnitemButtonClickListener(new DeliverySummaryViewAdapter.OnitemButtonClickListener() {
@@ -541,9 +562,8 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                                         deliveryListViewItemList.get(pos).getArrivalagencycode();
                                         deliveryListViewItemList.get(pos).getDelivery_course();
 
-
                                         String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
-                                        Toast.makeText(getApplicationContext(), "받아올 자료 선택===========================================여기 . : " + tmpStr, Toast.LENGTH_LONG ).show();
+                                        //Toast.makeText(getApplicationContext(), "받아올 자료 선택===========================================여기 . : " + tmpStr, Toast.LENGTH_LONG ).show();
 
                                     }
                                 });
@@ -554,15 +574,11 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
                                         // 버튼 클릭 시 해당 로우의 영업소 코드와 배달코스를 받아온다
                                         deliveryListViewItemList.get(pos).getArrivalagencycode();
                                         deliveryListViewItemList.get(pos).getDelivery_course();
-
                                         String tmpStr = deliveryListViewItemList.get(pos).getArrivalagencycode() + ", " +deliveryListViewItemList.get(pos).getDelivery_course();
-
-                                        Toast.makeText(getApplicationContext(), "받아올 자료 선택 : " + tmpStr, Toast.LENGTH_LONG ).show();
-
+                                        //Toast.makeText(getApplicationContext(), "받아올 자료 선택 : " + tmpStr, Toast.LENGTH_LONG ).show();
                                         privateParam = new StringBuffer();
                                         privateParam.append(deliveryListViewItemList.get(pos).getDelivery_course());
-                                        //getDeliveryList(requestCourse);
-                                        getListTypesTask getListTypesTask = new getListTypesTask(privateParam);
+                                        getListTypesTask getListTypesTask = new getListTypesTask(privateParam, deliveryListViewItemList.get(pos).getCombination_key());
                                         getListTypesTask.execute();
                                     }
                                 });
@@ -618,6 +634,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         @Override
         protected Void doInBackground(Void... arg0) {
             try {
+
                 setRequestStatus();
                 Thread.sleep(200 * 5);
             } catch (Exception e) {
@@ -640,8 +657,10 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
 
         ProgressDialog asyncDialog = new ProgressDialog(DeliveryRequestActivity.this);
         private StringBuffer sbr = new StringBuffer();
-        public getListTypesTask(StringBuffer privateParam) {
+        private int combination_key;
+        public getListTypesTask(StringBuffer privateParam, int _combination_key) {
             sbr = privateParam;
+            combination_key = _combination_key;
         }
 
         @Override
@@ -657,7 +676,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         @Override
         protected Void doInBackground(Void... arg0) {
             try {
-                getDeliveryList(sbr);
+                getDeliveryList(sbr, combination_key);
                 Thread.sleep(300 * 5);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -724,4 +743,15 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
         }
     }
 
+    private void checkDeliveryDataCheck(){
+        List<DeliveryRequestModelView> arr = new ArrayList<DeliveryRequestModelView>();
+        DeliveryRequestModelView entity = null;
+        entity = new DeliveryRequestModelView();
+        arr = basicDeliveryRequestDatabase.basicDeliveryRequestProcessDao().getDeliveryRequestList();
+        if ( arr != null && arr.size() > 0){
+            Log.d(TAG + "============ checkDeliveryDataCheck",arr + "");
+        }else{
+            Log.d(TAG , "no data");
+        }
+    }
 }

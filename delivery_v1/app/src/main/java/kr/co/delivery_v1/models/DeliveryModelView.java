@@ -46,6 +46,13 @@ public class DeliveryModelView {
     @ColumnInfo(name = "creatdate")             private String creatdate;
     @ColumnInfo(name = "delivery_state")        private String delivery_state;
     @ColumnInfo(name = "delivery_picture_path") private String delivery_picture_path;
+    @ColumnInfo(name = "deliverycoursenm")      private String deliverycoursenm;
+
+    private String delivery_course;
+    private String delivery_course_name;
+    private int delivery_course_cnt;
+    private String combination_key;
+    private boolean isSelected;
 
     @Override
     public String toString() {
@@ -79,6 +86,12 @@ public class DeliveryModelView {
                 ", creatdate='" + creatdate + '\'' +
                 ", delivery_state='" + delivery_state + '\'' +
                 ", delivery_picture_path='" + delivery_picture_path + '\'' +
+                ", deliverycoursenm='" + deliverycoursenm + '\'' +
+                ", delivery_course='" + delivery_course + '\'' +
+                ", delivery_course_name='" + delivery_course_name + '\'' +
+                ", delivery_course_cnt=" + delivery_course_cnt +
+                ", combination_key='" + combination_key + '\'' +
+                ", isSelected=" + isSelected +
                 '}';
     }
 
@@ -317,5 +330,53 @@ public class DeliveryModelView {
 
     public void setDelivery_picture_path(String delivery_picture_path) {
         this.delivery_picture_path = delivery_picture_path;
+    }
+
+    public String getDeliverycoursenm() {
+        return deliverycoursenm;
+    }
+
+    public void setDeliverycoursenm(String deliverycoursenm) {
+        this.deliverycoursenm = deliverycoursenm;
+    }
+
+    public String getDelivery_course() {
+        return delivery_course;
+    }
+
+    public void setDelivery_course(String delivery_course) {
+        this.delivery_course = delivery_course;
+    }
+
+    public String getDelivery_course_name() {
+        return delivery_course_name;
+    }
+
+    public void setDelivery_course_name(String delivery_course_name) {
+        this.delivery_course_name = delivery_course_name;
+    }
+
+    public int getDelivery_course_cnt() {
+        return delivery_course_cnt;
+    }
+
+    public void setDelivery_course_cnt(int delivery_course_cnt) {
+        this.delivery_course_cnt = delivery_course_cnt;
+    }
+
+    public String getCombination_key() {
+        return combination_key;
+    }
+
+    public void setCombination_key(String combination_key) {
+        this.combination_key = combination_key;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

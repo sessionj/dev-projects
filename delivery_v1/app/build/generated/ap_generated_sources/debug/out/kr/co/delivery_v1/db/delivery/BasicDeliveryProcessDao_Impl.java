@@ -23,7 +23,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
 
   private final EntityInsertionAdapter<DeliveryModelView> __insertionAdapterOfDeliveryModelView;
 
-  private final SharedSQLiteStatement __preparedStmtOfApplicationData_deleteAll;
+  private final SharedSQLiteStatement __preparedStmtOfIsDeliveryDel;
 
   private final SharedSQLiteStatement __preparedStmtOfIsDeliveryStatusChange;
 
@@ -32,7 +32,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
     this.__insertionAdapterOfDeliveryModelView = new EntityInsertionAdapter<DeliveryModelView>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `tb_delivery` (`billno`,`input_date`,`input_time`,`transcode`,`sendingagencycode`,`arrivalagencycode`,`sendingmantel`,`sendingman`,`arrivalmantel`,`arrivalmantel2`,`arrivalman`,`zipcode`,`adress`,`prefare`,`fare`,`deliveryfare`,`ogideliveryfare`,`distance`,`payway`,`goods`,`pojang`,`qty`,`weight`,`memo`,`billstate`,`deliverycourse`,`creatdate`,`delivery_state`,`delivery_picture_path`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `tb_delivery` (`billno`,`input_date`,`input_time`,`transcode`,`sendingagencycode`,`arrivalagencycode`,`sendingmantel`,`sendingman`,`arrivalmantel`,`arrivalmantel2`,`arrivalman`,`zipcode`,`adress`,`prefare`,`fare`,`deliveryfare`,`ogideliveryfare`,`distance`,`payway`,`goods`,`pojang`,`qty`,`weight`,`memo`,`billstate`,`deliverycourse`,`creatdate`,`delivery_state`,`delivery_picture_path`,`deliverycoursenm`,`delivery_course`,`delivery_course_name`,`delivery_course_cnt`,`combination_key`,`isSelected`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -178,12 +178,35 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
         } else {
           stmt.bindString(29, value.getDelivery_picture_path());
         }
+        if (value.getDeliverycoursenm() == null) {
+          stmt.bindNull(30);
+        } else {
+          stmt.bindString(30, value.getDeliverycoursenm());
+        }
+        if (value.getDelivery_course() == null) {
+          stmt.bindNull(31);
+        } else {
+          stmt.bindString(31, value.getDelivery_course());
+        }
+        if (value.getDelivery_course_name() == null) {
+          stmt.bindNull(32);
+        } else {
+          stmt.bindString(32, value.getDelivery_course_name());
+        }
+        stmt.bindLong(33, value.getDelivery_course_cnt());
+        if (value.getCombination_key() == null) {
+          stmt.bindNull(34);
+        } else {
+          stmt.bindString(34, value.getCombination_key());
+        }
+        final int _tmp = value.isSelected() ? 1 : 0;
+        stmt.bindLong(35, _tmp);
       }
     };
-    this.__preparedStmtOfApplicationData_deleteAll = new SharedSQLiteStatement(__db) {
+    this.__preparedStmtOfIsDeliveryDel = new SharedSQLiteStatement(__db) {
       @Override
       public String createQuery() {
-        final String _query = "DELETE FROM tb_delivery";
+        final String _query = "DELETE FROM tb_delivery where creatdate > ?";
         return _query;
       }
     };
@@ -209,16 +232,22 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
   }
 
   @Override
-  public void applicationData_deleteAll() {
+  public void isDeliveryDel(final String sysdate) {
     __db.assertNotSuspendingTransaction();
-    final SupportSQLiteStatement _stmt = __preparedStmtOfApplicationData_deleteAll.acquire();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfIsDeliveryDel.acquire();
+    int _argIndex = 1;
+    if (sysdate == null) {
+      _stmt.bindNull(_argIndex);
+    } else {
+      _stmt.bindString(_argIndex, sysdate);
+    }
     __db.beginTransaction();
     try {
       _stmt.executeUpdateDelete();
       __db.setTransactionSuccessful();
     } finally {
       __db.endTransaction();
-      __preparedStmtOfApplicationData_deleteAll.release(_stmt);
+      __preparedStmtOfIsDeliveryDel.release(_stmt);
     }
   }
 
@@ -284,6 +313,12 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       final int _cursorIndexOfCreatdate = CursorUtil.getColumnIndexOrThrow(_cursor, "creatdate");
       final int _cursorIndexOfDeliveryState = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_state");
       final int _cursorIndexOfDeliveryPicturePath = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_picture_path");
+      final int _cursorIndexOfDeliverycoursenm = CursorUtil.getColumnIndexOrThrow(_cursor, "deliverycoursenm");
+      final int _cursorIndexOfDeliveryCourse = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_course");
+      final int _cursorIndexOfDeliveryCourseName = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_course_name");
+      final int _cursorIndexOfDeliveryCourseCnt = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_course_cnt");
+      final int _cursorIndexOfCombinationKey = CursorUtil.getColumnIndexOrThrow(_cursor, "combination_key");
+      final int _cursorIndexOfIsSelected = CursorUtil.getColumnIndexOrThrow(_cursor, "isSelected");
       final List<DeliveryModelView> _result = new ArrayList<DeliveryModelView>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final DeliveryModelView _item;
@@ -487,6 +522,42 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
           _tmpDelivery_picture_path = _cursor.getString(_cursorIndexOfDeliveryPicturePath);
         }
         _item.setDelivery_picture_path(_tmpDelivery_picture_path);
+        final String _tmpDeliverycoursenm;
+        if (_cursor.isNull(_cursorIndexOfDeliverycoursenm)) {
+          _tmpDeliverycoursenm = null;
+        } else {
+          _tmpDeliverycoursenm = _cursor.getString(_cursorIndexOfDeliverycoursenm);
+        }
+        _item.setDeliverycoursenm(_tmpDeliverycoursenm);
+        final String _tmpDelivery_course;
+        if (_cursor.isNull(_cursorIndexOfDeliveryCourse)) {
+          _tmpDelivery_course = null;
+        } else {
+          _tmpDelivery_course = _cursor.getString(_cursorIndexOfDeliveryCourse);
+        }
+        _item.setDelivery_course(_tmpDelivery_course);
+        final String _tmpDelivery_course_name;
+        if (_cursor.isNull(_cursorIndexOfDeliveryCourseName)) {
+          _tmpDelivery_course_name = null;
+        } else {
+          _tmpDelivery_course_name = _cursor.getString(_cursorIndexOfDeliveryCourseName);
+        }
+        _item.setDelivery_course_name(_tmpDelivery_course_name);
+        final int _tmpDelivery_course_cnt;
+        _tmpDelivery_course_cnt = _cursor.getInt(_cursorIndexOfDeliveryCourseCnt);
+        _item.setDelivery_course_cnt(_tmpDelivery_course_cnt);
+        final String _tmpCombination_key;
+        if (_cursor.isNull(_cursorIndexOfCombinationKey)) {
+          _tmpCombination_key = null;
+        } else {
+          _tmpCombination_key = _cursor.getString(_cursorIndexOfCombinationKey);
+        }
+        _item.setCombination_key(_tmpCombination_key);
+        final boolean _tmpIsSelected;
+        final int _tmp;
+        _tmp = _cursor.getInt(_cursorIndexOfIsSelected);
+        _tmpIsSelected = _tmp != 0;
+        _item.setSelected(_tmpIsSelected);
         _result.add(_item);
       }
       return _result;
@@ -498,7 +569,7 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
 
   @Override
   public List<DeliveryModelView> getDayList(final String createDt, final String deliveryCourse) {
-    final String _sql = "SELECT * FROM tb_delivery  WHERE creatdate = ? AND deliverycourse =? ORDER BY deliverycourse DESC";
+    final String _sql = "SELECT * FROM tb_delivery  WHERE creatdate = ? AND deliverycourse =? ORDER BY delivery_state ASC";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 2);
     int _argIndex = 1;
     if (createDt == null) {
@@ -544,6 +615,12 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       final int _cursorIndexOfCreatdate = CursorUtil.getColumnIndexOrThrow(_cursor, "creatdate");
       final int _cursorIndexOfDeliveryState = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_state");
       final int _cursorIndexOfDeliveryPicturePath = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_picture_path");
+      final int _cursorIndexOfDeliverycoursenm = CursorUtil.getColumnIndexOrThrow(_cursor, "deliverycoursenm");
+      final int _cursorIndexOfDeliveryCourse = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_course");
+      final int _cursorIndexOfDeliveryCourseName = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_course_name");
+      final int _cursorIndexOfDeliveryCourseCnt = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_course_cnt");
+      final int _cursorIndexOfCombinationKey = CursorUtil.getColumnIndexOrThrow(_cursor, "combination_key");
+      final int _cursorIndexOfIsSelected = CursorUtil.getColumnIndexOrThrow(_cursor, "isSelected");
       final List<DeliveryModelView> _result = new ArrayList<DeliveryModelView>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final DeliveryModelView _item;
@@ -747,6 +824,42 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
           _tmpDelivery_picture_path = _cursor.getString(_cursorIndexOfDeliveryPicturePath);
         }
         _item.setDelivery_picture_path(_tmpDelivery_picture_path);
+        final String _tmpDeliverycoursenm;
+        if (_cursor.isNull(_cursorIndexOfDeliverycoursenm)) {
+          _tmpDeliverycoursenm = null;
+        } else {
+          _tmpDeliverycoursenm = _cursor.getString(_cursorIndexOfDeliverycoursenm);
+        }
+        _item.setDeliverycoursenm(_tmpDeliverycoursenm);
+        final String _tmpDelivery_course;
+        if (_cursor.isNull(_cursorIndexOfDeliveryCourse)) {
+          _tmpDelivery_course = null;
+        } else {
+          _tmpDelivery_course = _cursor.getString(_cursorIndexOfDeliveryCourse);
+        }
+        _item.setDelivery_course(_tmpDelivery_course);
+        final String _tmpDelivery_course_name;
+        if (_cursor.isNull(_cursorIndexOfDeliveryCourseName)) {
+          _tmpDelivery_course_name = null;
+        } else {
+          _tmpDelivery_course_name = _cursor.getString(_cursorIndexOfDeliveryCourseName);
+        }
+        _item.setDelivery_course_name(_tmpDelivery_course_name);
+        final int _tmpDelivery_course_cnt;
+        _tmpDelivery_course_cnt = _cursor.getInt(_cursorIndexOfDeliveryCourseCnt);
+        _item.setDelivery_course_cnt(_tmpDelivery_course_cnt);
+        final String _tmpCombination_key;
+        if (_cursor.isNull(_cursorIndexOfCombinationKey)) {
+          _tmpCombination_key = null;
+        } else {
+          _tmpCombination_key = _cursor.getString(_cursorIndexOfCombinationKey);
+        }
+        _item.setCombination_key(_tmpCombination_key);
+        final boolean _tmpIsSelected;
+        final int _tmp;
+        _tmp = _cursor.getInt(_cursorIndexOfIsSelected);
+        _tmpIsSelected = _tmp != 0;
+        _item.setSelected(_tmpIsSelected);
         _result.add(_item);
       }
       return _result;
@@ -798,6 +911,12 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
       final int _cursorIndexOfCreatdate = CursorUtil.getColumnIndexOrThrow(_cursor, "creatdate");
       final int _cursorIndexOfDeliveryState = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_state");
       final int _cursorIndexOfDeliveryPicturePath = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_picture_path");
+      final int _cursorIndexOfDeliverycoursenm = CursorUtil.getColumnIndexOrThrow(_cursor, "deliverycoursenm");
+      final int _cursorIndexOfDeliveryCourse = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_course");
+      final int _cursorIndexOfDeliveryCourseName = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_course_name");
+      final int _cursorIndexOfDeliveryCourseCnt = CursorUtil.getColumnIndexOrThrow(_cursor, "delivery_course_cnt");
+      final int _cursorIndexOfCombinationKey = CursorUtil.getColumnIndexOrThrow(_cursor, "combination_key");
+      final int _cursorIndexOfIsSelected = CursorUtil.getColumnIndexOrThrow(_cursor, "isSelected");
       final DeliveryModelView _result;
       if(_cursor.moveToFirst()) {
         _result = new DeliveryModelView();
@@ -1000,6 +1119,42 @@ public final class BasicDeliveryProcessDao_Impl implements BasicDeliveryProcessD
           _tmpDelivery_picture_path = _cursor.getString(_cursorIndexOfDeliveryPicturePath);
         }
         _result.setDelivery_picture_path(_tmpDelivery_picture_path);
+        final String _tmpDeliverycoursenm;
+        if (_cursor.isNull(_cursorIndexOfDeliverycoursenm)) {
+          _tmpDeliverycoursenm = null;
+        } else {
+          _tmpDeliverycoursenm = _cursor.getString(_cursorIndexOfDeliverycoursenm);
+        }
+        _result.setDeliverycoursenm(_tmpDeliverycoursenm);
+        final String _tmpDelivery_course;
+        if (_cursor.isNull(_cursorIndexOfDeliveryCourse)) {
+          _tmpDelivery_course = null;
+        } else {
+          _tmpDelivery_course = _cursor.getString(_cursorIndexOfDeliveryCourse);
+        }
+        _result.setDelivery_course(_tmpDelivery_course);
+        final String _tmpDelivery_course_name;
+        if (_cursor.isNull(_cursorIndexOfDeliveryCourseName)) {
+          _tmpDelivery_course_name = null;
+        } else {
+          _tmpDelivery_course_name = _cursor.getString(_cursorIndexOfDeliveryCourseName);
+        }
+        _result.setDelivery_course_name(_tmpDelivery_course_name);
+        final int _tmpDelivery_course_cnt;
+        _tmpDelivery_course_cnt = _cursor.getInt(_cursorIndexOfDeliveryCourseCnt);
+        _result.setDelivery_course_cnt(_tmpDelivery_course_cnt);
+        final String _tmpCombination_key;
+        if (_cursor.isNull(_cursorIndexOfCombinationKey)) {
+          _tmpCombination_key = null;
+        } else {
+          _tmpCombination_key = _cursor.getString(_cursorIndexOfCombinationKey);
+        }
+        _result.setCombination_key(_tmpCombination_key);
+        final boolean _tmpIsSelected;
+        final int _tmp;
+        _tmp = _cursor.getInt(_cursorIndexOfIsSelected);
+        _tmpIsSelected = _tmp != 0;
+        _result.setSelected(_tmpIsSelected);
       } else {
         _result = null;
       }

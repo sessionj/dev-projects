@@ -1,16 +1,11 @@
 package kr.co.delivery_v1;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -28,7 +23,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,26 +31,17 @@ import androidx.recyclerview.widget.RecyclerView;
 //import com.gun0912.tedpermission.TedPermission;
 
 
-import java.sql.Array;
-import java.text.ParseException;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
-import kr.co.delivery_v1.R;
 import kr.co.delivery_v1.action.DeliveryDao;
 import kr.co.delivery_v1.adapter.DeliveryViewAdapter;
 import kr.co.delivery_v1.comm.BasicUtils;
 import kr.co.delivery_v1.comm.DeviceInfoUtil;
 import kr.co.delivery_v1.comm.Label;
-import kr.co.delivery_v1.db.AppDatabase;
-import kr.co.delivery_v1.db.BasicProcessDao;
-import kr.co.delivery_v1.db.delivery.AppDeliveryDatabase;
 import kr.co.delivery_v1.login.LoginActivity;
 import kr.co.delivery_v1.models.DeliveryModelView;
-import kr.co.delivery_v1.models.LoginModelView;
 
 public class MainActivity extends AppCompatActivity {
 

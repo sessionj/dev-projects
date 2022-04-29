@@ -25,6 +25,7 @@ import kr.co.delivery_v1.MainActivity;
 import kr.co.delivery_v1.R;
 import kr.co.delivery_v1.models.DeliveryListViewItem;
 import kr.co.delivery_v1.models.DeliveryModelView;
+import kr.co.delivery_v1.models.DeliveryRequestModelView;
 
 
 public class DeliverySummaryViewAdapter extends RecyclerView.Adapter<DeliverySummaryViewAdapter.ViewHolder> {
@@ -33,7 +34,7 @@ public class DeliverySummaryViewAdapter extends RecyclerView.Adapter<DeliverySum
     Context context;
     ArrayList<String> btnCheckList;
     QuanitityListener quanitityListener;
-
+    private List<DeliveryRequestModelView> deliveryRequestModelViewList;
     private List<DeliveryListViewItem> deliveryModelViewList = new ArrayList<DeliveryListViewItem>();
     StringBuffer sb;
 
@@ -41,10 +42,11 @@ public class DeliverySummaryViewAdapter extends RecyclerView.Adapter<DeliverySum
      * 생성자로 리스트를 전달 받음
      * @param _deliveryModelViewList
      */
-    public DeliverySummaryViewAdapter(Context context, List<DeliveryListViewItem> _deliveryModelViewList, QuanitityListener quanitityListener){
+    public DeliverySummaryViewAdapter(Context context, List<DeliveryListViewItem> _deliveryModelViewList, QuanitityListener quanitityListener, List<DeliveryRequestModelView> _deliveryRequestModelViewList){
         this.context = context;
         this.deliveryModelViewList = _deliveryModelViewList;
         this.quanitityListener = quanitityListener;
+        this.deliveryRequestModelViewList = _deliveryRequestModelViewList;
         btnCheckList = new ArrayList<String >();
     }
 
@@ -89,6 +91,20 @@ public class DeliverySummaryViewAdapter extends RecyclerView.Adapter<DeliverySum
 
         sb = new StringBuffer();
         sb.append(" "+deliveryModelViewList.get(itemposition).getDelivery_course_cnt() + "건 ");
+
+        //holder.summary_row_item_btn.setVisibility(View.VISIBLE);
+        if ( deliveryRequestModelViewList != null && deliveryRequestModelViewList.size() > 0){
+            for ( int i=0; i<deliveryRequestModelViewList.size(); i++){
+
+                Log.d("===", deliveryRequestModelViewList.get(i).getCombination_key() + " : " + deliveryModelViewList.get(position).getCombination_key() + "("+deliveryModelViewList.get(position).getDelivery_course()+")");
+
+                if ( deliveryRequestModelViewList.get(i).getCombination_key() == deliveryModelViewList.get(position).getCombination_key() ){
+                    sb.append("["+deliveryRequestModelViewList.get(i).getRequestdate() + " 수신됨]");
+                    //holder.summary_row_item_btn.setVisibility(View.GONE);
+                    break;
+                }
+            }
+        }
         holder.summary_row_item_2.setText(sb.toString());
 
         holder.summary_row_item_check.setOnClickListener(new View.OnClickListener() {
