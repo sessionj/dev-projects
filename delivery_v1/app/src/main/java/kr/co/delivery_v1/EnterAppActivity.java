@@ -24,6 +24,9 @@ import kr.co.delivery_v1.comm.Label;
 import kr.co.delivery_v1.login.LoginActivity;
 import kr.co.delivery_v1.models.DeliveryRequestModelView;
 
+/**
+ * 아니 여기 바꾸고 싶다고
+ */
 public class EnterAppActivity extends AppCompatActivity {
 
     private DeliveryRequestDao deliveryRequestDao;
