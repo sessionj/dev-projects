@@ -1,0 +1,11 @@
+.gradle/
+.idea/
+build/
+ffmpeg4android_lib/
+gradle/
+utribe.iml
+app/build/
+app/app.iml
+app/app-release.apk
+app/*.log
+app/*.pro
