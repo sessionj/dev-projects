@@ -48,22 +48,16 @@
                 android:layout_weight="8"
                 android:gravity="left"
                 />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="New Text"
-                    android:id="@+id/summary_row_item_2"
-                    android:textSize="16dp"
-                    android:textColor="@color/red"
-                    android:layout_weight="8"
-                    android:gravity="left"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="New Text"
+                android:id="@+id/summary_row_item_2"
+                android:textSize="16dp"
+                android:textColor="@color/red"
+                android:layout_weight="8"
+                android:gravity="left"
+                android:textStyle="bold"/>
 
         </LinearLayout>
         <Button
