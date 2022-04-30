@@ -462,7 +462,7 @@ public class DeliveryRequestActivity extends AppCompatActivity implements Quanit
     }
 
     /**
-     * 화면에 들어오면 화면에 한번 뿌린다.
+     * 화면에 들어오면 화면에 한번 뿌린다.()
      * 청주우암 홍길동 10건 (자료받기)
      * 청주우암 김수각 20건 (자료받기)
      * 전체 자료 받기
