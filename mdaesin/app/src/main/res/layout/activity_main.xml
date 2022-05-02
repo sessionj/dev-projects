@@ -39,13 +39,20 @@
             </TextView>
 
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/receipt_recyceler_view"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="3dp"
-            />
+            android:layout_height="wrap_content"
+            android:id="@+id/content_srl">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/receipt_recyceler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="3dp"
+                />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
         <TextView
             android:id="@+id/main_list_empty"

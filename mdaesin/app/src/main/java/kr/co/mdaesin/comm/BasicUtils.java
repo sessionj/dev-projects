@@ -107,15 +107,17 @@ public class BasicUtils {
         return beforeDate;
     }
 
-    public static String getYesterdayDays(){
+    public static String getToDayDays(){
         String resultDay = "";
         try {
-            resultDay = getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT)+" ["+getDayOfweek( getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT), Label.DELIVERY_STANDARD_DATE_FORMAT  )+"]";
+            resultDay = getDays(Label.DELIVERY_STANDARD_DATE_FORMAT)+" ["+getDayOfweek( getDays(Label.DELIVERY_STANDARD_DATE_FORMAT), Label.DELIVERY_STANDARD_DATE_FORMAT  )+"]";
         } catch (Exception e) {
             e.printStackTrace();
         }
         return resultDay;
     }
+
+
 
     /**
      *

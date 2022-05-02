@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -48,11 +50,13 @@ public class MainActivity extends AppCompatActivity {
     private ReceptionQuantityAdapter receptionQuantityAdapter;
     private RecyclerView recyclerView;
 
-    TextView textview_v1;
     private Calendar c;
     private int mYear, mMonth, mDay;
-
+    private SwipeRefreshLayout mysrl;
     SearchView searchView;
+    TextView textview_v1;
+
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +65,25 @@ public class MainActivity extends AppCompatActivity {
 
         // 1.셋팅
         textview_v1 = (TextView) findViewById(R.id.textview_v1);
-        textview_v1.setText(BasicUtils.getYesterdayDays().toString());
+        textview_v1.setText(BasicUtils.getToDayDays().toString()) ;
         textview_v1.setOnClickListener(onClickListener);
 
         c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
-
+        mDay = c.get(Calendar.DAY_OF_MONTH);
         CheckTypesTask task = new CheckTypesTask();
         task.execute();
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        mysrl = findViewById(R.id.content_srl);
+        mysrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                CheckTypesTask task3 = new CheckTypesTask();
+                task3.execute();
+            }
+        });
 
         /**
          * 날짜 검색
@@ -170,59 +184,66 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    protected void isParamSetting(){
 
-        receptionQuantityModelView = new ReceptionQuantityModelView();
-        receptionQuantityModelView.setSearchKeyword_date(textview_v1.getText().toString().split(" ")[0]);
-        receptionQuantityModelView.setLinecode("102003");
-
-    }
-
-    // 임시로 사용 셋팅
     public void settingRceptionQuantityModelView(){
 
-        isParamSetting();
-
-        receptionQuantityModelViewList = new ArrayList<ReceptionQuantityModelView>();
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onResponse(String response) {
+            public void run() {
 
                 try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray resultarray = jsonObject.getJSONArray("rows");
+                    receptionQuantityModelView = new ReceptionQuantityModelView();
+                    receptionQuantityModelView.setSearchKeyword_date(textview_v1.getText().toString().split(" ")[0]);
+                    receptionQuantityModelView.setLinecode("102003");
 
-                    if ( resultarray.length() > 0){
-                        for ( int i=0; i < resultarray.length(); i++){
-                            JSONObject Object = resultarray.getJSONObject(i);
-                            receptionQuantityModelView = new ReceptionQuantityModelView();
-                            receptionQuantityModelView.setLinecode(Object.getString("linecode"));
-                            receptionQuantityModelView.setLinename(Object.getString("linename"));
-                            receptionQuantityModelView.setCarcode(Object.getString("carcode"));
-                            receptionQuantityModelView.setCarname(Object.getString("carname"));
-                            receptionQuantityModelView.setCnt(Object.getString("cnt"));
-                            receptionQuantityModelView.setQty(Object.getString("qty"));
-                            receptionQuantityModelView.setChong(Object.getString("chong"));
-                            receptionQuantityModelView.setGugan(Object.getString("gugan"));
-                            receptionQuantityModelView.setSenddate(Object.getString("senddate"));
-                            receptionQuantityModelView.setRgunsu(Object.getString("rgunsu"));
-                            receptionQuantityModelView.setRqty(Object.getString("rqty"));
-                            receptionQuantityModelView.setRfare(Object.getString("rfare"));
-                            receptionQuantityModelView.setRrate(Object.getString("rrate"));
-                            receptionQuantityModelView.setWeight(Object.getString("weight"));
-                            Log.d("receptionQuantityModelView : ",  Object.getString("linecode") );
-                            receptionQuantityModelViewList.add(receptionQuantityModelView);
+                    receptionQuantityModelViewList = new ArrayList<ReceptionQuantityModelView>();
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray resultarray = jsonObject.getJSONArray("rows");
+
+                                if ( resultarray.length() > 0){
+                                    for ( int i=0; i < resultarray.length(); i++){
+                                        JSONObject Object = resultarray.getJSONObject(i);
+                                        receptionQuantityModelView = new ReceptionQuantityModelView();
+                                        receptionQuantityModelView.setLinecode(Object.getString("linecode"));
+                                        receptionQuantityModelView.setLinename(Object.getString("linename"));
+                                        receptionQuantityModelView.setCarcode(Object.getString("carcode"));
+                                        receptionQuantityModelView.setCarname(Object.getString("carname"));
+                                        receptionQuantityModelView.setCnt(Object.getString("cnt"));
+                                        receptionQuantityModelView.setQty(Object.getString("qty"));
+                                        receptionQuantityModelView.setChong(Object.getString("chong"));
+                                        receptionQuantityModelView.setGugan(Object.getString("gugan"));
+                                        receptionQuantityModelView.setSenddate(Object.getString("senddate"));
+                                        receptionQuantityModelView.setRgunsu(Object.getString("rgunsu"));
+                                        receptionQuantityModelView.setRqty(Object.getString("rqty"));
+                                        receptionQuantityModelView.setRfare(Object.getString("rfare"));
+                                        receptionQuantityModelView.setRrate(Object.getString("rrate"));
+                                        receptionQuantityModelView.setWeight(Object.getString("weight"));
+
+                                        receptionQuantityModelViewList.add(receptionQuantityModelView);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                } catch (JSONException e) {
+                    };
+
+                    ReceiptListRequest receiptListRequest = new ReceiptListRequest(receptionQuantityModelView, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue( MainActivity.this);
+                    queue.add(receiptListRequest);
+
+                }catch (Exception e){
                     e.printStackTrace();
+                }finally {
+
                 }
             }
-        };
-
-        ReceiptListRequest receiptListRequest = new ReceiptListRequest(receptionQuantityModelView, responseListener);
-        RequestQueue queue = Volley.newRequestQueue( MainActivity.this);
-        queue.add(receiptListRequest);
+        });
     }
 
     private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
@@ -233,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             asyncDialog.setMessage("야 쫌만 기다려봐 ~ ");
-
             // show dialog
             asyncDialog.show();
             super.onPreExecute();
@@ -241,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
+
             try {
                 //loadReceptionQuantityModelView();
                 settingRceptionQuantityModelView();
@@ -248,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
                     asyncDialog.setProgress(i * 30);
                     Thread.sleep(500);
                 }
+
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
@@ -256,8 +278,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void result) {
+            // 백그라운드 스레드가 완료되면 Layout 출력 시작
             loadReceptionQuantityModelView();
             asyncDialog.dismiss();
+            mysrl.setRefreshing(false);
+
             super.onPostExecute(result);
         }
     }

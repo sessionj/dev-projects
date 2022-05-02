@@ -1,6 +1,8 @@
 package kr.co.mdaesin.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,11 +56,12 @@ public class ReceptionQuantityAdapter extends RecyclerView.Adapter<ReceptionQuan
         holder.rowItem_2.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append(BasicUtils.addComma(receptionQuantityModelViewList.get(position).getChong())+", "+BasicUtils.addComma(receptionQuantityModelViewList.get(position).getGugan()));
+        sb.append(BasicUtils.addComma("총 : ￦"+receptionQuantityModelViewList.get(position).getChong()));
+        sb.append(", 구간 : ￦"+receptionQuantityModelViewList.get(position).getGugan());
         holder.rowItem_3.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append(receptionQuantityModelViewList.get(position).getCnt()+"건, "+receptionQuantityModelViewList.get(position).getQty()+"ea");
+        sb.append(receptionQuantityModelViewList.get(position).getCnt()+"건, "+receptionQuantityModelViewList.get(position).getQty()+"개");
         holder.rowItem_4.setText(sb.toString());
 
     }
