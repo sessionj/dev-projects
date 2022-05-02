@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="15dp"
+        android:layout_weight="4"
+        android:paddingTop="4dp"
+        android:paddingBottom="10dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+            <TextView
+                android:id="@+id/row_item_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(부곡터->인천구월)-102003"
+                android:textSize="14dp"
+                android:textColor="#000000"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:id="@+id/row_item_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="서울90바5829"
+                android:textSize="14dp"
+                android:textColor="#000000"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+        <!-- 건수, 수량, 구간운임, 전체운임-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/row_item_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10건, 20개"
+                android:textSize="15dp"
+                android:textColor="@color/color1"
+                android:layout_weight="2" />
+            <TextView
+                android:id="@+id/row_item_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1,848.0 / 2,100.0"
+                android:textSize="13dp"
+                android:gravity="left"
+                android:paddingRight="15dp"
+                android:textColor="@color/red"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
