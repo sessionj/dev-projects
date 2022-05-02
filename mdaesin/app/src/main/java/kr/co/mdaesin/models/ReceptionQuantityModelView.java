@@ -6,17 +6,19 @@ public class ReceptionQuantityModelView {
     private String linename;
     private String carcode;
     private String carname;
-    private int cnt;
-    private int qty;
+    private String cnt;
+    private String qty;
     private String chong;
     private String gugan;
     private String senddate;
     private String rgunsu;
-    private long rqty;
-    private long rfare;
-    private long rrate;
-    private double weight;
+    private String rqty;
+    private String rfare;
+    private String rrate;
+    private String weight;
     private String fixcheckingday;
+
+    private String searchKeyword_date;
 
     @Override
     public String toString() {
@@ -25,17 +27,18 @@ public class ReceptionQuantityModelView {
                 ", linename='" + linename + '\'' +
                 ", carcode='" + carcode + '\'' +
                 ", carname='" + carname + '\'' +
-                ", cnt=" + cnt +
-                ", qty=" + qty +
+                ", cnt='" + cnt + '\'' +
+                ", qty='" + qty + '\'' +
                 ", chong='" + chong + '\'' +
                 ", gugan='" + gugan + '\'' +
                 ", senddate='" + senddate + '\'' +
                 ", rgunsu='" + rgunsu + '\'' +
-                ", rqty=" + rqty +
-                ", rfare=" + rfare +
-                ", rrate=" + rrate +
-                ", weight=" + weight +
+                ", rqty='" + rqty + '\'' +
+                ", rfare='" + rfare + '\'' +
+                ", rrate='" + rrate + '\'' +
+                ", weight='" + weight + '\'' +
                 ", fixcheckingday='" + fixcheckingday + '\'' +
+                ", searchKeyword_date='" + searchKeyword_date + '\'' +
                 '}';
     }
 
@@ -71,19 +74,19 @@ public class ReceptionQuantityModelView {
         this.carname = carname;
     }
 
-    public int getCnt() {
+    public String getCnt() {
         return cnt;
     }
 
-    public void setCnt(int cnt) {
+    public void setCnt(String cnt) {
         this.cnt = cnt;
     }
 
-    public int getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(int qty) {
+    public void setQty(String qty) {
         this.qty = qty;
     }
 
@@ -119,35 +122,35 @@ public class ReceptionQuantityModelView {
         this.rgunsu = rgunsu;
     }
 
-    public long getRqty() {
+    public String getRqty() {
         return rqty;
     }
 
-    public void setRqty(long rqty) {
+    public void setRqty(String rqty) {
         this.rqty = rqty;
     }
 
-    public long getRfare() {
+    public String getRfare() {
         return rfare;
     }
 
-    public void setRfare(long rfare) {
+    public void setRfare(String rfare) {
         this.rfare = rfare;
     }
 
-    public long getRrate() {
+    public String getRrate() {
         return rrate;
     }
 
-    public void setRrate(long rrate) {
+    public void setRrate(String rrate) {
         this.rrate = rrate;
     }
 
-    public double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
@@ -157,5 +160,13 @@ public class ReceptionQuantityModelView {
 
     public void setFixcheckingday(String fixcheckingday) {
         this.fixcheckingday = fixcheckingday;
+    }
+
+    public String getSearchKeyword_date() {
+        return searchKeyword_date;
+    }
+
+    public void setSearchKeyword_date(String searchKeyword_date) {
+        this.searchKeyword_date = searchKeyword_date;
     }
 }

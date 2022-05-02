@@ -8,6 +8,8 @@ public class Label {
     public final static String DELIVERY_BASE_URL_DELIVERY_LIST              = "DL";
     public final static String DELIVERY_BASE_URL_DELIVERY_SUMMARY           = "DA";
 
+    public final static String DELIVERY_BASE_URL_RECEIPT_LIST               = "RL";
+
     public final static String DELIVERY_BASE_ROOM_PROFILE_DATABASE_NAME     = "tb_profile";
     public final static String DELIVERY_BASE_ROOM_DELIVERY_DATABASE_NAME    = "tb_delivery";
     public final static String DELIVERY_BASE_ROOM_DELIVERY_REQ_DATABASE_NAME= "tb_delivery_request";

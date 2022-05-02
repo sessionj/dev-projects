@@ -16,4 +16,8 @@
 
     <string name="tv_title_progressbar_horizontal">progress bar horizontal</string>
     <string name="bt_progressbar_horizontal">progress bar horizontal</string>
+
+    <string name="query_hint">Search Event</string>
+
+
 </resources>

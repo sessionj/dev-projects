@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="90dp"
     >
 
     <LinearLayout
@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="15dp"
-        android:layout_weight="4"
-        android:paddingTop="4dp"
+        android:paddingTop="7dp"
         android:paddingBottom="10dp"
         >
         <LinearLayout
@@ -28,6 +27,14 @@
                 android:gravity="center_vertical"
                 android:layout_weight="1"
                 />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
             <TextView
                 android:id="@+id/row_item_2"
                 android:layout_width="match_parent"
@@ -36,15 +43,17 @@
                 android:textSize="14dp"
                 android:textColor="@color/color1"
                 android:gravity="center_vertical"
-                android:layout_weight="1"
                 />
+
         </LinearLayout>
+
+
         <!-- 건수, 수량, 구간운임, 전체운임-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+            android:paddingTop="5dp">
             <TextView
                 android:id="@+id/row_item_3"
                 android:layout_width="match_parent"

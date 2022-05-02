@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.mdaesin.R;
+import kr.co.mdaesin.comm.BasicUtils;
 import kr.co.mdaesin.models.ReceptionQuantityModelView;
 
 public class ReceptionQuantityAdapter extends RecyclerView.Adapter<ReceptionQuantityAdapter.ViewHolder> {
@@ -44,20 +45,20 @@ public class ReceptionQuantityAdapter extends RecyclerView.Adapter<ReceptionQuan
 
         // 노선코드, 노선명
         sb = new StringBuffer();
-        sb.append(receptionQuantityModelViewList.get(position).getLinecode()+"["+receptionQuantityModelViewList.get(position).getLinename()+"]");
+        sb.append(receptionQuantityModelViewList.get(position).getLinecode()+"("+receptionQuantityModelViewList.get(position).getLinename()+")");
         holder.rowItem_1.setText(sb.toString());
 
         // 차량코드, 차량명
         sb = new StringBuffer();
-        sb.append(receptionQuantityModelViewList.get(position).getCarcode()+"["+receptionQuantityModelViewList.get(position).getCarname()+"]");
+        sb.append(receptionQuantityModelViewList.get(position).getCarcode()+"("+receptionQuantityModelViewList.get(position).getCarname()+")");
         holder.rowItem_2.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append("￦"+receptionQuantityModelViewList.get(position).getChong()+"| ￦"+receptionQuantityModelViewList.get(position).getGugan());
+        sb.append(BasicUtils.addComma(receptionQuantityModelViewList.get(position).getChong())+", "+BasicUtils.addComma(receptionQuantityModelViewList.get(position).getGugan()));
         holder.rowItem_3.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append(receptionQuantityModelViewList.get(position).getCnt()+"건 | "+receptionQuantityModelViewList.get(position).getQty()+"EA");
+        sb.append(receptionQuantityModelViewList.get(position).getCnt()+"건, "+receptionQuantityModelViewList.get(position).getQty()+"ea");
         holder.rowItem_4.setText(sb.toString());
 
     }

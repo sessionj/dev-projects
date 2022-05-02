@@ -110,7 +110,7 @@ public class BasicUtils {
     public static String getYesterdayDays(){
         String resultDay = "";
         try {
-            resultDay = getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT)+"["+getDayOfweek( getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT), Label.DELIVERY_STANDARD_DATE_FORMAT  )+"]";
+            resultDay = getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT)+" ["+getDayOfweek( getYesterday(Label.DELIVERY_STANDARD_DATE_FORMAT), Label.DELIVERY_STANDARD_DATE_FORMAT  )+"]";
         } catch (Exception e) {
             e.printStackTrace();
         }
