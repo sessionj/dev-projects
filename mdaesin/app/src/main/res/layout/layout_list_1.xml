@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="(부곡터->인천구월)-102003"
                 android:textSize="14dp"
-                android:textColor="#000000"
+                android:textColor="@color/color1"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
                 />
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:text="서울90바5829"
                 android:textSize="14dp"
-                android:textColor="#000000"
+                android:textColor="@color/color1"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
                 />
@@ -49,20 +49,22 @@
                 android:id="@+id/row_item_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10건, 20개"
+                android:text="1,848.0 / 2,100.0"
                 android:textSize="15dp"
-                android:textColor="@color/color1"
-                android:layout_weight="2" />
+                android:gravity="left"
+                android:paddingRight="15dp"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:layout_weight="1" />
             <TextView
                 android:id="@+id/row_item_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1,848.0 / 2,100.0"
-                android:textSize="13dp"
-                android:gravity="left"
-                android:paddingRight="15dp"
-                android:textColor="@color/red"
+                android:text="10건, 20개"
+                android:textSize="15dp"
+                android:textColor="@color/color1"
                 android:layout_weight="1" />
+
         </LinearLayout>
 
     </LinearLayout>

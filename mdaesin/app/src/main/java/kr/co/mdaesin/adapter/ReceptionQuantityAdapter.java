@@ -53,11 +53,11 @@ public class ReceptionQuantityAdapter extends RecyclerView.Adapter<ReceptionQuan
         holder.rowItem_2.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append(receptionQuantityModelViewList.get(position).getCnt()+"["+receptionQuantityModelViewList.get(position).getQty()+"]");
+        sb.append("￦"+receptionQuantityModelViewList.get(position).getChong()+"| ￦"+receptionQuantityModelViewList.get(position).getGugan());
         holder.rowItem_3.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append(receptionQuantityModelViewList.get(position).getChong()+"["+receptionQuantityModelViewList.get(position).getGugan()+"]");
+        sb.append(receptionQuantityModelViewList.get(position).getCnt()+"건 | "+receptionQuantityModelViewList.get(position).getQty()+"EA");
         holder.rowItem_4.setText(sb.toString());
 
     }

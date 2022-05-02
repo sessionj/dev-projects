@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">mdaesin</string>
+    <string name="app_name">노선通</string>
+
+    <string name="tv_title_dialog">Dialog</string>
+    <string name="bt_app_close">app close</string>
+
+    <string name="dialog_title_str_app_close">app close</string>
+    <string name="dialog_msg_str_app_close">do you want to exit the app?</string>
+    <string name="dialog_bt_str_cancel">cancel</string>
+    <string name="dialog_bt_str_yes">yes</string>
+    <string name="dialog_bt_str_no">no</string>
+
+    <string name="tv_title_progressbar_circle">progress bar circle</string>
+    <string name="progressbar_bt_show_str">Progress Bar Circle Show</string>
+    <string name="progressbar_bt_hide_str">Progress Bar Circle Hide</string>
+
+    <string name="tv_title_progressbar_horizontal">progress bar horizontal</string>
+    <string name="bt_progressbar_horizontal">progress bar horizontal</string>
 </resources>
