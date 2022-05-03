@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import kr.co.mdaesin.R;
 
 public class ReceiptDetailsActivity extends AppCompatActivity {
+
+    TextView details_top_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,5 @@
 package kr.co.mdaesin;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,11 +8,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -22,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.DatePicker;
-import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +36,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import kr.co.mdaesin.action.request.ReceiptListRequest;
-import kr.co.mdaesin.adapter.ReceptionQuantityAdapter;
+import kr.co.mdaesin.adapter.ReceptListAdapter;
 import kr.co.mdaesin.comm.BasicUtils;
 import kr.co.mdaesin.comm.Label;
 import kr.co.mdaesin.models.ReceptionQuantityModelView;
@@ -53,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ReceptionQuantityModelView receptionQuantityModelView;
     private List<ReceptionQuantityModelView> receptionQuantityModelViewList;
-    private ReceptionQuantityAdapter receptionQuantityAdapter;
+    private ReceptListAdapter receptListAdapter;
     private RecyclerView recyclerView;
 
     private Calendar c;
     private int mYear, mMonth, mDay;
     private SwipeRefreshLayout mysrl;
     SearchView searchView;
-    TextView textview_v1;
+    TextView textview_v1, row_in_1, row_in_2, row_in_3, row_in_4;
 
     private String searchKeyward = "";
     @Override
@@ -72,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
         textview_v1 = (TextView) findViewById(R.id.textview_v1);
         textview_v1.setText(BasicUtils.getToDayDays().toString()) ;
         textview_v1.setOnClickListener(onClickListener);
+
+        row_in_1 = (TextView) findViewById(R.id.row_in_1);
+        row_in_2 = (TextView) findViewById(R.id.row_in_2);
+        row_in_3 = (TextView) findViewById(R.id.row_in_3);
+        row_in_4 = (TextView) findViewById(R.id.row_in_4);
 
         c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
@@ -179,11 +180,11 @@ public class MainActivity extends AppCompatActivity {
                         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-                        receptionQuantityAdapter = new ReceptionQuantityAdapter(receptionQuantityModelViewList);
-                        recyclerView.setAdapter(receptionQuantityAdapter);
+                        receptListAdapter = new ReceptListAdapter(receptionQuantityModelViewList);
+                        recyclerView.setAdapter(receptListAdapter);
 
                         // 접수내역 상세 정보
-                        receptionQuantityAdapter.setReceiptDetailsClickListener(new ReceptionQuantityAdapter.OnReceiptDetailsListener() {
+                        receptListAdapter.setReceiptDetailsClickListener(new ReceptListAdapter.OnReceiptDetailsListener() {
                             @Override
                             public void onReceiptDetails(View v, int pos) {
                                 Toast.makeText(getApplicationContext(), "접수 상세("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
@@ -194,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                         // 경유지별 내역
-                        receptionQuantityAdapter.setWayPointClickListener(new ReceptionQuantityAdapter.OnWayPointListenerlickListener() {
+                        receptListAdapter.setWayPointClickListener(new ReceptListAdapter.OnWayPointListenerlickListener() {
                             @Override
                             public void onWayPoint(View v, int pos) {
                                 Toast.makeText(getApplicationContext(), "경유지별 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                         // 수정 내역
-                        receptionQuantityAdapter.setHistoryClickListener(new ReceptionQuantityAdapter.OnhistoryClickListener() {
+                        receptListAdapter.setHistoryClickListener(new ReceptListAdapter.OnhistoryClickListener() {
                             @Override
                             public void onhistory(View v, int pos) {
                                 Toast.makeText(getApplicationContext(), "수정 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
@@ -216,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                         // 차량관제
-                        receptionQuantityAdapter.setCarControlClickListener(new ReceptionQuantityAdapter.OncarControlClickListener() {
+                        receptListAdapter.setCarControlClickListener(new ReceptListAdapter.OncarControlClickListener() {
                             @Override
                             public void onCarControl(View v, int pos) {
                                 Toast.makeText(getApplicationContext(), "차량관제 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
@@ -233,7 +234,11 @@ public class MainActivity extends AppCompatActivity {
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
-
+                    // 합계 금액 표기
+                    row_in_1.setText(receptListAdapter.standardSum(1)+"건".toString());
+                    row_in_2.setText(receptListAdapter.standardSum(2)+"개".toString());
+                    row_in_3.setText("￦" + receptListAdapter.standardSum(3).toString());
+                    row_in_4.setText("￦" + receptListAdapter.standardSum(4).toString());
                 }
             }
         });
@@ -272,10 +277,10 @@ public class MainActivity extends AppCompatActivity {
                                         receptionQuantityModelView.setLinename(Object.getString("linename"));
                                         receptionQuantityModelView.setCarcode(Object.getString("carcode"));
                                         receptionQuantityModelView.setCarname(Object.getString("carname"));
-                                        receptionQuantityModelView.setCnt(Object.getString("cnt"));
-                                        receptionQuantityModelView.setQty(Object.getString("qty"));
-                                        receptionQuantityModelView.setChong(Object.getString("chong"));
-                                        receptionQuantityModelView.setGugan(Object.getString("gugan"));
+                                        receptionQuantityModelView.setCnt(Object.getInt("cnt"));
+                                        receptionQuantityModelView.setQty(Object.getInt("qty"));
+                                        receptionQuantityModelView.setChong(Object.getDouble("chong"));
+                                        receptionQuantityModelView.setGugan(Object.getDouble("gugan"));
                                         receptionQuantityModelView.setSenddate(Object.getString("senddate"));
                                         receptionQuantityModelView.setRgunsu(Object.getString("rgunsu"));
                                         receptionQuantityModelView.setRqty(Object.getString("rqty"));

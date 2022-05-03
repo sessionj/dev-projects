@@ -6,10 +6,10 @@ public class ReceptionQuantityModelView {
     private String linename;
     private String carcode;
     private String carname;
-    private String cnt;
-    private String qty;
-    private String chong;
-    private String gugan;
+    private int cnt;
+    private int qty;
+    private double chong;
+    private double gugan;
     private String senddate;
     private String rgunsu;
     private String rqty;
@@ -74,35 +74,35 @@ public class ReceptionQuantityModelView {
         this.carname = carname;
     }
 
-    public String getCnt() {
+    public int getCnt() {
         return cnt;
     }
 
-    public void setCnt(String cnt) {
+    public void setCnt(int cnt) {
         this.cnt = cnt;
     }
 
-    public String getQty() {
+    public int getQty() {
         return qty;
     }
 
-    public void setQty(String qty) {
+    public void setQty(int qty) {
         this.qty = qty;
     }
 
-    public String getChong() {
+    public double getChong() {
         return chong;
     }
 
-    public void setChong(String chong) {
+    public void setChong(double chong) {
         this.chong = chong;
     }
 
-    public String getGugan() {
+    public double getGugan() {
         return gugan;
     }
 
-    public void setGugan(String gugan) {
+    public void setGugan(double gugan) {
         this.gugan = gugan;
     }
 

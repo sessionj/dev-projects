@@ -2,7 +2,6 @@ package kr.co.mdaesin.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,13 @@ import kr.co.mdaesin.R;
 import kr.co.mdaesin.comm.BasicUtils;
 import kr.co.mdaesin.models.ReceptionQuantityModelView;
 
-public class ReceptionQuantityAdapter extends RecyclerView.Adapter<ReceptionQuantityAdapter.ViewHolder> {
+public class ReceptListAdapter extends RecyclerView.Adapter<ReceptListAdapter.ViewHolder> {
 
     private Context context;
     private List<ReceptionQuantityModelView> receptionQuantityModelViewList = new ArrayList<ReceptionQuantityModelView>();
     private StringBuffer sb;
 
-    public ReceptionQuantityAdapter(List<ReceptionQuantityModelView> _receptionQuantityModelViewList){
+    public ReceptListAdapter(List<ReceptionQuantityModelView> _receptionQuantityModelViewList){
         if(_receptionQuantityModelViewList != null && _receptionQuantityModelViewList.size() > 0){
             this.receptionQuantityModelViewList = _receptionQuantityModelViewList;
         }
@@ -57,7 +56,7 @@ public class ReceptionQuantityAdapter extends RecyclerView.Adapter<ReceptionQuan
         holder.rowItem_2.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append(BasicUtils.addComma("총 : ￦"+receptionQuantityModelViewList.get(position).getChong()));
+        sb.append("총 : ￦"+ BasicUtils.addComma(receptionQuantityModelViewList.get(position).getChong()));
         sb.append(", 구간 : ￦"+BasicUtils.addComma(receptionQuantityModelViewList.get(position).getGugan()));
         sb.append(" / "+receptionQuantityModelViewList.get(position).getCnt()+"건, "+receptionQuantityModelViewList.get(position).getQty()+"개");
         holder.rowItem_3.setText(sb.toString());
@@ -149,14 +148,32 @@ public class ReceptionQuantityAdapter extends RecyclerView.Adapter<ReceptionQuan
     public int listTotalCount(){
         return this.receptionQuantityModelViewList.size();
     }
-    /*public int listFareSum(){
-        int resultFare = 0;
+    // 총운임 합계
+    public String standardSum(int cateCode){
+
+        if ( TextUtils.isEmpty(String.valueOf(cateCode))){
+            return "0";
+        }
+
+        int result = 0;
         if ( this.receptionQuantityModelViewList != null && this.receptionQuantityModelViewList.size() > 0){
             for ( int i=0; i <this.receptionQuantityModelViewList.size(); i++){
 
+                if ( cateCode == 1){
+                    result += this.receptionQuantityModelViewList.get(i).getCnt();
+                }else if ( cateCode == 2) {
+                    result += this.receptionQuantityModelViewList.get(i).getQty();
+                }else if ( cateCode == 3){
+                    result += this.receptionQuantityModelViewList.get(i).getChong();
+                }else if ( cateCode == 4){
+                    result += this.receptionQuantityModelViewList.get(i).getGugan();
+                }
             }
         }
-    }*/
+        return BasicUtils.addStringComma(String.valueOf(result));
+    }
+
+
     // rows 클릭
     public interface OnitemClickListener{
         void onItemClick(View v, int pos);

@@ -306,8 +306,16 @@ public class BasicUtils {
         return reverse;
     }
 
-    public static String addComma(String str){
+    public static String addComma(Double str){
+        String tmpStr = "";
+        if ( !TextUtils.isEmpty(String.valueOf(str) )){
+            tmpStr = String.valueOf(str);
+            return tmpStr.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
+        }
+        return "";
+    }
 
+    public static String addStringComma(String str){
         if ( !TextUtils.isEmpty(str)){
             return str.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
         }
