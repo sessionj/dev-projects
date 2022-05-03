@@ -12,6 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mdaesin">
         <activity
+            android:name=".ui.CarControlActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ui.WayPointActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ui.ReceiptDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ui.HistoryActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".EnterAppActivity"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -23,9 +39,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

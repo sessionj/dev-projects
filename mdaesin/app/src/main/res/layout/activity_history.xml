@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EnterAppActivity"
-    android:background="@color/grey_90"
-    >
+    tools:context=".ui.HistoryActivity">
+
     <TextView
         android:id="@+id/enter_txt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/app_name_intro"
-        android:textColor="@color/white"
+        android:text="수정 내역"
+        android:textColor="@color/grey_90"
         android:gravity="center"
-        android:textSize="23dp"
+        android:textSize="20dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

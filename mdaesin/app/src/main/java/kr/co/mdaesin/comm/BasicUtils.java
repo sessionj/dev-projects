@@ -307,6 +307,7 @@ public class BasicUtils {
     }
 
     public static String addComma(String str){
+
         if ( !TextUtils.isEmpty(str)){
             return str.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
         }

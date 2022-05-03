@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,6 +43,10 @@ import kr.co.mdaesin.adapter.ReceptionQuantityAdapter;
 import kr.co.mdaesin.comm.BasicUtils;
 import kr.co.mdaesin.comm.Label;
 import kr.co.mdaesin.models.ReceptionQuantityModelView;
+import kr.co.mdaesin.ui.CarControlActivity;
+import kr.co.mdaesin.ui.HistoryActivity;
+import kr.co.mdaesin.ui.ReceiptDetailsActivity;
+import kr.co.mdaesin.ui.WayPointActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -171,6 +176,51 @@ public class MainActivity extends AppCompatActivity {
 
                         receptionQuantityAdapter = new ReceptionQuantityAdapter(receptionQuantityModelViewList);
                         recyclerView.setAdapter(receptionQuantityAdapter);
+
+                        // 접수내역 상세 정보
+                        receptionQuantityAdapter.setReceiptDetailsClickListener(new ReceptionQuantityAdapter.OnReceiptDetailsListener() {
+                            @Override
+                            public void onReceiptDetails(View v, int pos) {
+                                Toast.makeText(getApplicationContext(), "접수 상세("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                Intent intent = new Intent(getApplicationContext(), ReceiptDetailsActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        });
+
+                        // 경유지별 내역
+                        receptionQuantityAdapter.setWayPointClickListener(new ReceptionQuantityAdapter.OnWayPointListenerlickListener() {
+                            @Override
+                            public void onWayPoint(View v, int pos) {
+                                Toast.makeText(getApplicationContext(), "경유지별 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                Intent intent = new Intent(getApplicationContext(), WayPointActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        });
+
+                        // 수정 내역
+                        receptionQuantityAdapter.setHistoryClickListener(new ReceptionQuantityAdapter.OnhistoryClickListener() {
+                            @Override
+                            public void onhistory(View v, int pos) {
+                                Toast.makeText(getApplicationContext(), "수정 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        });
+
+                        // 차량관제
+                        receptionQuantityAdapter.setCarControlClickListener(new ReceptionQuantityAdapter.OncarControlClickListener() {
+                            @Override
+                            public void onCarControl(View v, int pos) {
+                                Toast.makeText(getApplicationContext(), "차량관제 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                Intent intent = new Intent(getApplicationContext(), CarControlActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        });
+
                     }else{
                         Log.d("=== not found", "");
                     }
@@ -279,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             // 백그라운드 스레드가 완료되면 Layout 출력 시작
+            //
             loadReceptionQuantityModelView();
             asyncDialog.dismiss();
             mysrl.setRefreshing(false);
