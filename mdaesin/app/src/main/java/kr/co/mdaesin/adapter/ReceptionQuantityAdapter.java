@@ -48,7 +48,7 @@ public class ReceptionQuantityAdapter extends RecyclerView.Adapter<ReceptionQuan
 
         // 노선명 + 노선코드
         sb = new StringBuffer();
-        sb.append(receptionQuantityModelViewList.get(position).getLinename()+" 『"+receptionQuantityModelViewList.get(position).getLinecode()+"』");
+        sb.append(receptionQuantityModelViewList.get(position).getLinecode()+" ("+receptionQuantityModelViewList.get(position).getLinename()+")");
         holder.rowItem_1.setText(sb.toString());
 
         // 차량코드, 차량명
@@ -146,6 +146,17 @@ public class ReceptionQuantityAdapter extends RecyclerView.Adapter<ReceptionQuan
         }
     }
 
+    public int listTotalCount(){
+        return this.receptionQuantityModelViewList.size();
+    }
+    /*public int listFareSum(){
+        int resultFare = 0;
+        if ( this.receptionQuantityModelViewList != null && this.receptionQuantityModelViewList.size() > 0){
+            for ( int i=0; i <this.receptionQuantityModelViewList.size(); i++){
+
+            }
+        }
+    }*/
     // rows 클릭
     public interface OnitemClickListener{
         void onItemClick(View v, int pos);

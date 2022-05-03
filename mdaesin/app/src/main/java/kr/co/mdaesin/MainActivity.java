@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView;
     TextView textview_v1;
 
-    private ProgressDialog dialog;
-
+    private String searchKeyward = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
         task.execute();
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         mysrl = findViewById(R.id.content_srl);
+
         mysrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
             @Override
             public void onRefresh() {
 
@@ -135,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onQueryTextSubmit(String query) {
             // 텍스트 입력 후 검색 버튼이 눌렸을 때의 이벤트
+            searchKeyward = query;
+            CheckTypesTask task4 = new CheckTypesTask();
+            task4.execute();
             Toast.makeText(MainActivity.this, "query : " + query, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -169,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     //settingRceptionQuantityModelView();
 
                     if ( receptionQuantityModelViewList != null && receptionQuantityModelViewList.size() > 0 ){
-
+                        //receptionQuantityAdapter.notifyDataSetChanged();
                         recyclerView = findViewById(R.id.receipt_recyceler_view);
                         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -244,8 +249,12 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     receptionQuantityModelView = new ReceptionQuantityModelView();
                     receptionQuantityModelView.setSearchKeyword_date(textview_v1.getText().toString().split(" ")[0]);
-                    receptionQuantityModelView.setLinecode("102003");
 
+                    if ( !TextUtils.isEmpty(searchKeyward)){
+                        receptionQuantityModelView.setLinecode(searchKeyward);
+                    }else{
+                        receptionQuantityModelView.setLinecode(Label.RECEIPT_DEFAULT_LINECODE);
+                    }
                     receptionQuantityModelViewList = new ArrayList<ReceptionQuantityModelView>();
                     Response.Listener<String> responseListener = new Response.Listener<String>() {
                         @Override
@@ -306,7 +315,10 @@ public class MainActivity extends AppCompatActivity {
             asyncDialog.setMessage("야 쫌만 기다려봐 ~ ");
             // show dialog
             asyncDialog.show();
+            asyncDialog.setCanceledOnTouchOutside(false);
             super.onPreExecute();
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
 
         @Override
@@ -334,6 +346,7 @@ public class MainActivity extends AppCompatActivity {
             asyncDialog.dismiss();
             mysrl.setRefreshing(false);
 
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             super.onPostExecute(result);
         }
     }
@@ -342,4 +355,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
 }
