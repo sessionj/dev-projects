@@ -18,19 +18,39 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:background="@color/grey_10"
+            android:paddingTop="1dp"
+            android:paddingLeft="3dp"
             >
-
+            <ImageView
+                android:id="@+id/stars"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:padding="3dp"
+                android:src="@drawable/btn_on1"
+                android:layout_marginTop="6dp"
+                >
+            </ImageView>
             <TextView
-                android:layout_weight="1"
                 android:id="@+id/details_top_title"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="부곡터->청주우암"
+                android:textColor="@color/grey_90"
+                android:textSize="16dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_weight="1.5"
+                android:id="@+id/details_top_title2"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="2022-05-03(수) : 부곡터 청주 (104001)"
-                android:gravity="left"
+                android:text="2022-05-03(수)"
+                android:gravity="right"
                 android:paddingTop="5dp"
-                android:paddingLeft="15dp"
+                android:paddingRight="13dp"
                 android:textColor="@color/grey_90"
                 android:textSize="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -41,20 +61,80 @@
         </LinearLayout>
 
 
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+
+            android:stretchColumns="*"
+            android:shrinkColumns="*"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/grey_10"
+            >
+
+            <TableRow>
+                <TextView
+                    android:id="@+id/details_item_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="영업소"
+                    android:textColor="@color/grey_90"
+                    android:textSize="13dp"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    />
+                <TextView
+                    android:id="@+id/details_item_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="출발/마감"
+                    android:textColor="@color/grey_90"
+                    android:textSize="13dp"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+                <TextView
+                    android:id="@+id/details_item_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="건수/수량"
+                    android:textColor="@color/grey_90"
+                    android:textSize="13dp"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+                <TextView
+                    android:id="@+id/details_item_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="운임"
+                    android:textColor="@color/grey_90"
+                    android:textSize="13dp"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textAlignment="center"/>
+
+            </TableRow>
+
+        </TableLayout>
+
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/content_srl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/content_srl">
+            android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/receipt_details_recyceler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="3dp"
-                />
+                android:paddingBottom="3dp" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
         <TextView
             android:id="@+id/main_list_empty"

@@ -1,83 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="45dp"
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="15dp"
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:stretchColumns="*"
+        android:shrinkColumns="*"
+        android:layout_gravity="center"
         android:gravity="center"
         >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center">
+        <TableRow>
             <TextView
-                android:id="@+id/details_item_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/details_adapter_item_1"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:text="제기동"
                 android:textColor="@color/grey_90"
                 android:textSize="13dp"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:textAlignment="center"
                 android:layout_weight="1"/>
             <TextView
-                android:id="@+id/details_item_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/details_adapter_item_2"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:text="7120"
                 android:textColor="@color/grey_90"
                 android:textSize="13dp"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:textAlignment="center"
                 android:layout_weight="1"/>
             <TextView
-                android:id="@+id/details_item_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/details_adapter_item_3"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:text="21:30"
                 android:textColor="@color/grey_90"
                 android:textSize="13dp"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:textAlignment="center"
                 android:layout_weight="1"/>
             <TextView
-                android:id="@+id/details_item_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/details_adapter_item_4"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:text="직송"
-                android:textColor="@color/grey_90"
+                android:textColor="@color/red"
                 android:textSize="13dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/details_item_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3"
-                android:textColor="@color/grey_90"
-                android:textSize="13dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/details_item_6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4"
-                android:textColor="@color/grey_90"
-                android:textSize="13dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/details_item_7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10,120"
-                android:textColor="@color/grey_90"
-                android:textSize="13dp"
-                android:layout_weight="1"/>
-        </LinearLayout>
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:textAlignment="center"
 
-    </LinearLayout>
+                android:layout_weight="1"/>
+
+        </TableRow>
+
+    </TableLayout>
+
 
 
 </LinearLayout>

@@ -48,35 +48,23 @@ public class ReceptDetailsAdapter extends RecyclerView.Adapter<ReceptDetailsAdap
         // 발송지명
         sb = new StringBuffer();
         sb.append(receiptDetailsModelViewList.get(position).getAgencyname());
+        sb.append("/"+(receiptDetailsModelViewList.get(position).getMd()=="1"?"연계":"중계"));
+
         holder.details_item_1.setText(sb.toString());
-        // 070번호
+
         sb = new StringBuffer();
-        sb.append(receiptDetailsModelViewList.get(position).getAgencytel());
-        holder.details_item_1.setText(sb.toString());
-        // 출발기준시간
-        sb = new StringBuffer();
-        sb.append(receiptDetailsModelViewList.get(position).getStd_departuretime());
-        holder.details_item_1.setText(sb.toString());
-        //통신마감시간
-        sb = new StringBuffer();
-        sb.append(receiptDetailsModelViewList.get(position).getStd_deadlinetime());
-        holder.details_item_1.setText(sb.toString());
-        // 구분(직송,연계)
-        sb = new StringBuffer();
-        sb.append(receiptDetailsModelViewList.get(position).getMd());
-        holder.details_item_1.setText(sb.toString());
+        sb.append(receiptDetailsModelViewList.get(position).getStd_departuretime()+"/"+receiptDetailsModelViewList.get(position).getStd_deadlinetime());
+        holder.details_item_2.setText(sb.toString());
+
         // 건수
         sb = new StringBuffer();
-        sb.append(receiptDetailsModelViewList.get(position).getCnt());
-        holder.details_item_1.setText(sb.toString());
-        // 수량
-        sb = new StringBuffer();
-        sb.append(receiptDetailsModelViewList.get(position).getQty());
-        holder.details_item_1.setText(sb.toString());
+        sb.append(receiptDetailsModelViewList.get(position).getCnt()+"/"+BasicUtils.addStringComma(receiptDetailsModelViewList.get(position).getQty()));
+        holder.details_item_3.setText(sb.toString());
+
         // 운임
         sb = new StringBuffer();
-        sb.append(receiptDetailsModelViewList.get(position).getFare());
-        holder.details_item_1.setText(sb.toString());
+        sb.append(BasicUtils.addStringComma(receiptDetailsModelViewList.get(position).getFare()));
+        holder.details_item_4.setText(sb.toString());
     }
 
     @Override
@@ -86,16 +74,14 @@ public class ReceptDetailsAdapter extends RecyclerView.Adapter<ReceptDetailsAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView details_item_1, details_item_2, details_item_3, details_item_4, details_item_5, details_item_6, details_item_7;
+        public TextView details_item_1, details_item_2, details_item_3, details_item_4;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            details_item_1 = (TextView) itemView.findViewById(R.id.details_item_1);
-            details_item_2 = (TextView) itemView.findViewById(R.id.details_item_2);
-            details_item_3 = (TextView) itemView.findViewById(R.id.details_item_3);
-            details_item_4 = (TextView) itemView.findViewById(R.id.details_item_4);
-            details_item_5 = (TextView) itemView.findViewById(R.id.details_item_5);
-            details_item_6 = (TextView) itemView.findViewById(R.id.details_item_6);
-            details_item_7 = (TextView) itemView.findViewById(R.id.details_item_7);
+            details_item_1 = (TextView) itemView.findViewById(R.id.details_adapter_item_1);
+            details_item_2 = (TextView) itemView.findViewById(R.id.details_adapter_item_2);
+            details_item_3 = (TextView) itemView.findViewById(R.id.details_adapter_item_3);
+            details_item_4 = (TextView) itemView.findViewById(R.id.details_adapter_item_4);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

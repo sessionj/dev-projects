@@ -3,9 +3,9 @@ package kr.co.mdaesin.models;
 public class ReceiptDetailsModelView {
     private String agencyname;
     private String md;
-    private int cnt;
-    private int qty;
-    private double fare;
+    private String cnt;
+    private String qty;
+    private String fare;
     private String std_departuretime;
     private String std_deadlinetime;
     private String agencytel;
@@ -40,27 +40,27 @@ public class ReceiptDetailsModelView {
         this.md = md;
     }
 
-    public int getCnt() {
+    public String getCnt() {
         return cnt;
     }
 
-    public void setCnt(int cnt) {
+    public void setCnt(String cnt) {
         this.cnt = cnt;
     }
 
-    public int getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(int qty) {
+    public void setQty(String qty) {
         this.qty = qty;
     }
 
-    public double getFare() {
+    public String getFare() {
         return fare;
     }
 
-    public void setFare(double fare) {
+    public void setFare(String fare) {
         this.fare = fare;
     }
 

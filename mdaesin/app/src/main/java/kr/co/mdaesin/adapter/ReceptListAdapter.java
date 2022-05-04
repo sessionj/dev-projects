@@ -56,8 +56,8 @@ public class ReceptListAdapter extends RecyclerView.Adapter<ReceptListAdapter.Vi
         holder.rowItem_2.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append("총 : ￦"+ BasicUtils.addComma(receptionQuantityModelViewList.get(position).getChong()));
-        sb.append(", 구간 : ￦"+BasicUtils.addComma(receptionQuantityModelViewList.get(position).getGugan()));
+        sb.append("총 : ￦"+ BasicUtils.addStringComma(receptionQuantityModelViewList.get(position).getChong()));
+        sb.append(", 구간 : ￦"+BasicUtils.addStringComma(receptionQuantityModelViewList.get(position).getGugan()));
         sb.append(" / "+receptionQuantityModelViewList.get(position).getCnt()+"건, "+receptionQuantityModelViewList.get(position).getQty()+"개");
         holder.rowItem_3.setText(sb.toString());
 
@@ -151,26 +151,35 @@ public class ReceptListAdapter extends RecyclerView.Adapter<ReceptListAdapter.Vi
     // 총운임 합계
     public String standardSum(int cateCode){
 
-        if ( TextUtils.isEmpty(String.valueOf(cateCode))){
-            return "0";
-        }
+        double result = 0;
 
-        int result = 0;
-        if ( this.receptionQuantityModelViewList != null && this.receptionQuantityModelViewList.size() > 0){
-            for ( int i=0; i <this.receptionQuantityModelViewList.size(); i++){
+        try{
+            if ( TextUtils.isEmpty(String.valueOf(cateCode))){
+                return "0";
+            }
 
-                if ( cateCode == 1){
-                    result += this.receptionQuantityModelViewList.get(i).getCnt();
-                }else if ( cateCode == 2) {
-                    result += this.receptionQuantityModelViewList.get(i).getQty();
-                }else if ( cateCode == 3){
-                    result += this.receptionQuantityModelViewList.get(i).getChong();
-                }else if ( cateCode == 4){
-                    result += this.receptionQuantityModelViewList.get(i).getGugan();
+            if ( this.receptionQuantityModelViewList != null && this.receptionQuantityModelViewList.size() > 0){
+                for ( int i=0; i <this.receptionQuantityModelViewList.size(); i++){
+
+                    if ( cateCode == 1){
+                        result += Long.valueOf(this.receptionQuantityModelViewList.get(i).getCnt());
+                    }else if ( cateCode == 2) {
+                        result += Long.valueOf(this.receptionQuantityModelViewList.get(i).getQty());
+                    }else if ( cateCode == 3){
+                        result += Long.valueOf(this.receptionQuantityModelViewList.get(i).getChong());
+                    }else if ( cateCode == 4){
+                        result += Long.valueOf(this.receptionQuantityModelViewList.get(i).getGugan());
+                    }
                 }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        return BasicUtils.addStringComma(String.valueOf(result));
+        if ( result > 0){
+            return BasicUtils.addStringComma(String.valueOf(result));
+        }
+        return "0";
+
     }
 
 

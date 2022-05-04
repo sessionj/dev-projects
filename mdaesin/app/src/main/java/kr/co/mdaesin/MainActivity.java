@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,8 +18,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -51,14 +55,16 @@ public class MainActivity extends AppCompatActivity {
     private List<ReceptionQuantityModelView> receptionQuantityModelViewList;
     private ReceptListAdapter receptListAdapter;
     private RecyclerView recyclerView;
-
     private Calendar c;
     private int mYear, mMonth, mDay;
     private SwipeRefreshLayout mysrl;
+    private long backPressedTime = 0;
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private String searchKeyward = "";
+
     SearchView searchView;
     TextView textview_v1, row_in_1, row_in_2, row_in_3, row_in_4;
 
-    private String searchKeyward = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,16 +84,14 @@ public class MainActivity extends AppCompatActivity {
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
+
         CheckTypesTask task = new CheckTypesTask();
         task.execute();
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
         mysrl = findViewById(R.id.content_srl);
-
         mysrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
             @Override
             public void onRefresh() {
-
                 CheckTypesTask task3 = new CheckTypesTask();
                 task3.execute();
             }
@@ -141,16 +145,17 @@ public class MainActivity extends AppCompatActivity {
             searchKeyward = query;
             CheckTypesTask task4 = new CheckTypesTask();
             task4.execute();
-            Toast.makeText(MainActivity.this, "query : " + query, Toast.LENGTH_SHORT).show();
+
             return false;
         }
 
         @Override
         public boolean onQueryTextChange(String newText) {
             // 검색 글 한자 한자 눌렸을 때의 이벤트
-            Toast.makeText(MainActivity.this, "newText : " + newText, Toast.LENGTH_SHORT).show();
             return false;
         }
+
+
     };
 
     // 화면에 표기된  클릭 이벤트 처리
@@ -188,7 +193,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onReceiptDetails(View v, int pos) {
                                 Toast.makeText(getApplicationContext(), "접수 상세("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                ReceptionQuantityModelView intentParam = new ReceptionQuantityModelView();
+                                intentParam = receptionQuantityModelViewList.get(pos);
+                                intentParam.setSearchKeyword_date(textview_v1.getText().toString());
                                 Intent intent = new Intent(getApplicationContext(), ReceiptDetailsActivity.class);
+                                intent.putExtra("receptionQuantityModelView", intentParam);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }
@@ -277,10 +286,10 @@ public class MainActivity extends AppCompatActivity {
                                         receptionQuantityModelView.setLinename(Object.getString("linename"));
                                         receptionQuantityModelView.setCarcode(Object.getString("carcode"));
                                         receptionQuantityModelView.setCarname(Object.getString("carname"));
-                                        receptionQuantityModelView.setCnt(Object.getInt("cnt"));
-                                        receptionQuantityModelView.setQty(Object.getInt("qty"));
-                                        receptionQuantityModelView.setChong(Object.getDouble("chong"));
-                                        receptionQuantityModelView.setGugan(Object.getDouble("gugan"));
+                                        receptionQuantityModelView.setCnt(Object.getString("cnt"));
+                                        receptionQuantityModelView.setQty(Object.getString("qty"));
+                                        receptionQuantityModelView.setChong(Object.getString("chong"));
+                                        receptionQuantityModelView.setGugan(Object.getString("gugan"));
                                         receptionQuantityModelView.setSenddate(Object.getString("senddate"));
                                         receptionQuantityModelView.setRgunsu(Object.getString("rgunsu"));
                                         receptionQuantityModelView.setRqty(Object.getString("rqty"));
@@ -337,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
                     Thread.sleep(500);
                 }
 
-            } catch (InterruptedException ex) {
+            } catch (InterruptedException  ex) {
                 ex.printStackTrace();
             }
             return null;
@@ -349,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
             //
             loadReceptionQuantityModelView();
             asyncDialog.dismiss();
+            hideKeyboard();
             mysrl.setRefreshing(false);
 
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -361,4 +371,37 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+        {
+            finish();
+        }
+        else
+        {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        hideKeyboard();
+        return super.dispatchTouchEvent(ev);
+    }
+    /**
+     * Hiding keyboard after every button press
+     */
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }

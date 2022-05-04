@@ -314,6 +314,22 @@ public class BasicUtils {
         }
         return "";
     }
+    public static String addComma(long str){
+        String tmpStr = "";
+        if ( !TextUtils.isEmpty(String.valueOf(str) )){
+            tmpStr = String.valueOf(str);
+            return tmpStr.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
+        }
+        return "";
+    }
+    public static String addComma(int str){
+        String tmpStr = "";
+        if ( !TextUtils.isEmpty(String.valueOf(str) )){
+            tmpStr = String.valueOf(str);
+            return tmpStr.replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
+        }
+        return "";
+    }
 
     public static String addStringComma(String str){
         if ( !TextUtils.isEmpty(str)){

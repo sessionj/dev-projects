@@ -1,15 +1,17 @@
 package kr.co.mdaesin.models;
 
-public class ReceptionQuantityModelView {
+import java.io.Serializable;
+
+public class ReceptionQuantityModelView implements Serializable {
 
     private String linecode;
     private String linename;
     private String carcode;
     private String carname;
-    private int cnt;
-    private int qty;
-    private double chong;
-    private double gugan;
+    private String cnt;
+    private String qty;
+    private String chong;
+    private String gugan;
     private String senddate;
     private String rgunsu;
     private String rqty;
@@ -74,35 +76,35 @@ public class ReceptionQuantityModelView {
         this.carname = carname;
     }
 
-    public int getCnt() {
+    public String getCnt() {
         return cnt;
     }
 
-    public void setCnt(int cnt) {
+    public void setCnt(String cnt) {
         this.cnt = cnt;
     }
 
-    public int getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(int qty) {
+    public void setQty(String qty) {
         this.qty = qty;
     }
 
-    public double getChong() {
+    public String getChong() {
         return chong;
     }
 
-    public void setChong(double chong) {
+    public void setChong(String chong) {
         this.chong = chong;
     }
 
-    public double getGugan() {
+    public String getGugan() {
         return gugan;
     }
 
-    public void setGugan(double gugan) {
+    public void setGugan(String gugan) {
         this.gugan = gugan;
     }
 

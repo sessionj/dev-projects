@@ -39,7 +39,7 @@ public class ReceiptDetailsRequest extends StringRequest {
         sb.append(CryptoKey.createCryptoKey(receptionQuantityModelView.getLinecode())+"\t");
         sb.append(receptionQuantityModelView.getLinecode()+"\t");
         sb.append(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS+"\t");
-        sb.append(receptionQuantityModelView.getSearchKeyword_date().replaceAll("-",""));
+        sb.append(receptionQuantityModelView.getSearchKeyword_date().replaceAll("-","").split(" ")[0]);
         Log.d("=============param : ", sb.toString());
         map.put("param", sb.toString());
     }
