@@ -10,6 +10,7 @@ public class Label {
 
     public final static String DELIVERY_BASE_URL_RECEIPT_LIST               = "RL";
     public final static String DELIVERY_BASE_URL_RECEIPT_DETAILS            = "RD";
+    public final static String DELIVERY_BASE_URL_RECEIPT_DETAILS_UNSONG     = "RU";
 
     public final static String DELIVERY_BASE_ROOM_PROFILE_DATABASE_NAME     = "tb_profile";
     public final static String DELIVERY_BASE_ROOM_DELIVERY_DATABASE_NAME    = "tb_delivery";

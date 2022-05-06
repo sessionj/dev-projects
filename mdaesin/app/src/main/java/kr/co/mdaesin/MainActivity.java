@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     SearchView searchView;
     TextView textview_v1, row_in_1, row_in_2, row_in_3, row_in_4;
+    ProgressDialog asyncDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,15 +86,17 @@ public class MainActivity extends AppCompatActivity {
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        CheckTypesTask task = new CheckTypesTask();
-        task.execute();
+        /*CheckTypesTask task = new CheckTypesTask();
+        task.execute();*/
+        settingRceptionQuantityModelView();
 
         mysrl = findViewById(R.id.content_srl);
         mysrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                CheckTypesTask task3 = new CheckTypesTask();
-                task3.execute();
+                //CheckTypesTask task3 = new CheckTypesTask();
+                //task3.execute();
+                settingRceptionQuantityModelView();
             }
         });
 
@@ -109,8 +112,9 @@ public class MainActivity extends AppCompatActivity {
                 String tmpDateDay = BasicUtils.getDayOfweek(tmpDate, Label.DELIVERY_STANDARD_DATE_FORMAT);
                 textview_v1.setText( tmpDate + " ("+tmpDateDay +")");
 
-                CheckTypesTask task2 = new CheckTypesTask();
-                task2.execute();
+                //CheckTypesTask task2 = new CheckTypesTask();
+                //task2.execute();
+                settingRceptionQuantityModelView();
             }
         }, mYear, mMonth, mDay);
 
@@ -143,8 +147,9 @@ public class MainActivity extends AppCompatActivity {
         public boolean onQueryTextSubmit(String query) {
             // 텍스트 입력 후 검색 버튼이 눌렸을 때의 이벤트
             searchKeyward = query;
-            CheckTypesTask task4 = new CheckTypesTask();
-            task4.execute();
+            //CheckTypesTask task4 = new CheckTypesTask();
+            //task4.execute();
+            settingRceptionQuantityModelView();
 
             return false;
         }
@@ -170,91 +175,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void loadReceptionQuantityModelView(){
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    //settingRceptionQuantityModelView();
-
-                    if ( receptionQuantityModelViewList != null && receptionQuantityModelViewList.size() > 0 ){
-                        //receptionQuantityAdapter.notifyDataSetChanged();
-                        recyclerView = findViewById(R.id.receipt_recyceler_view);
-                        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                        receptListAdapter = new ReceptListAdapter(receptionQuantityModelViewList);
-                        recyclerView.setAdapter(receptListAdapter);
-
-                        // 접수내역 상세 정보
-                        receptListAdapter.setReceiptDetailsClickListener(new ReceptListAdapter.OnReceiptDetailsListener() {
-                            @Override
-                            public void onReceiptDetails(View v, int pos) {
-                                Toast.makeText(getApplicationContext(), "접수 상세("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
-                                ReceptionQuantityModelView intentParam = new ReceptionQuantityModelView();
-                                intentParam = receptionQuantityModelViewList.get(pos);
-                                intentParam.setSearchKeyword_date(textview_v1.getText().toString());
-                                Intent intent = new Intent(getApplicationContext(), ReceiptDetailsActivity.class);
-                                intent.putExtra("receptionQuantityModelView", intentParam);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        });
-
-                        // 경유지별 내역
-                        receptListAdapter.setWayPointClickListener(new ReceptListAdapter.OnWayPointListenerlickListener() {
-                            @Override
-                            public void onWayPoint(View v, int pos) {
-                                Toast.makeText(getApplicationContext(), "경유지별 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
-                                Intent intent = new Intent(getApplicationContext(), WayPointActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        });
-
-                        // 수정 내역
-                        receptListAdapter.setHistoryClickListener(new ReceptListAdapter.OnhistoryClickListener() {
-                            @Override
-                            public void onhistory(View v, int pos) {
-                                Toast.makeText(getApplicationContext(), "수정 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
-                                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        });
-
-                        // 차량관제
-                        receptListAdapter.setCarControlClickListener(new ReceptListAdapter.OncarControlClickListener() {
-                            @Override
-                            public void onCarControl(View v, int pos) {
-                                Toast.makeText(getApplicationContext(), "차량관제 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
-                                Intent intent = new Intent(getApplicationContext(), CarControlActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        });
-
-                    }else{
-                        Log.d("=== not found", "");
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    // 합계 금액 표기
-                    row_in_1.setText(receptListAdapter.standardSum(1)+"건".toString());
-                    row_in_2.setText(receptListAdapter.standardSum(2)+"개".toString());
-                    row_in_3.setText("￦" + receptListAdapter.standardSum(3).toString());
-                    row_in_4.setText("￦" + receptListAdapter.standardSum(4).toString());
-                }
-            }
-        });
-    }
-
-
     public void settingRceptionQuantityModelView(){
+
+        asyncDialog = new ProgressDialog(MainActivity.this);
+
+        asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        asyncDialog.setMessage("자료 확인중... ");
+        asyncDialog.show();
+        asyncDialog.setCanceledOnTouchOutside(false);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         runOnUiThread(new Runnable() {
             @Override
@@ -299,9 +228,81 @@ public class MainActivity extends AppCompatActivity {
 
                                         receptionQuantityModelViewList.add(receptionQuantityModelView);
                                     }
+
+                                    if ( receptionQuantityModelViewList != null && receptionQuantityModelViewList.size() > 0 ){
+                                        //receptionQuantityAdapter.notifyDataSetChanged();
+                                        recyclerView = findViewById(R.id.receipt_recyceler_view);
+                                        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                                        receptListAdapter = new ReceptListAdapter(receptionQuantityModelViewList);
+                                        recyclerView.setAdapter(receptListAdapter);
+
+                                        // 접수내역 상세 정보
+                                        receptListAdapter.setReceiptDetailsClickListener(new ReceptListAdapter.OnReceiptDetailsListener() {
+                                            @Override
+                                            public void onReceiptDetails(View v, int pos) {
+                                                //Toast.makeText(getApplicationContext(), "접수 상세("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                                ReceptionQuantityModelView intentParam = new ReceptionQuantityModelView();
+                                                intentParam = receptionQuantityModelViewList.get(pos);
+                                                intentParam.setSearchKeyword_date(textview_v1.getText().toString());
+                                                Intent intent = new Intent(getApplicationContext(), ReceiptDetailsActivity.class);
+                                                intent.putExtra("receptionQuantityModelView", intentParam);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+                                            }
+                                        });
+
+                                        // 경유지별 내역
+                                        receptListAdapter.setWayPointClickListener(new ReceptListAdapter.OnWayPointListenerlickListener() {
+                                            @Override
+                                            public void onWayPoint(View v, int pos) {
+                                                //Toast.makeText(getApplicationContext(), "경유지별 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                                Intent intent = new Intent(getApplicationContext(), WayPointActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+                                            }
+                                        });
+
+                                        // 수정 내역
+                                        receptListAdapter.setHistoryClickListener(new ReceptListAdapter.OnhistoryClickListener() {
+                                            @Override
+                                            public void onhistory(View v, int pos) {
+                                                //Toast.makeText(getApplicationContext(), "수정 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+                                            }
+                                        });
+
+                                        // 차량관제
+                                        receptListAdapter.setCarControlClickListener(new ReceptListAdapter.OncarControlClickListener() {
+                                            @Override
+                                            public void onCarControl(View v, int pos) {
+                                                //Toast.makeText(getApplicationContext(), "차량관제 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                                Intent intent = new Intent(getApplicationContext(), CarControlActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+                                            }
+                                        });
+
+                                    }else{
+                                        Log.d("=== not found", "");
+                                    }
+
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                            } finally {
+                                row_in_1.setText(receptListAdapter.standardSum(1)+"건".toString());
+                                row_in_2.setText(receptListAdapter.standardSum(2)+"개".toString());
+                                row_in_3.setText("￦" + receptListAdapter.standardSum(3).toString());
+                                row_in_4.setText("￦" + receptListAdapter.standardSum(4).toString());
+
+                                asyncDialog.dismiss();
+                                hideKeyboard();
+                                mysrl.setRefreshing(false);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             }
                         }
                     };
@@ -317,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
@@ -356,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             // 백그라운드 스레드가 완료되면 Layout 출력 시작
             //
-            loadReceptionQuantityModelView();
+            //loadReceptionQuantityModelView();
             asyncDialog.dismiss();
             hideKeyboard();
             mysrl.setRefreshing(false);

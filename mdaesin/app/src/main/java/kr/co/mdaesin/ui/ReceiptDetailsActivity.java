@@ -13,7 +13,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -31,6 +33,8 @@ import kr.co.mdaesin.MainActivity;
 import kr.co.mdaesin.R;
 import kr.co.mdaesin.action.request.ReceiptDetailsRequest;
 import kr.co.mdaesin.adapter.ReceptDetailsAdapter;
+import kr.co.mdaesin.adapter.ReceptDetailsUnsongAdapter;
+import kr.co.mdaesin.comm.Label;
 import kr.co.mdaesin.models.ReceiptDetailsModelView;
 import kr.co.mdaesin.models.ReceptionQuantityModelView;
 
@@ -40,11 +44,20 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
     TextView details_top_title, details_top_title2;
 
     private ReceptionQuantityModelView receptionQuantityModelView;
+
     private ReceiptDetailsModelView receiptDetailsModelView;
     private List<ReceiptDetailsModelView> receiptDetailsModelViewList;
+
+    private ReceptionQuantityModelView result_receptionQuantityModelView;
+    private List<ReceptionQuantityModelView> result_ReceptionQuantityModelViewList;
+
     private RecyclerView recyclerView;
+    private RecyclerView recyclerView_unsong;
     private ReceptDetailsAdapter receptDetailsAdapter;
-    private SwipeRefreshLayout mysrl;
+    private ReceptDetailsUnsongAdapter receptDetailsUnsongAdapter;
+
+    private boolean isSuccess = false;
+    ProgressDialog asyncDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,18 +78,31 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
         details_top_title2 = (TextView) findViewById(R.id.details_top_title2);
         details_top_title2.setText(receptionQuantityModelView.getSearchKeyword_date());
 
-        CheckTypesTask task = new CheckTypesTask();
-        task.execute();
+        /*CheckTypesTask task = new CheckTypesTask();
+        task.execute();*/
 
-        mysrl = findViewById(R.id.content_srl);
+        /*asyncDialog = new ProgressDialog(ReceiptDetailsActivity.this);
+
+        asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        asyncDialog.setMessage("자료 확인중... ");
+        asyncDialog.show();
+        asyncDialog.setCanceledOnTouchOutside(false);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);*/
+        setReceptDetailsModelView();
+        //setReceptDetailUnsongsModelView();
+
+        /*mysrl = findViewById(R.id.details_content_srl);
         mysrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                CheckTypesTask task2 = new CheckTypesTask();
-                task2.execute();
+                isSwipe = true;
+                setReceptDetailsModelView();
+
             }
-        });
+        });*/
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -88,53 +114,19 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
-
-        ProgressDialog asyncDialog = new ProgressDialog(ReceiptDetailsActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            asyncDialog.setMessage("야 쫌만 기다려봐 ~ ");
-            // show dialog
-            asyncDialog.show();
-            asyncDialog.setCanceledOnTouchOutside(false);
-            super.onPreExecute();
-
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-            try {
-                setRceptDetailsModelView();
-                for (int i = 0; i < 3; i++) {
-                    asyncDialog.setProgress(i * 30);
-                    Thread.sleep(500);
-                }
-
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            // 백그라운드 스레드가 완료되면 Layout 출력 시작
-            loadRceptDetailsModelView();
-            mysrl.setRefreshing(false);
-            asyncDialog.dismiss();
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            super.onPostExecute(result);
-        }
-    }
-
     /**
      * 자료 가져오기
      */
-    public void setRceptDetailsModelView(){
+    public void setReceptDetailsModelView(){
+
+        asyncDialog = new ProgressDialog(ReceiptDetailsActivity.this);
+        Log.d(TAG, "setReceptDetailUnsongsModelView: --------------------------------------->1");
+        asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        asyncDialog.setMessage("자료 확인중... ");
+        asyncDialog.show();
+        asyncDialog.setCanceledOnTouchOutside(false);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        Log.d(TAG, "setReceptDetailUnsongsModelView: --------------------------------------->2");
 
         runOnUiThread(new Runnable() {
             @Override
@@ -153,16 +145,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                                 if ( resultarray.length() > 0){
                                     for ( int i=0; i < resultarray.length(); i++){
                                         JSONObject Object = resultarray.getJSONObject(i);
-                                        /**
-                                         *  private String agencyname;
-                                         *     private String md;
-                                         *     private int cnt;
-                                         *     private int qty;
-                                         *     private double fare;
-                                         *     private String std_departuretime;
-                                         *     private String std_deadlinetime;
-                                         *     private String agencytel;
-                                         */
+
                                         receiptDetailsModelView = new ReceiptDetailsModelView();
                                         receiptDetailsModelView.setAgencyname(Object.getString("agencyname"));
                                         receiptDetailsModelView.setMd(Object.getString("md"));
@@ -174,59 +157,196 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                                         receiptDetailsModelView.setAgencytel(Object.getString("agencytel"));
 
                                         receiptDetailsModelViewList.add(receiptDetailsModelView);
+
+                                    }
+
+                                    if ( receiptDetailsModelViewList != null && receiptDetailsModelViewList.size() > 0 ){
+                                        //receptionQuantityAdapter.notifyDataSetChanged();
+                                        recyclerView = findViewById(R.id.receipt_details_recyceler_view);
+                                        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                                        receptDetailsAdapter = new ReceptDetailsAdapter(receiptDetailsModelViewList);
+                                        recyclerView.setAdapter(receptDetailsAdapter);
+                                        Log.d(TAG, "onResponse: ======================> 첫번째");
+
+                                    }else{
+                                        Log.d("=== not found", "");
+                                        // 없다고 표기
+                                    }
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } finally {
+
+                            }
+                        }
+                    };
+                    // RD 요청
+                    receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS);
+                    ReceiptDetailsRequest receiptListRequest = new ReceiptDetailsRequest(receptionQuantityModelView, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity.this);
+                    queue.add(receiptListRequest);
+
+
+                    result_ReceptionQuantityModelViewList = new ArrayList<ReceptionQuantityModelView>();
+                    Response.Listener<String> responseListeners = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray resultarray = jsonObject.getJSONArray("rows");
+
+                                if ( resultarray.length() > 0){
+                                    for ( int i=0; i < resultarray.length(); i++){
+                                        JSONObject Object = resultarray.getJSONObject(i);
+
+                                        result_receptionQuantityModelView = new ReceptionQuantityModelView();
+                                        result_receptionQuantityModelView.setBillNo(Object.getString("billno"));
+                                        result_receptionQuantityModelView.setSendingagencyname(Object.getString("sendingagencyname"));
+                                        result_receptionQuantityModelView.setArrivalagencyname(Object.getString("arrivalagencyname"));
+                                        result_receptionQuantityModelView.setArrivalman(Object.getString("arrivalman"));
+                                        result_receptionQuantityModelView.setGoods(Object.getString("goods"));
+                                        result_receptionQuantityModelView.setPojang(Object.getString("pojang"));
+                                        result_receptionQuantityModelView.setQty(Object.getString("qty"));
+                                        result_receptionQuantityModelView.setPrefare(Object.getString("prefare"));
+                                        result_receptionQuantityModelView.setFare(Object.getString("fare"));
+                                        result_receptionQuantityModelView.setDeliveryfare(Object.getString("deliveryfare"));
+                                        result_receptionQuantityModelView.setPayway(Object.getString("payway"));
+
+                                        result_ReceptionQuantityModelViewList.add(result_receptionQuantityModelView);
+
+                                    }
+
+                                    if ( result_ReceptionQuantityModelViewList != null && result_ReceptionQuantityModelViewList.size() > 0 ){
+                                        //receptionQuantityAdapter.notifyDataSetChanged();
+                                        recyclerView_unsong = findViewById(R.id.receipt_details_recyceler_unsong_view);
+                                        recyclerView_unsong.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
+                                        recyclerView_unsong.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                                        receptDetailsUnsongAdapter = new ReceptDetailsUnsongAdapter(result_ReceptionQuantityModelViewList);
+                                        recyclerView_unsong.setAdapter(receptDetailsUnsongAdapter);
+                                        Log.d(TAG, "onResponse: ======================> 두번째");
+                                    }else{
+                                        Log.d("=== not found", "");
+                                        // 없다고 표기
                                     }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                            } finally {
+                                try {
+                                    Thread.sleep(1500);
+                                    asyncDialog.dismiss();
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
                         }
                     };
-
-                    ReceiptDetailsRequest receiptListRequest = new ReceiptDetailsRequest(receptionQuantityModelView, responseListener);
-                    RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity.this);
-                    queue.add(receiptListRequest);
+                    // RU 요청
+                    receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS_UNSONG);
+                    ReceiptDetailsRequest receiptListRequests = new ReceiptDetailsRequest(receptionQuantityModelView, responseListeners);
+                    RequestQueue queues = Volley.newRequestQueue( ReceiptDetailsActivity.this);
+                    queues.add(receiptListRequests);
 
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
 
+
                 }
             }
         });
+        //asyncDialog.dismiss();
+        //getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    /**
-     * 상세 정보 표기
-     */
-    public void loadRceptDetailsModelView(){
+    private void setReceptDetailUnsongsModelView() {
 
+        asyncDialog = new ProgressDialog(ReceiptDetailsActivity.this);
+        Log.d(TAG, "setReceptDetailUnsongsModelView: --------------------------------------->1");
+        asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        asyncDialog.setMessage("자료 확인중... ");
+        asyncDialog.show();
+        asyncDialog.setCanceledOnTouchOutside(false);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        Log.d(TAG, "setReceptDetailUnsongsModelView: --------------------------------------->2");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
                 try {
-                    //settingRceptionQuantityModelView();
+                    result_ReceptionQuantityModelViewList = new ArrayList<ReceptionQuantityModelView>();
+                    Response.Listener<String> responseListeners = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
-                    if ( receiptDetailsModelViewList != null && receiptDetailsModelViewList.size() > 0 ){
-                        //receptionQuantityAdapter.notifyDataSetChanged();
-                        recyclerView = findViewById(R.id.receipt_details_recyceler_view);
-                        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray resultarray = jsonObject.getJSONArray("rows");
 
-                        receptDetailsAdapter = new ReceptDetailsAdapter(receiptDetailsModelViewList);
-                        recyclerView.setAdapter(receptDetailsAdapter);
+                                if ( resultarray.length() > 0){
+                                    for ( int i=0; i < resultarray.length(); i++){
+                                        JSONObject Object = resultarray.getJSONObject(i);
 
-                    }else{
-                        Log.d("=== not found", "");
-                    }
+                                        result_receptionQuantityModelView = new ReceptionQuantityModelView();
+                                        result_receptionQuantityModelView.setBillNo(Object.getString("billno"));
+                                        result_receptionQuantityModelView.setSendingagencyname(Object.getString("sendingagencyname"));
+                                        result_receptionQuantityModelView.setArrivalagencyname(Object.getString("arrivalagencyname"));
+                                        result_receptionQuantityModelView.setArrivalman(Object.getString("arrivalman"));
+                                        result_receptionQuantityModelView.setGoods(Object.getString("goods"));
+                                        result_receptionQuantityModelView.setPojang(Object.getString("pojang"));
+                                        result_receptionQuantityModelView.setQty(Object.getString("qty"));
+                                        result_receptionQuantityModelView.setPrefare(Object.getString("prefare"));
+                                        result_receptionQuantityModelView.setFare(Object.getString("fare"));
+                                        result_receptionQuantityModelView.setDeliveryfare(Object.getString("deliveryfare"));
+                                        result_receptionQuantityModelView.setPayway(Object.getString("payway"));
+
+                                        result_ReceptionQuantityModelViewList.add(result_receptionQuantityModelView);
+
+                                    }
+
+                                    if ( result_ReceptionQuantityModelViewList != null && result_ReceptionQuantityModelViewList.size() > 0 ){
+                                        //receptionQuantityAdapter.notifyDataSetChanged();
+                                        recyclerView_unsong = findViewById(R.id.receipt_details_recyceler_unsong_view);
+                                        recyclerView_unsong.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
+                                        recyclerView_unsong.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                                        receptDetailsUnsongAdapter = new ReceptDetailsUnsongAdapter(result_ReceptionQuantityModelViewList);
+                                        recyclerView_unsong.setAdapter(receptDetailsUnsongAdapter);
+                                        Log.d(TAG, "onResponse: ======================> 두번째");
+                                    }else{
+                                        Log.d("=== not found", "");
+                                        // 없다고 표기
+                                    }
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } finally {
+                                asyncDialog.dismiss();
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            }
+                        }
+                    };
+                    // RU 요청
+                    receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS_UNSONG);
+                    ReceiptDetailsRequest receiptListRequests = new ReceiptDetailsRequest(receptionQuantityModelView, responseListeners);
+                    RequestQueue queues = Volley.newRequestQueue( ReceiptDetailsActivity.this);
+                    queues.add(receiptListRequests);
 
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
-                    
+
                 }
             }
         });
-    }
 
+    }
 }

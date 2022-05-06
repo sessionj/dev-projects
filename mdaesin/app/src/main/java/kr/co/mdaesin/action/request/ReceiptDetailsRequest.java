@@ -1,5 +1,6 @@
 package kr.co.mdaesin.action.request;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ public class ReceiptDetailsRequest extends StringRequest {
 
         sb.append(CryptoKey.createCryptoKey(receptionQuantityModelView.getLinecode())+"\t");
         sb.append(receptionQuantityModelView.getLinecode()+"\t");
-        sb.append(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS+"\t");
+        sb.append(receptionQuantityModelView.getSearchMode()+"\t");
         sb.append(receptionQuantityModelView.getSearchKeyword_date().replaceAll("-","").split(" ")[0]);
         Log.d("=============param : ", sb.toString());
         map.put("param", sb.toString());
