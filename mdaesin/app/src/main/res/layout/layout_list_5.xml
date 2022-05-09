@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    >
+
+    <TextView
+        android:id="@+id/history_adapter_item_1"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="1801202096557"
+        android:textColor="@color/grey_90"
+        android:textSize="13dp"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/history_adapter_item_2"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="구로중앙"
+        android:textColor="@color/grey_90"
+        android:textSize="13dp"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/history_adapter_item_3"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="20220505:0848"
+        android:textColor="@color/grey_90"
+        android:textSize="13dp"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/history_adapter_item_4"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="(운임) 37,500 => 7,500"
+        android:textColor="@color/red"
+        android:textSize="13dp"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:textAlignment="center"
+
+        android:layout_weight="1"/>
+
+
+
+</LinearLayout>

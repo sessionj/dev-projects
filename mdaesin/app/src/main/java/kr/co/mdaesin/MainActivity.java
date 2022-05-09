@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -258,7 +260,11 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void onWayPoint(View v, int pos) {
                                                 //Toast.makeText(getApplicationContext(), "경유지별 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
-                                                Intent intent = new Intent(getApplicationContext(), WayPointActivity.class);
+                                                ReceptionQuantityModelView intentParam = new ReceptionQuantityModelView();
+                                                intentParam = receptionQuantityModelViewList.get(pos);
+                                                intentParam.setSearchKeyword_date(textview_v1.getText().toString());
+                                                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                                                intent.putExtra("receptionQuantityModelView", intentParam);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 startActivity(intent);
                                             }
@@ -269,7 +275,11 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void onhistory(View v, int pos) {
                                                 //Toast.makeText(getApplicationContext(), "수정 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                                ReceptionQuantityModelView intentParam = new ReceptionQuantityModelView();
+                                                intentParam = receptionQuantityModelViewList.get(pos);
+                                                intentParam.setSearchKeyword_date(textview_v1.getText().toString());
                                                 Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                                                intent.putExtra("receptionQuantityModelView", intentParam);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 startActivity(intent);
                                             }

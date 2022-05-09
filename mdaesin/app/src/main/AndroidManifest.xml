@@ -10,7 +10,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Mdaesin">
+        android:theme="@style/Theme.Mdaesin"
+        android:hardwareAccelerated = "true" >
+        >
         <activity
             android:name=".TmpActivity"
             android:exported="false" />

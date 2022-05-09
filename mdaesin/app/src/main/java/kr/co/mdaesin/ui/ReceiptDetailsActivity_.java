@@ -1,13 +1,5 @@
 package kr.co.mdaesin.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,11 +9,15 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,7 +32,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import kr.co.mdaesin.MainActivity;
 import kr.co.mdaesin.R;
 import kr.co.mdaesin.action.request.ReceiptDetailsRequest;
 import kr.co.mdaesin.adapter.ReceptDetailsAdapter;
@@ -45,7 +40,7 @@ import kr.co.mdaesin.comm.Label;
 import kr.co.mdaesin.models.ReceiptDetailsModelView;
 import kr.co.mdaesin.models.ReceptionQuantityModelView;
 
-public class ReceiptDetailsActivity extends AppCompatActivity {
+public class ReceiptDetailsActivity_ extends AppCompatActivity {
     private String TAG = " :: ReceiptDetailsActivity.LOG";
 
     TextView details_top_title, details_top_title2;
@@ -73,6 +68,9 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_CORES);
 
+    private ReceiptUnsongThread receiptUnsongThread;
+    private Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,37 +90,18 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
         details_top_title2 = (TextView) findViewById(R.id.details_top_title2);
         details_top_title2.setText(receptionQuantityModelView.getSearchKeyword_date());
 
-        asyncDialogUnsong = new ProgressDialog(ReceiptDetailsActivity.this);
-        asyncDialogUnsong.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        asyncDialogUnsong.setMessage("야 쫌만 기다려봐 ~ ");
-        // show dialog
-        asyncDialogUnsong.show();
-        asyncDialogUnsong.setCanceledOnTouchOutside(false);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        receiptDetailsModelViewList = new ArrayList<ReceiptDetailsModelView>();
-        result_ReceptionQuantityModelViewList = new ArrayList<ReceptionQuantityModelView>();
+        handler = new Handler(Looper.getMainLooper());
 
-        Handler mHandler = new Handler(Looper.getMainLooper());
-        mHandler.postDelayed(new Runnable() {
+        final Handler responseHandler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void run() {
-                Thread datathread = new Thread(){
-                    @Override
-                    public void run(){
-                        getDetailsList();
-                    }
-                };
-                datathread.start();
-                try {
-                    datathread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    Log.d(TAG, "run: 스레드 종료......");
-                }
+            public void handleMessage(Message msg) {
+
+                /* Processing handleMessage */
+
+                Toast.makeText(ReceiptDetailsActivity_.this, "Runnable completed with result:"+(String)msg.obj, Toast.LENGTH_LONG) .show();
             }
-        }, 100);
+        };
 
 
         responseListener = new Response.Listener<String>() {
@@ -131,7 +110,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray resultarray = jsonObject.getJSONArray("details");
+                    JSONArray resultarray = jsonObject.getJSONArray("rows");
 
                     if ( resultarray.length() > 0){
                         for ( int i=0; i < resultarray.length(); i++){
@@ -162,44 +141,9 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
 
                             Log.d(TAG, "onResponse: 수신 완료되어 화면에 뿌림 " );
 
-                        }
-                    }
-
-
-                    JSONArray resultarrayUnsong = jsonObject.getJSONArray("unsong");
-
-                    if ( resultarrayUnsong.length() > 0){
-                        for ( int i=0; i < resultarrayUnsong.length(); i++){
-                            JSONObject ObjectUnsong = resultarrayUnsong.getJSONObject(i);
-
-                            result_receptionQuantityModelView = new ReceptionQuantityModelView();
-                            result_receptionQuantityModelView.setBillNo(ObjectUnsong.getString("billno"));
-                            result_receptionQuantityModelView.setSendingagencyname(ObjectUnsong.getString("sendingagencyname"));
-                            result_receptionQuantityModelView.setArrivalagencyname(ObjectUnsong.getString("arrivalagencyname"));
-                            result_receptionQuantityModelView.setArrivalman(ObjectUnsong.getString("arrivalman"));
-                            result_receptionQuantityModelView.setGoods(ObjectUnsong.getString("goods"));
-                            result_receptionQuantityModelView.setPojang(ObjectUnsong.getString("pojang"));
-                            result_receptionQuantityModelView.setQty(ObjectUnsong.getString("qty"));
-                            result_receptionQuantityModelView.setPrefare(ObjectUnsong.getString("prefare"));
-                            result_receptionQuantityModelView.setFare(ObjectUnsong.getString("fare"));
-                            result_receptionQuantityModelView.setDeliveryfare(ObjectUnsong.getString("deliveryfare"));
-                            result_receptionQuantityModelView.setPayway(ObjectUnsong.getString("payway"));
-                            Log.d(TAG, "ObjectUnsong: " + i +"번째 자료 수신중" +  ObjectUnsong.getString("billno"));
-                            result_ReceptionQuantityModelViewList.add(result_receptionQuantityModelView);
-
-                            asyncDialogUnsong.setProgress(i * 1);
-
-                        }
-                        if ( result_ReceptionQuantityModelViewList != null && result_ReceptionQuantityModelViewList.size() > 0 ){
-                            //receptionQuantityAdapter.notifyDataSetChanged();
-                            recyclerView_unsong = findViewById(R.id.receipt_details_recyceler_unsong_view);
-                            recyclerView_unsong.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
-                            recyclerView_unsong.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                            receptDetailsUnsongAdapter = new ReceptDetailsUnsongAdapter(result_ReceptionQuantityModelViewList);
-                            recyclerView_unsong.setAdapter(receptDetailsUnsongAdapter);
-
-                            Log.d(TAG, "onResponse: ======================> 두번째");
+                        }else{
+                            Log.d("=== not found", "");
+                            // 없다고 표기
                         }
 
                     }
@@ -207,8 +151,6 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                     e.printStackTrace();
                 } finally {
 
-                    asyncDialogUnsong.dismiss();
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }
             }
         };
@@ -219,7 +161,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray resultarray = jsonObject.getJSONArray("unsong");
+                    JSONArray resultarray = jsonObject.getJSONArray("rows");
 
                     if ( resultarray.length() > 0){
                         for ( int i=0; i < resultarray.length(); i++){
@@ -251,13 +193,16 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                             receptDetailsUnsongAdapter = new ReceptDetailsUnsongAdapter(result_ReceptionQuantityModelViewList);
                             recyclerView_unsong.setAdapter(receptDetailsUnsongAdapter);
                             Log.d(TAG, "onResponse: ======================> 두번째");
+                        }else{
+                            Log.d("=== not found", "");
+                            // 없다고 표기
                         }
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } finally {
-                    asyncDialogUnsong.dismiss();
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                 }
             }
         };
@@ -299,7 +244,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                     // RD 요청
                     receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS);
                     ReceiptDetailsRequest receiptListRequest = new ReceiptDetailsRequest(receptionQuantityModelView, responseListener);
-                    RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity.this);
+                    RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity_.this);
                     queue.add(receiptListRequest);
 
                 }catch (Exception e){
@@ -315,7 +260,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
 
     private void setReceptDetailUnsongsModelView() {
 
-        asyncDialog = new ProgressDialog(ReceiptDetailsActivity.this);
+        asyncDialog = new ProgressDialog(ReceiptDetailsActivity_.this);
         Log.d(TAG, "setReceptDetailUnsongsModelView: --------------------------------------->1");
         asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         asyncDialog.setMessage("자료 확인중... ");
@@ -333,7 +278,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                     // RU 요청
                     receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS_UNSONG);
                     ReceiptDetailsRequest receiptListRequests = new ReceiptDetailsRequest(receptionQuantityModelView, responseListenerUnsong);
-                    RequestQueue queues = Volley.newRequestQueue( ReceiptDetailsActivity.this);
+                    RequestQueue queues = Volley.newRequestQueue( ReceiptDetailsActivity_.this);
                     queues.add(receiptListRequests);
 
                 }catch (Exception e){
@@ -348,7 +293,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
 
     private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
 
-        ProgressDialog asyncDialog = new ProgressDialog(ReceiptDetailsActivity.this);
+        ProgressDialog asyncDialog = new ProgressDialog(ReceiptDetailsActivity_.this);
 
         @Override
         protected void onPreExecute() {
@@ -369,7 +314,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                 receiptDetailsModelViewList = new ArrayList<ReceiptDetailsModelView>();
                 receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS);
                 ReceiptDetailsRequest receiptListRequest = new ReceiptDetailsRequest(receptionQuantityModelView, responseListener);
-                RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity.this);
+                RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity_.this);
                 queue.add(receiptListRequest);
 
             } catch (Exception ex) {
@@ -394,7 +339,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
 
     private class CheckTypesTaskUnsong extends AsyncTask<Void, Void, Void> {
 
-        ProgressDialog asyncDialogUnsong = new ProgressDialog(ReceiptDetailsActivity.this);
+        ProgressDialog asyncDialogUnsong = new ProgressDialog(ReceiptDetailsActivity_.this);
         ReceiptDetailThread receiptDetailThread;
         ReceiptUnsongThread receiptUnsongThread;
         @Override
@@ -422,7 +367,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                 receiptDetailsModelViewList = new ArrayList<ReceiptDetailsModelView>();
                 receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS);
                 ReceiptDetailsRequest receiptListRequest = new ReceiptDetailsRequest(receptionQuantityModelView, responseListener);
-                RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity.this);
+                RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity_.this);
                 queue.add(receiptListRequest);
 
                 /*for (int i = 0; i < 1; i++) {
@@ -481,7 +426,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                 receiptDetailsModelViewList = new ArrayList<ReceiptDetailsModelView>();
                 receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS);
                 ReceiptDetailsRequest receiptListRequest = new ReceiptDetailsRequest(receptionQuantityModelView, responseListener);
-                RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity.this);
+                RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity_.this);
                 queue.add(receiptListRequest);
 
             } catch (Exception ex) {
@@ -501,7 +446,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
         @Override
         public void run() {
             super.run();
-            asyncDialogUnsong = new ProgressDialog(ReceiptDetailsActivity.this);
+            asyncDialogUnsong = new ProgressDialog(ReceiptDetailsActivity_.this);
             asyncDialogUnsong.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             asyncDialogUnsong.setMessage("야 쫌만 기다려봐 ~ ");
             // show dialog
@@ -515,7 +460,7 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                 result_ReceptionQuantityModelViewList = new ArrayList<ReceptionQuantityModelView>();
                 receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS_UNSONG);
                 ReceiptDetailsRequest receiptListRequests = new ReceiptDetailsRequest(receptionQuantityModelView, responseListenerUnsong);
-                RequestQueue queues = Volley.newRequestQueue( ReceiptDetailsActivity.this);
+                RequestQueue queues = Volley.newRequestQueue( ReceiptDetailsActivity_.this);
                 queues.add(receiptListRequests);
 
                 Thread.sleep(1000);
@@ -527,24 +472,6 @@ public class ReceiptDetailsActivity extends AppCompatActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
         }
-    }
-
-    private void getDetailsList(){
-
-        receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS);
-        ReceiptDetailsRequest receiptListRequest = new ReceiptDetailsRequest(receptionQuantityModelView, responseListener);
-        RequestQueue queue = Volley.newRequestQueue( ReceiptDetailsActivity.this);
-        queue.add(receiptListRequest);
-
-    }
-
-    private void getDetailsUnsongList(){
-
-
-        receptionQuantityModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_DETAILS_UNSONG);
-        ReceiptDetailsRequest receiptListRequests = new ReceiptDetailsRequest(receptionQuantityModelView, responseListenerUnsong);
-        RequestQueue queues = Volley.newRequestQueue( ReceiptDetailsActivity.this);
-        queues.add(receiptListRequests);
     }
 
 }
