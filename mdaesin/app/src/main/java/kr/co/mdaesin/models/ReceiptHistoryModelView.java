@@ -1,6 +1,8 @@
 package kr.co.mdaesin.models;
 
-public class ReceiptHistoryModelView {
+import java.io.Serializable;
+
+public class ReceiptHistoryModelView implements Serializable {
 
     /**
      * "billno": "1801202096557",

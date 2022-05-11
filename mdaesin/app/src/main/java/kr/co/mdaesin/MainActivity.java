@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                                                 ReceptionQuantityModelView intentParam = new ReceptionQuantityModelView();
                                                 intentParam = receptionQuantityModelViewList.get(pos);
                                                 intentParam.setSearchKeyword_date(textview_v1.getText().toString());
-                                                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                                                Intent intent = new Intent(getApplicationContext(), WayPointActivity.class);
                                                 intent.putExtra("receptionQuantityModelView", intentParam);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 startActivity(intent);
@@ -289,8 +289,11 @@ public class MainActivity extends AppCompatActivity {
                                         receptListAdapter.setCarControlClickListener(new ReceptListAdapter.OncarControlClickListener() {
                                             @Override
                                             public void onCarControl(View v, int pos) {
-                                                //Toast.makeText(getApplicationContext(), "차량관제 내역("+receptionQuantityModelViewList.get(pos).getLinecode()+")", Toast.LENGTH_SHORT ).show();
+                                                ReceptionQuantityModelView intentParam = new ReceptionQuantityModelView();
+                                                intentParam = receptionQuantityModelViewList.get(pos);
+                                                intentParam.setSearchKeyword_date(textview_v1.getText().toString());
                                                 Intent intent = new Intent(getApplicationContext(), CarControlActivity.class);
+                                                intent.putExtra("receptionQuantityModelView", intentParam);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 startActivity(intent);
                                             }

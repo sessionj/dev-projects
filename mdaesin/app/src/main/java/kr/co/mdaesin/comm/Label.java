@@ -12,6 +12,8 @@ public class Label {
     public final static String DELIVERY_BASE_URL_RECEIPT_DETAILS            = "RD";
     public final static String DELIVERY_BASE_URL_RECEIPT_DETAILS_UNSONG     = "RU";
     public final static String DELIVERY_BASE_URL_RECEIPT_HISTORY            = "RH";
+    public final static String DELIVERY_BASE_URL_RECEIPT_WAYPOINT           = "RW";
+    public final static String DELIVERY_BASE_URL_RECEIPT_WAYPOINT_DETAILS   = "RWD";
 
     public final static String DELIVERY_BASE_ROOM_PROFILE_DATABASE_NAME     = "tb_profile";
     public final static String DELIVERY_BASE_ROOM_DELIVERY_DATABASE_NAME    = "tb_delivery";
@@ -36,4 +38,14 @@ public class Label {
     public final static String RECEIPT_CONSTRUCTOR_FINAL_NAME               = "노선通";
     public final static String RECEIPT_DEFAULT_LINECODE                     = "000000";
 
+    public final static String RECEIPT_HIST_BILLNO                          = "운송장번호 : ";
+    public final static String RECEIPT_HIST_AGENCY                          = "수정영업소 : ";
+    public final static String RECEIPT_HIST_DATE                            = "변경일자 : ";
+    public final static String RECEIPT_HIST_CATEGORY                        = "변동항목 : ";
+    public final static String RECEIPT_HIST_CONTENT                         = "변동내역 : ";
+
+    public final static String RECEIPT_CAR_API_CALL                         = "https://s1.u-vis.com/uvisc/SSOAction.do?method=GetAccessKeyWithValues&SerialKey=S1610-3393-F997--545&VIEW_TYPE=1&CAR_NUMBER=";
+    public final static String RECEIPT_CAR_MONITOR                          = "https://s1.u-vis.com/uvisc/SSOAction.do?method=viewGroupMap&AccessKey=";
+
+    public final static String RECEIPT_CUSTOM_CALL                          = "http://custom.ds3211.co.kr/vcSvl?apiKey=58d01815eb9b10a79ce08e6d08a6a63f&carNumber=";
 }

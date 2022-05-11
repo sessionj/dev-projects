@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="20dp"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:src="@drawable/front_lorry_truck_vehicle_icon"
+            android:padding="10dp"
+            android:visibility="visible"/>
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#bbbbbb"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/frame_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/front_lorry_truck_vehicle_icon"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="18dp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:text="우리 살아가는 일 속에\n
+파도치는 날 바람부는 날이\n
+어디 한두 번이랴\n
+그런 날은 조용히 닻을 내리고\n
+오늘 일을 잠시라도\n
+낮은 곳에 묻어두어야 한다\n
+\n
+우리 사랑하는 일 또한 그 같아서\n
+파도치는 날 바람부는 날은\n
+높은 파도를 타지 않고\n
+낮게 낮게 밀물져야 한다\n
+사랑하는 이여\n
+상처받지 않은 사랑이 어디 있으랴\n
+추운 겨울 다 지내고\n
+꽃필 차례가 바로 그대 앞에 있다"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_action"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:background="@drawable/roundrectfill_black"
+                android:textColor="#ffffff"
+                android:textSize="16dp"
+                android:text="특정 액션"/>
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent"/>
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:background="@drawable/roundrectfill_black"
+                android:textColor="#ffffff"
+                android:textSize="18dp"
+                android:text="확인"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

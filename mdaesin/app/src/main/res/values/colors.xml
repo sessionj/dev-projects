@@ -10,6 +10,7 @@
     <color name="red">#FB0202</color>
     <color name="yellow">#9C8C01</color>
     <color name="orange">#FF5722</color>
+    <color name="orange_">#FF9800</color>
 
     <color name="grey_3">#f7f7f7</color>
     <color name="grey_5">#f2f2f2</color>
@@ -26,4 +27,8 @@
     <color name="color1">#005073</color>
     <color name="color2">#107DAC</color>
     <color name="color3">#189AD3</color>
+
+
+    <color name="transparent">#00FFFFFF</color>
+
 </resources>

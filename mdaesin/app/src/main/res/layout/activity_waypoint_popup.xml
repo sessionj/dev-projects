@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.WayPointActivity"
+    tools:context=".ui.popup.WaypointPopupActivity"
     android:orientation="vertical">
 
     <LinearLayout
@@ -26,7 +26,7 @@
             >
         </ImageView>
         <TextView
-            android:id="@+id/waypoint_top_title"
+            android:id="@+id/waypoint_det_top_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="부곡터->청주우암"
@@ -35,7 +35,7 @@
             android:layout_weight="1"/>
         <TextView
             android:layout_weight="1.5"
-            android:id="@+id/waypoint_top_title2"
+            android:id="@+id/waypoint_det_top_title2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="2022-05-03(수)"
@@ -90,7 +90,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="경유지별 물량(적재계획)"
+                    android:text="영업소별/발송내역"
                     android:textColor="@color/grey_90"
                     android:textSize="16dp"
                     android:layout_weight="1"
@@ -109,7 +109,26 @@
                     />
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:orientation="horizontal"
+                android:background="@color/grey_10"
+                >
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/waypoint_dt_summery_1"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="10dp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:text="@string/way_dt_summary"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -122,7 +141,7 @@
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/way_con_1"
+                    android:text="@string/way_dt_con_1"
                     android:textAlignment="center"
                     android:textColor="@color/grey_90"
                     android:textSize="14dp" />
@@ -130,7 +149,7 @@
                     android:id="@+id/waypoint_adapter_title_2"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:text="@string/way_con_2"
+                    android:text="@string/way_dt_con_2"
                     android:textColor="@color/grey_90"
                     android:textSize="14dp"
                     android:layout_margin="1dp"
@@ -141,7 +160,7 @@
                     android:id="@+id/waypoint_adapter_title_3"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:text="@string/way_con_3"
+                    android:text="@string/way_dt_con_3"
                     android:textColor="@color/grey_90"
                     android:textSize="14dp"
                     android:layout_margin="1dp"
@@ -152,7 +171,19 @@
                     android:id="@+id/waypoint_adapter_title_4"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:text="@string/way_con_4"
+                    android:text="@string/way_dt_con_4"
+                    android:textColor="@color/grey_90"
+                    android:textSize="14dp"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/waypoint_adapter_title_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:text="@string/way_dt_con_5"
                     android:textColor="@color/grey_90"
                     android:textSize="14dp"
                     android:layout_margin="1dp"
@@ -164,7 +195,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/receipt_waypoint_recyceler_view"
+                android:id="@+id/receipt_waypoint_det_recyceler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 layout_constrainedHeight="true"
@@ -172,62 +203,7 @@
                 android:scrollbars="vertical"
                 android:nestedScrollingEnabled="false"
                 />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:orientation="horizontal"
-                android:background="@color/grey_10"
-                >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/waypoint_sum_1"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="10dp"
-                    android:textAlignment="center"
-                    android:gravity="center"
-
-                    android:layout_weight="1"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/waypoint_sum_2"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="10dp"
-                    android:textAlignment="center"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:layout_weight="1"
-                    android:text="합계"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/waypoint_sum_3"
-                    android:textColor="@color/orange"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="10dp"
-                    android:textAlignment="center"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:layout_weight="1"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/waypoint_sum_4"
-                    android:textColor="@color/orange"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="10dp"
-                    android:textAlignment="center"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:layout_weight="1"
-                    />
-
-            </LinearLayout>
 
 
             <TextView
