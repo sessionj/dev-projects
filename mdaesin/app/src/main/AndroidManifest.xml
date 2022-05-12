@@ -8,17 +8,23 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher_nosun"
+        android:icon="@mipmap/ic_launcher_nosun_tong"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_nosun_round"
+        android:roundIcon="@mipmap/ic_launcher_nosun_tong_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mdaesin">
         <activity
+            android:name=".ui.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+        <activity
             android:name=".ui.popup.WaypointPopupActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:parentActivityName=".ui.WayPointActivity"
-             />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.popup.HistoryPopupActivity"
             android:exported="false"
