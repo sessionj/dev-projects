@@ -1,8 +1,6 @@
 package kr.co.mdaesin.action.request;
 
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -25,9 +23,9 @@ public class ReceiptDetailsRequest extends StringRequest {
     private Map<String, String> map;
     StringBuffer sb ;
 
-    public ReceiptDetailsRequest(ReceptionQuantityModelView receptionQuantityModelView, Response.Listener<String> listener) {
+    public ReceiptDetailsRequest(ReceptionQuantityModelView receptionQuantityModelView, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
 
-        super(Method.POST, URL, listener,
+        super(Method.POST, URL, successListener,
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {

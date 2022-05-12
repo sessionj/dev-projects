@@ -166,7 +166,15 @@
 
         </LinearLayout>
 
-
+        <ProgressBar
+            android:id="@+id/receipt_details_progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:alpha="0.3"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/receipt_details_recyceler_view"
             android:layout_width="match_parent"

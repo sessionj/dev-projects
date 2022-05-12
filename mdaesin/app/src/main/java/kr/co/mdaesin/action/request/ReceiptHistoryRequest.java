@@ -13,7 +13,6 @@ import java.util.Map;
 import kr.co.mdaesin.comm.CryptoKey;
 import kr.co.mdaesin.comm.Label;
 import kr.co.mdaesin.models.ReceiptHistoryModelView;
-import kr.co.mdaesin.models.ReceptionQuantityModelView;
 
 /**
  *   http://dev.ds3211.co.kr/DsService_AppInterlockProxy?param=암호화키		4001	DL	2022-04-07
@@ -24,7 +23,7 @@ public class ReceiptHistoryRequest extends StringRequest {
     private Map<String, String> map;
     StringBuffer sb ;
 
-    public ReceiptHistoryRequest(ReceiptHistoryModelView receiptHistoryModelView, Response.Listener<String> listener) {
+    public ReceiptHistoryRequest(ReceiptHistoryModelView receiptHistoryModelView, Response.Listener<String> listener, Response.ErrorListener errorListener) {
 
         super(Method.POST, URL, listener,
                 new Response.ErrorListener() {

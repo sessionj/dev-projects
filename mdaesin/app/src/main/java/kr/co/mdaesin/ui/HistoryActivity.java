@@ -18,11 +18,13 @@ import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -33,11 +35,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.mdaesin.R;
+import kr.co.mdaesin.action.request.ReceiptDetailsRequest;
 import kr.co.mdaesin.action.request.ReceiptHistoryRequest;
 import kr.co.mdaesin.adapter.ReceptDetailsAdapter;
+import kr.co.mdaesin.adapter.ReceptDetailsUnsongAdapter;
 import kr.co.mdaesin.adapter.ReceptHistoryAdapter;
 import kr.co.mdaesin.adapter.ReceptListAdapter;
 import kr.co.mdaesin.comm.Label;
+import kr.co.mdaesin.models.ReceiptDetailsModelView;
 import kr.co.mdaesin.models.ReceiptHistoryModelView;
 import kr.co.mdaesin.models.ReceptionQuantityModelView;
 import kr.co.mdaesin.ui.popup.HistoryPopupActivity;
@@ -54,7 +59,7 @@ public class HistoryActivity extends AppCompatActivity {
     private ReceptHistoryAdapter receptHistoryAdapter;
     private Response.Listener<String> responseListener;
     ProgressDialog asyncDialog;
-
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,111 +83,108 @@ public class HistoryActivity extends AppCompatActivity {
         receiptHistoryModelView.setSearchKeyword_date(receptionQuantityModelView.getSearchKeyword_date());
 
         emplist = (TextView) findViewById(R.id.history_emp_list);
+        progressBar = findViewById(R.id.receipt_history_progressBar);
+
 
         getHistoryList();
 
     }
 
-    // 자료 가져오기
-    public void getHistoryList(){
 
-        asyncDialog = new ProgressDialog(HistoryActivity.this);
 
-        asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        asyncDialog.setMessage("자료 확인중... ");
-        asyncDialog.show();
-        asyncDialog.setCanceledOnTouchOutside(false);
+    private void getHistoryList(){
+        progressBar.setVisibility(View.VISIBLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        receiptHistoryModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_HISTORY);
+        ReceiptHistoryRequest receiptListRequest = new ReceiptHistoryRequest(receiptHistoryModelView, successListener(), errorListener());
+        RequestQueue queue = Volley.newRequestQueue( HistoryActivity.this);
+        queue.add(receiptListRequest);
 
-                try {
-                    responseListener = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-
-                            try {
-
-                                if ( !response.isEmpty() && response != null){
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    JSONArray resultarray = jsonObject.getJSONArray("rows");
-
-                                    if (resultarray.length() > 0) {
-
-                                        for (int i = 0; i < resultarray.length(); i++) {
-                                            JSONObject Object = resultarray.getJSONObject(i);
-
-                                            receiptHistoryModelView = new ReceiptHistoryModelView();
-
-                                            receiptHistoryModelView.setBillNo(Object.getString("billno"));
-                                            receiptHistoryModelView.setAgencyname(Object.getString("agencyname"));
-                                            receiptHistoryModelView.setCategory(Object.getString("hangmok"));
-                                            receiptHistoryModelView.setUpdatetor(Object.getString("updatetor"));
-                                            receiptHistoryModelView.setUpdatedate(Object.getString("updatedate"));
-                                            receiptHistoryModelView.setUpdatetime(Object.getString("updatetime"));
-                                            receiptHistoryModelView.setBefcontent(Object.getString("befcontent"));
-                                            receiptHistoryModelView.setAftcontent(Object.getString("aftcontent"));
-                                            receiptHistoryModelView.setInput_date(Object.getString("input_date"));
-
-                                            Log.d(TAG, "onResponse: " + i + "번째 자료 수신중");
-                                            receiptHistoryModelViewList.add(receiptHistoryModelView);
-
-                                        }
-
-                                        if (receiptHistoryModelViewList != null && receiptHistoryModelViewList.size() > 0) {
-                                            emplist.setVisibility(View.GONE);
-                                            //receptionQuantityAdapter.notifyDataSetChanged();
-                                            recyclerView = findViewById(R.id.receipt_details_recyceler_history_view);
-                                            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
-                                            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                                            receptHistoryAdapter = new ReceptHistoryAdapter(receiptHistoryModelViewList);
-                                            recyclerView.setAdapter(receptHistoryAdapter);
-
-                                            receptHistoryAdapter.setOnitemClickListener(new ReceptDetailsAdapter.OnitemClickListener() {
-                                                @Override
-                                                public void onItemClick(View v, int pos) {
-
-                                                    ReceiptHistoryModelView histModel = new ReceiptHistoryModelView();
-                                                    histModel = receiptHistoryModelViewList.get(pos);
-
-                                                    Intent intent = new Intent(getApplicationContext(), HistoryPopupActivity.class);
-                                                    intent.putExtra("histModel", histModel);
-                                                    startActivity(intent);
-                                                }
-                                            });
-                                        }
-                                    }
-                                }else{
-                                    emplist.setVisibility(View.VISIBLE);
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } finally {
-
-                                asyncDialog.dismiss();
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            }
-                        }
-                    };
-
-                    receiptHistoryModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_HISTORY);
-                    ReceiptHistoryRequest receiptListRequest = new ReceiptHistoryRequest(receiptHistoryModelView, responseListener);
-                    RequestQueue queue = Volley.newRequestQueue( HistoryActivity.this);
-                    queue.add(receiptListRequest);
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-
-                }
-            }
-        });
     }
 
+    private Response.Listener<String> successListener() {
+        return new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    if ( !response.isEmpty() && response != null){
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray resultarray = jsonObject.getJSONArray("rows");
+
+                        if (resultarray.length() > 0) {
+
+                            for (int i = 0; i < resultarray.length(); i++) {
+                                JSONObject Object = resultarray.getJSONObject(i);
+
+                                receiptHistoryModelView = new ReceiptHistoryModelView();
+
+                                receiptHistoryModelView.setBillNo(Object.getString("billno"));
+                                receiptHistoryModelView.setAgencyname(Object.getString("agencyname"));
+                                receiptHistoryModelView.setCategory(Object.getString("hangmok"));
+                                receiptHistoryModelView.setUpdatetor(Object.getString("updatetor"));
+                                receiptHistoryModelView.setUpdatedate(Object.getString("updatedate"));
+                                receiptHistoryModelView.setUpdatetime(Object.getString("updatetime"));
+                                receiptHistoryModelView.setBefcontent(Object.getString("befcontent"));
+                                receiptHistoryModelView.setAftcontent(Object.getString("aftcontent"));
+                                receiptHistoryModelView.setInput_date(Object.getString("input_date"));
+
+                                Log.d(TAG, "onResponse: " + i + "번째 자료 수신중");
+                                receiptHistoryModelViewList.add(receiptHistoryModelView);
+
+                            }
+
+                            if (receiptHistoryModelViewList != null && receiptHistoryModelViewList.size() > 0) {
+                                emplist.setVisibility(View.GONE);
+                                //receptionQuantityAdapter.notifyDataSetChanged();
+                                recyclerView = findViewById(R.id.receipt_details_recyceler_history_view);
+                                recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1)); // 아이템별 구분선 넣기
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                                receptHistoryAdapter = new ReceptHistoryAdapter(receiptHistoryModelViewList);
+                                recyclerView.setAdapter(receptHistoryAdapter);
+
+                                receptHistoryAdapter.setOnitemClickListener(new ReceptDetailsAdapter.OnitemClickListener() {
+                                    @Override
+                                    public void onItemClick(View v, int pos) {
+
+                                        ReceiptHistoryModelView histModel = new ReceiptHistoryModelView();
+                                        histModel = receiptHistoryModelViewList.get(pos);
+
+                                        Intent intent = new Intent(getApplicationContext(), HistoryPopupActivity.class);
+                                        intent.putExtra("histModel", histModel);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        }
+                    }else{
+                        emplist.setVisibility(View.VISIBLE);
+                    }
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                } finally {
+                    progressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    /*asyncDialogUnsong.dismiss();
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);*/
+                }
+            }
+        };
+    }
+
+    private Response.ErrorListener errorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressBar.setVisibility(View.GONE);
+                //asyncDialogUnsong.dismiss();
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                error.printStackTrace();
+            }
+        };
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
