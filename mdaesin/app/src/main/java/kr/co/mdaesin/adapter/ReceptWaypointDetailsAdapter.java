@@ -19,7 +19,7 @@ import kr.co.mdaesin.comm.BasicUtils;
 import kr.co.mdaesin.models.ReceiptWayPointModelView;
 
 public class ReceptWaypointDetailsAdapter extends RecyclerView.Adapter<ReceptWaypointDetailsAdapter.ViewHolder> {
-
+    private String TAG = "ReceptWaypointDetailsAdapter : ";
     private Context context;
     private List<ReceiptWayPointModelView> receiptWayPointModelViewList = new ArrayList<ReceiptWayPointModelView>();
     private StringBuffer sb;
@@ -37,7 +37,7 @@ public class ReceptWaypointDetailsAdapter extends RecyclerView.Adapter<ReceptWay
 
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.layout_list_6, parent, false) ;
+        View view = inflater.inflate(R.layout.layout_list_7, parent, false) ;
         ViewHolder vh = new ViewHolder(view) ;
         return vh;
     }
@@ -47,15 +47,19 @@ public class ReceptWaypointDetailsAdapter extends RecyclerView.Adapter<ReceptWay
 
         // 출발지
         sb = new StringBuffer();
-        sb.append(receiptWayPointModelViewList.get(position).getDet_agencyname());
+        if(receiptWayPointModelViewList.get(position).getWaypoint().equals("1")){
+            sb.append(receiptWayPointModelViewList.get(position).getDet_agencyname());
+        }else{
+            sb.append(receiptWayPointModelViewList.get(position).getDet_sendagencyname());
+        }
         holder.waypoint_item_1.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append(receiptWayPointModelViewList.get(position).getDet_pojang());
+        sb.append(receiptWayPointModelViewList.get(position).getDet_goods());
         holder.waypoint_item_2.setText(sb.toString());
 
         sb = new StringBuffer();
-        sb.append(receiptWayPointModelViewList.get(position).getDet_goods());
+        sb.append(receiptWayPointModelViewList.get(position).getDet_pojang());
         holder.waypoint_item_3.setText(sb.toString());
 
         sb = new StringBuffer();
@@ -108,8 +112,6 @@ public class ReceptWaypointDetailsAdapter extends RecyclerView.Adapter<ReceptWay
 
             if ( this.receiptWayPointModelViewList != null && this.receiptWayPointModelViewList.size() > 0){
                 for ( int i=0; i <this.receiptWayPointModelViewList.size(); i++){
-                    Log.d("===================================>", "standardSum: " + this.receiptWayPointModelViewList.get(i).getDet_fare());
-                    Log.d("===================================>", "standardSum: " + this.receiptWayPointModelViewList.get(i).getDet_qty());
                     fare += Long.valueOf(this.receiptWayPointModelViewList.get(i).getDet_fare());
                     qty += Long.valueOf(this.receiptWayPointModelViewList.get(i).getDet_qty());
                 }

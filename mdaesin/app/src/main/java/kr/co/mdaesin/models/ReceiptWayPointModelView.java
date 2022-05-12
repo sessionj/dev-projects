@@ -23,6 +23,7 @@ public class ReceiptWayPointModelView implements Serializable {
     private String det_fare;
 
     private String linename;
+    private String waypoint;
 
     @Override
     public String toString() {
@@ -45,6 +46,7 @@ public class ReceiptWayPointModelView implements Serializable {
                 ", det_qty='" + det_qty + '\'' +
                 ", det_fare='" + det_fare + '\'' +
                 ", linename='" + linename + '\'' +
+                ", waypoint='" + waypoint + '\'' +
                 '}';
     }
 
@@ -190,5 +192,13 @@ public class ReceiptWayPointModelView implements Serializable {
 
     public void setLinename(String linename) {
         this.linename = linename;
+    }
+
+    public String getWaypoint() {
+        return waypoint;
+    }
+
+    public void setWaypoint(String waypoint) {
+        this.waypoint = waypoint;
     }
 }

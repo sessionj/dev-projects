@@ -44,6 +44,6 @@
     <string name="way_dt_con_4">수량(개)</string>
     <string name="way_dt_con_5">운임(원)</string>
 
-    <string name="way_dt_summary">건수:0건, 수량:22개, 운임:60,000원</string>
+    <string name="way_dt_summary">건수:0건, 수량:0개, 운임:0원</string>
 
 </resources>

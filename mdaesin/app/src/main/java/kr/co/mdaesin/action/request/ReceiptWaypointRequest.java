@@ -30,7 +30,7 @@ public class ReceiptWaypointRequest extends StringRequest {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("=============", "NETWOOK ERROR");
+                        error.printStackTrace();
                     }
                 });
         sb = new StringBuffer();
@@ -42,7 +42,12 @@ public class ReceiptWaypointRequest extends StringRequest {
         sb.append("\t"+receiptWayPointModelView.getSearchKeyword_date().replaceAll("-","").split(" ")[0]);
 
         if ( receiptWayPointModelView.getSearchMode().equals(Label.DELIVERY_BASE_URL_RECEIPT_WAYPOINT_DETAILS)){
-            sb.append("\t"+receiptWayPointModelView.getStagencycode());
+
+            if(receiptWayPointModelView.getWaypoint().equals("1")){
+                sb.append("\t"+receiptWayPointModelView.getStagencycode()+"\t1");
+            }else {
+                sb.append("\t"+receiptWayPointModelView.getEdagencycode()+"\t2");
+            }
         }
 
         Log.d("=============param : ", sb.toString());

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +42,7 @@ import kr.co.mdaesin.ui.WayPointActivity;
 
 public class WaypointPopupActivity extends AppCompatActivity {
 
+    private String TAG = "WaypointPopupActivity LOG : ";
     TextView waypoint_top_title, waypoint_top_title2, popup_content3, popup_content4, popup_content5, emplist;
 
     private ReceiptWayPointModelView receiptWayPointModelView;
@@ -102,7 +104,6 @@ public class WaypointPopupActivity extends AppCompatActivity {
 
                                         for (int i = 0; i < resultarray.length(); i++) {
                                             JSONObject Object = resultarray.getJSONObject(i);
-
                                             resultWaypointView = new ReceiptWayPointModelView();
                                             resultWaypointView.setDet_agencycode(Object.getString("agencycode"));
                                             resultWaypointView.setDet_agencyname(Object.getString("agencyname"));
@@ -111,6 +112,7 @@ public class WaypointPopupActivity extends AppCompatActivity {
                                             resultWaypointView.setDet_pojang(Object.getString("pojang"));
                                             resultWaypointView.setDet_qty(Object.getString("qty"));
                                             resultWaypointView.setDet_fare(Object.getString("fare"));
+                                            resultWaypointView.setWaypoint(receiptWayPointModelView.getWaypoint());
 
                                             receiptWayPointModelViewList.add(resultWaypointView);
 
@@ -133,6 +135,7 @@ public class WaypointPopupActivity extends AppCompatActivity {
 
                                                 }
                                             });
+                                            waypoint_dt_summery_1.setText(receptWaypointDetailsAdapter.standardSum().toString());
                                         }
                                     }
                                 }else{
@@ -142,9 +145,6 @@ public class WaypointPopupActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             } finally {
-
-                                //waypoint_sum_list_3.setText();
-                                waypoint_dt_summery_1.setText(receptWaypointDetailsAdapter.standardSum().toString());
 
                                 asyncDialog.dismiss();
                                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);

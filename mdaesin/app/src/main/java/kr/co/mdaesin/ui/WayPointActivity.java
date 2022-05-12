@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,7 @@ import kr.co.mdaesin.ui.popup.WaypointPopupActivity;
 
 public class WayPointActivity extends AppCompatActivity {
 
+    private String TAG = "WayPointActivity";
     private ReceptionQuantityModelView receptionQuantityModelView;
     private ReceiptWayPointModelView receiptWayPointModelView;
     private List<ReceiptWayPointModelView> receiptWayPointModelViewList;
@@ -147,10 +149,15 @@ public class WayPointActivity extends AppCompatActivity {
 
                                                     ReceiptWayPointModelView wayPoint = new ReceiptWayPointModelView();
                                                     wayPoint = receiptWayPointModelViewList.get(pos);
-
+                                                    Log.d(TAG, "onItemClick: ================== agencycode : " + wayPoint.getStagencycode());
                                                     wayPoint.setLinecode(receptionQuantityModelView.getLinecode());
                                                     wayPoint.setSearchKeyword_date(receptionQuantityModelView.getSearchKeyword_date());
                                                     wayPoint.setLinename(receptionQuantityModelView.getLinename());
+                                                    if (!TextUtils.isEmpty(wayPoint.getStagencycode())){
+                                                        wayPoint.setWaypoint("1");
+                                                    }else{
+                                                        wayPoint.setWaypoint("2");
+                                                    }
 
                                                     Intent intent = new Intent(getApplicationContext(), WaypointPopupActivity.class);
                                                     intent.putExtra("wayPoint", wayPoint);
@@ -162,6 +169,11 @@ public class WayPointActivity extends AppCompatActivity {
                                     }
                                 }else{
                                     emplist.setVisibility(View.VISIBLE);
+                                    waypoint_top_title.setVisibility(View.GONE);
+                                    waypoint_top_title2.setVisibility(View.GONE);
+                                    waypoint_sum_list_3.setVisibility(View.GONE);
+                                    waypoint_sum_list_4.setVisibility(View.GONE);
+
                                 }
 
                             } catch (JSONException e) {
@@ -169,8 +181,10 @@ public class WayPointActivity extends AppCompatActivity {
                             } finally {
 
                                 //waypoint_sum_list_3.setText();
-                                waypoint_sum_list_3.setText(receptWaypointAdapter.standardSum(1).toString());
-                                waypoint_sum_list_4.setText(receptWaypointAdapter.standardSum(2).toString());
+                                if ( receiptWayPointModelViewList != null && receiptWayPointModelViewList.size() > 0){
+                                    waypoint_sum_list_3.setText(receptWaypointAdapter.standardSum(1).toString());
+                                    waypoint_sum_list_4.setText(receptWaypointAdapter.standardSum(2).toString());
+                                }
 
                                 asyncDialog.dismiss();
                                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
