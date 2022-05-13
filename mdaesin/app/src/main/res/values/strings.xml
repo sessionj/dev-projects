@@ -55,4 +55,8 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
+    <string name="hint_route">노선명을 입력하세요(필수)</string>
+    <string name="hint_question">전화번호를 입력하세요</string>
+    <string name="hint_answer">인증번호를 입력하세요</string>
+
 </resources>

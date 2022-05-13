@@ -17,6 +17,7 @@ import android.text.style.StyleSpan;
 import android.widget.TextView;
 
 import kr.co.mdaesin.comm.Label;
+import kr.co.mdaesin.ui.LoginActivity;
 
 public class EnterAppActivity extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class EnterAppActivity extends AppCompatActivity {
         SpannableString spannableString = new SpannableString(content);
         spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF5E00")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new RelativeSizeSpan(1.3f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new RelativeSizeSpan(1.5f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(spannableString);
     }
 
@@ -49,7 +50,8 @@ public class EnterAppActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();	//현재 액티비티 종료
             }
