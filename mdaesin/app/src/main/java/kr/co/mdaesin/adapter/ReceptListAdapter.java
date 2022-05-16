@@ -151,7 +151,7 @@ public class ReceptListAdapter extends RecyclerView.Adapter<ReceptListAdapter.Vi
     // 총운임 합계
     public String standardSum(int cateCode){
 
-        double result = 0;
+        long result = 0;
 
         try{
             if ( TextUtils.isEmpty(String.valueOf(cateCode))){

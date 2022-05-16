@@ -34,11 +34,10 @@ public class ReceiptHistoryRequest extends StringRequest {
                 });
         sb = new StringBuffer();
         map = new HashMap<>();
-
-        sb.append(CryptoKey.createCryptoKey(receiptHistoryModelView.getLinecode())+"\t");
-        sb.append(receiptHistoryModelView.getLinecode()+"\t");
-        sb.append(receiptHistoryModelView.getSearchMode()+"\t");
-        sb.append(receiptHistoryModelView.getSearchKeyword_date().replaceAll("-","").split(" ")[0]);
+        sb.append(receiptHistoryModelView.getSearchMode());
+        sb.append("\t"+CryptoKey.createCryptoKey(receiptHistoryModelView.getLinecode()));
+        sb.append("\t"+receiptHistoryModelView.getLinecode());
+        sb.append("\t"+receiptHistoryModelView.getSearchKeyword_date().replaceAll("-","").split(" ")[0]);
         Log.d("=============param : ", sb.toString());
         map.put("param", sb.toString());
     }

@@ -35,9 +35,9 @@ public class ReceiptWaypointRequest extends StringRequest {
         sb = new StringBuffer();
         map = new HashMap<>();
 
-        sb.append(CryptoKey.createCryptoKey(receiptWayPointModelView.getLinecode()));
+        sb.append(receiptWayPointModelView.getSearchMode());
+        sb.append("\t"+CryptoKey.createCryptoKey(receiptWayPointModelView.getLinecode()));
         sb.append("\t"+receiptWayPointModelView.getLinecode());
-        sb.append("\t"+receiptWayPointModelView.getSearchMode());
         sb.append("\t"+receiptWayPointModelView.getSearchKeyword_date().replaceAll("-","").split(" ")[0]);
 
         if ( receiptWayPointModelView.getSearchMode().equals(Label.DELIVERY_BASE_URL_RECEIPT_WAYPOINT_DETAILS)){

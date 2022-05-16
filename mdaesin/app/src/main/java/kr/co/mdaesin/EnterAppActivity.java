@@ -17,6 +17,7 @@ import android.text.style.StyleSpan;
 import android.widget.TextView;
 
 import kr.co.mdaesin.comm.Label;
+import kr.co.mdaesin.comm.SharedPreferenceConf;
 import kr.co.mdaesin.ui.LoginActivity;
 
 public class EnterAppActivity extends AppCompatActivity {
@@ -41,6 +42,9 @@ public class EnterAppActivity extends AppCompatActivity {
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new RelativeSizeSpan(1.5f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(spannableString);
+
+        //SharedPreferenceConf.clearUserName(EnterAppActivity.this);
+
     }
 
     // 자료 삭제, Activity 이동
@@ -50,10 +54,16 @@ public class EnterAppActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();	//현재 액티비티 종료
+
+                if (SharedPreferenceConf.getUserName(EnterAppActivity.this).length() == 0){
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }, 1000 * sec); // sec초 정도 딜레이를 준 후 시작
     }

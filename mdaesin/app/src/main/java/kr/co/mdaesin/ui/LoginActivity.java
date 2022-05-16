@@ -3,6 +3,8 @@ package kr.co.mdaesin.ui;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -19,24 +21,48 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
 import kr.co.mdaesin.MainActivity;
 import kr.co.mdaesin.R;
+import kr.co.mdaesin.action.request.ReceiptHistoryRequest;
+import kr.co.mdaesin.action.request.ReceiptLoginRequest;
+import kr.co.mdaesin.adapter.ReceptDetailsAdapter;
+import kr.co.mdaesin.adapter.ReceptHistoryAdapter;
 import kr.co.mdaesin.comm.Label;
 import kr.co.mdaesin.comm.PatternUtil;
+import kr.co.mdaesin.comm.SharedPreferenceConf;
+import kr.co.mdaesin.models.ReceiptHistoryModelView;
+import kr.co.mdaesin.models.ReceiptLoginModelView;
+import kr.co.mdaesin.ui.popup.HistoryPopupActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
     Button request_btn;
     Button certification_btn;
     EditText user_phone_number,response_key, user_route;
-
+    private boolean isLoginCheck = false;
+    private boolean responseStatus;
+    private ProgressBar progressBar;
+    private ReceiptLoginModelView receiptLoginModelView;
+    private String authenticationKey;
+    private String TAG = "LoginActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +84,13 @@ public class LoginActivity extends AppCompatActivity {
 
         //this.InitializeView();
         //this.SetListener();
-
+        receiptLoginModelView = new ReceiptLoginModelView();
         request_btn = (Button) findViewById(R.id.request_btn);
         certification_btn = (Button) findViewById(R.id.certification_btn);
         user_phone_number = (EditText) findViewById(R.id.user_phone_number);
         response_key = (EditText) findViewById(R.id.response_key);
         user_route = (EditText) findViewById(R.id.user_route);
+        progressBar = findViewById(R.id.receipt_login_progressBar);
 
         request_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,46 +98,31 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 if ( TextUtils.isEmpty(user_route.getText().toString())) {
-                   // 노선명이 없는경우
-                    AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-                    alert.setTitle("메세지 발송");
-                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    alert.setMessage("노선명을 입력후 다시 시도해주세요");
-                    alert.show();
+
+                    setLogicMessage(Label.MESSAGE_TITLE, Label.MESSAGE_01);
+
                 }else {
                     // 후대폰 번호가 공백이거나 정규식에 어긋날겨우
                     if ( !TextUtils.isEmpty(user_phone_number.getText().toString()) && PatternUtil.isValidCellPhoneNumber(user_phone_number.getText().toString()) ){
                         AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-                        alert.setTitle("메세지 발송");
+                        alert.setTitle(Label.MESSAGE_TITLE);
                         alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                returnLoginInformation();
+                                isLoginCheck = true;
                                 dialog.dismiss();
                             }
                         });
-                        alert.setMessage(user_phone_number.getText().toString() + " 인증번호 발송!");
+                        alert.setMessage(user_phone_number.getText().toString() + Label.MESSAGE_SENDING_KEY);
                         alert.show();
                     }else {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-                        alert.setTitle("메세지 발송");
-                        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        if (TextUtils.isEmpty(user_phone_number.getText().toString())){
-                            alert.setMessage("전화번호를 입력후 인증해주세요");
-                        }else{
-                            alert.setMessage("올바른 핸드폰 번호가 아닙니다");
-                        }
 
-                        alert.show();
+                        if (TextUtils.isEmpty(user_phone_number.getText().toString())){
+                            setLogicMessage(Label.MESSAGE_INFO, Label.MESSAGE_NOT_PHONE_NUMBER);
+                        }else{
+                            setLogicMessage(Label.MESSAGE_INFO, Label.MESSAGE_DIFF_PHONE_NUMBER);
+                        }
                     }
                 }
             }
@@ -119,26 +131,140 @@ public class LoginActivity extends AppCompatActivity {
         certification_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "메인화면으로 이동합니다.", Toast.LENGTH_SHORT);
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();	//현재 액티비티 종료
+
+                // 전화번호와 키값을 던져 확인 (로그인 여부 등록)
+                // 인증번호를 받지 않았거나 인증번호 항목이 공란일 경우
+                if ( !isLoginCheck){
+                    setLogicMessage(Label.MESSAGE_INFO, Label.MESSAGE_CERT_PHONE_NUMBER);
+
+                }else if ( isLoginCheck && TextUtils.isEmpty(response_key.getText().toString())){
+                    // 전화번호는 인증되었지만 인증번호가 공백이라면
+                    setLogicMessage(Label.MESSAGE_INFO, Label.MESSAGE_NOT_AUTHENTICATIONKEY);
+                }else{
+                    returnKeyCheck();
+                }
             }
         });
     }
 
-    private void setMessage(String msg){
+    private void setLogicMessage(String title, String msg){
 
         AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-        alert.setTitle("메세지 발송");
+        alert.setTitle(title);
         alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
-        alert.setMessage(user_phone_number.getText().toString() + msg);
+        alert.setMessage(msg);
         alert.show();
     }
 
+
+    private void returnLoginInformation(){
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        receiptLoginModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_LOGIN_CHECK);
+        receiptLoginModelView.setLinename(user_route.getText().toString());
+        receiptLoginModelView.setUser_phone(user_phone_number.getText().toString());
+        ReceiptLoginRequest receiptLoginRequest = new ReceiptLoginRequest(receiptLoginModelView, successListener(), errorListener());
+        RequestQueue queue = Volley.newRequestQueue( LoginActivity.this);
+        queue.add(receiptLoginRequest);
+
+    }
+
+    private Response.Listener<String> successListener() {
+        return new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    if ( !response.isEmpty() && response != null){
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray resultarray = jsonObject.getJSONArray("rows");
+
+                        if (resultarray.length() > 0) {
+
+                            for (int i = 0; i < resultarray.length(); i++) {
+                                JSONObject Object = resultarray.getJSONObject(i);
+                                authenticationKey = Object.getString("authenticationkey");
+                            }
+                        }
+                    }
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                } finally {
+                    progressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    Toast.makeText(getApplicationContext(), authenticationKey, Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
+
+    private void returnKeyCheck(){
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        receiptLoginModelView.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_LOGIN_LAST);
+        receiptLoginModelView.setLinename(user_route.getText().toString());
+        receiptLoginModelView.setUser_phone(user_phone_number.getText().toString());
+        receiptLoginModelView.setAuthenticationkey(response_key.getText().toString());
+        ReceiptLoginRequest receiptLoginRequest = new ReceiptLoginRequest(receiptLoginModelView, checkListener(), errorListener());
+        RequestQueue queue = Volley.newRequestQueue( LoginActivity.this);
+        queue.add(receiptLoginRequest);
+
+    }
+
+    private Response.Listener<String> checkListener() {
+        return new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    if ( !response.isEmpty() && response != null){
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray resultarray = jsonObject.getJSONArray("rows");
+
+                        if (resultarray.length() > 0) {
+
+                            for (int i = 0; i < resultarray.length(); i++) {
+                                JSONObject Object = resultarray.getJSONObject(i);
+                                if ( Object.getString("accessright").equals("SUCCESS")){
+                                    responseStatus = true;
+                                }
+                            }
+                            if ( responseStatus){
+                                // 저장한다.
+                                SharedPreferenceConf.setUserName(getApplicationContext(), receiptLoginModelView.getUser_phone()+"|"+receiptLoginModelView.getLinename());
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();	//현재 액티비티 종료
+                            }else{
+                                setLogicMessage(Label.MESSAGE_ERROR, Label.MESSAGE_ERROR_01);
+                            }
+                        }
+                    }
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                } finally {
+                    progressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                }
+            }
+        };
+    }
+
+    private Response.ErrorListener errorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                error.printStackTrace();
+            }
+        };
+    }
 }

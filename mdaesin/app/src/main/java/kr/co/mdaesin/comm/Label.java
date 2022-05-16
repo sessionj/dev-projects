@@ -8,6 +8,10 @@ public class Label {
     public final static String DELIVERY_BASE_URL_DELIVERY_LIST              = "DL";
     public final static String DELIVERY_BASE_URL_DELIVERY_SUMMARY           = "DA";
 
+
+    public final static String DELIVERY_BASE_URL_RECEIPT_LOGIN_CHECK        = "LOC";
+    public final static String DELIVERY_BASE_URL_RECEIPT_LOGIN_LAST         = "LOR";
+
     public final static String DELIVERY_BASE_URL_RECEIPT_LIST               = "RL";
     public final static String DELIVERY_BASE_URL_RECEIPT_DETAILS            = "RD";
     public final static String DELIVERY_BASE_URL_RECEIPT_DETAILS_UNSONG     = "RU";
@@ -48,4 +52,29 @@ public class Label {
     public final static String RECEIPT_CAR_MONITOR                          = "https://s1.u-vis.com/uvisc/SSOAction.do?method=viewGroupMap&AccessKey=";
 
     public final static String RECEIPT_CUSTOM_CALL                          = "http://custom.ds3211.co.kr/vcSvl?apiKey=58d01815eb9b10a79ce08e6d08a6a63f&carNumber=";
+
+
+    public final static String MESSAGE_ERROR                                = "오류";
+    public final static String MESSAGE_ERROR_01                             = "인증번호 오류! 다시시도해주세요";
+
+    public final static String MESSAGE_TITLE                                = "메세지 발송";
+
+
+    public final static String MESSAGE_01                                   = "노선명을 입력후 다시 시도해주세요";
+    public final static String MESSAGE_INFO                                 = "안내";
+
+    public final static String MESSAGE_SENDING_KEY                          = "인증번호 발송!";
+
+
+    public final static String MESSAGE_CERT_PHONE_NUMBER                    = "전화번호가 인증되지 않았습니다";
+    public final static String MESSAGE_NOT_PHONE_NUMBER                     = "전화번호를 입력후 시도해주세요";
+    public final static String MESSAGE_DIFF_PHONE_NUMBER                    = "올바른 핸드폰 번호가 아닙니다";
+
+
+    public final static String MESSAGE_NOT_AUTHENTICATIONKEY                = "인증키를 입력후 시도해주세요";
+
+
+
+
+
 }

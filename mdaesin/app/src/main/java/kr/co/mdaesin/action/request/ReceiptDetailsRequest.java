@@ -35,10 +35,10 @@ public class ReceiptDetailsRequest extends StringRequest {
         sb = new StringBuffer();
         map = new HashMap<>();
 
-        sb.append(CryptoKey.createCryptoKey(receptionQuantityModelView.getLinecode())+"\t");
-        sb.append(receptionQuantityModelView.getLinecode()+"\t");
-        sb.append(receptionQuantityModelView.getSearchMode()+"\t");
-        sb.append(receptionQuantityModelView.getSearchKeyword_date().replaceAll("-","").split(" ")[0]);
+        sb.append(receptionQuantityModelView.getSearchMode());
+        sb.append("\t"+CryptoKey.createCryptoKey(receptionQuantityModelView.getLinecode()));
+        sb.append("\t"+receptionQuantityModelView.getLinecode());
+        sb.append("\t"+receptionQuantityModelView.getSearchKeyword_date().replaceAll("-","").split(" ")[0]);
         Log.d("=============param : ", sb.toString());
         map.put("param", sb.toString());
     }
