@@ -4,6 +4,18 @@
     <item android:id="@+id/menu_main_search"
         app:showAsAction="always"
         android:title="search"
-        app:actionViewClass="android.widget.SearchView" />
-
+        app:actionViewClass="android.widget.SearchView"
+        />
+    <item
+        android:title="차량건의함 등록"
+        android:id="@+id/main_id001"
+        android:icon="@mipmap/ic_launcher"/>
+    <item
+        android:title="메뉴2"
+        android:id="@+id/main_id002"
+        android:icon="@mipmap/ic_launcher"/>
+    <item
+        android:title="메뉴3"
+        android:id="@+id/main_id003"
+        android:icon="@mipmap/ic_launcher"/>
 </menu>

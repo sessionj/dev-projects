@@ -40,6 +40,7 @@ public class Label {
     public final static String DELIVERY_DELIVERY_PICTURE_FILE_CREATE_ERROR  = "파일 생성 에러!";
 
     public final static String RECEIPT_CONSTRUCTOR_FINAL_NAME               = "노선通";
+    public final static String RECEIPT_CONSTRUCTOR_FINAL_MAINNAME           = "通";
     public final static String RECEIPT_DEFAULT_LINECODE                     = "000000";
 
     public final static String RECEIPT_HIST_BILLNO                          = "운송장번호 : ";

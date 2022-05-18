@@ -18,7 +18,7 @@
     <string name="tv_title_progressbar_horizontal">progress bar horizontal</string>
     <string name="bt_progressbar_horizontal">progress bar horizontal</string>
 
-    <string name="query_hint">Search Event</string>
+    <string name="query_hint">노선코드를 검색하세요</string>
 
     <string name="item_empty">검색된 내역이 없습니다.</string>
 
@@ -26,6 +26,8 @@
     <string name="title_waypoint">실시간 접수 현황(경유지별)</string>
     <string name="title_history">수정내역</string>
     <string name="title_carControl">차량관제</string>
+
+    <string name="title_tendinous">건의함</string>
 
     <string name="history_billno">운송장번호:</string>
     <string name="history_agency">수정영업소:</string>
@@ -58,5 +60,7 @@
     <string name="hint_route">노선명을 입력하세요(필수)</string>
     <string name="hint_question">전화번호를 입력하세요</string>
     <string name="hint_answer">인증번호를 입력하세요</string>
+
+    <string name="hint_tendinous">휴대폰의 어떠한 정보도 입력되지 않습니다.</string>
 
 </resources>

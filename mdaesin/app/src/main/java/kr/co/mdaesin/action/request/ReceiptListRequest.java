@@ -41,6 +41,8 @@ public class ReceiptListRequest extends StringRequest {
         sb.append("\t"+CryptoKey.createCryptoKey(receptionQuantityModelView.getLinecode()));
         sb.append("\t"+receptionQuantityModelView.getLinecode());
         sb.append("\t"+receptionQuantityModelView.getSearchKeyword_date().replaceAll("-",""));
+        sb.append("\t"+receptionQuantityModelView.getStartPage());
+        sb.append("\t"+receptionQuantityModelView.getEndPage());
         Log.d("=============param : ", sb.toString());
         map.put("param", sb.toString());
     }

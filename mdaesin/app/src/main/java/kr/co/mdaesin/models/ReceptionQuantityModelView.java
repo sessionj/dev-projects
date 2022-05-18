@@ -34,6 +34,9 @@ public class ReceptionQuantityModelView implements Serializable {
     private String deliveryfare;
     private String payway;
 
+    private int startPage;
+    private int endPage;
+
     @Override
     public String toString() {
         return "ReceptionQuantityModelView{" +
@@ -64,7 +67,25 @@ public class ReceptionQuantityModelView implements Serializable {
                 ", fare='" + fare + '\'' +
                 ", deliveryfare='" + deliveryfare + '\'' +
                 ", payway='" + payway + '\'' +
+                ", startPage=" + startPage +
+                ", endPage=" + endPage +
                 '}';
+    }
+
+    public int getStartPage() {
+        return startPage;
+    }
+
+    public void setStartPage(int startPage) {
+        this.startPage = startPage;
+    }
+
+    public int getEndPage() {
+        return endPage;
+    }
+
+    public void setEndPage(int endPage) {
+        this.endPage = endPage;
     }
 
     public String getLinecode() {

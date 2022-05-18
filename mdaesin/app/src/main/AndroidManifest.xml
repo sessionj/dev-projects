@@ -39,16 +39,25 @@
             android:exported="false"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
+        <!-- 접수건수 상세 -->
         <activity
             android:name=".ui.ReceiptDetailsActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
+        <!-- 수정내역-->
         <activity
             android:name=".ui.HistoryActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
+        <!--건의함-->
+        <activity
+            android:name=".ui.TendinousActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".EnterAppActivity"
             android:exported="true"

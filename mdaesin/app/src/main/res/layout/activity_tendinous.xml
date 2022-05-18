@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.TendinousActivity"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:background="@color/grey_60"
+        android:paddingTop="1dp"
+        android:paddingLeft="3dp"
+        >
+        <ImageView
+            android:id="@+id/stars"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:padding="3dp"
+            android:src="@drawable/category_icon"
+            android:layout_marginTop="8dp"
+            >
+        </ImageView>
+        <TextView
+            android:id="@+id/tendinous_top_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hint_tendinous"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:layout_marginTop="6dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:background="@drawable/gradient_bottom"
+        android:paddingTop="1dp"
+        android:paddingLeft="3dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="노선명"
+            />
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hint_tendinous"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_weight="2"
+            />
+
+    </LinearLayout>
+
+
+    <EditText android:id="@+id/tendinous_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:lines="5" android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        android:minWidth="10.0dip"
+        android:textSize="11dp"
+        android:maxWidth="5.0dip"/>
+
+
+</LinearLayout>

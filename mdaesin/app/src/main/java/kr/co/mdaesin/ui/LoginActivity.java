@@ -3,15 +3,11 @@ package kr.co.mdaesin.ui;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -19,7 +15,6 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -37,20 +32,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.regex.Pattern;
-
 import kr.co.mdaesin.MainActivity;
+import kr.co.mdaesin.MainActivity_a;
 import kr.co.mdaesin.R;
-import kr.co.mdaesin.action.request.ReceiptHistoryRequest;
 import kr.co.mdaesin.action.request.ReceiptLoginRequest;
-import kr.co.mdaesin.adapter.ReceptDetailsAdapter;
-import kr.co.mdaesin.adapter.ReceptHistoryAdapter;
 import kr.co.mdaesin.comm.Label;
 import kr.co.mdaesin.comm.PatternUtil;
 import kr.co.mdaesin.comm.SharedPreferenceConf;
-import kr.co.mdaesin.models.ReceiptHistoryModelView;
 import kr.co.mdaesin.models.ReceiptLoginModelView;
-import kr.co.mdaesin.ui.popup.HistoryPopupActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
