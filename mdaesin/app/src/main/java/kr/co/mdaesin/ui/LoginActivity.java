@@ -227,7 +227,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             if ( responseStatus){
                                 // 저장한다.
-                                SharedPreferenceConf.setUserName(getApplicationContext(), receiptLoginModelView.getUser_phone()+"|"+receiptLoginModelView.getLinename());
+                                SharedPreferenceConf.setPhoneNumber(getApplicationContext(), receiptLoginModelView.getUser_phone());
+                                SharedPreferenceConf.setLineName(getApplicationContext(), receiptLoginModelView.getLinename());
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                                 finish();	//현재 액티비티 종료

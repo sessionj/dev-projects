@@ -54,7 +54,7 @@ public class EnterAppActivity extends AppCompatActivity {
             public void run()
             {
 
-                if (SharedPreferenceConf.getUserName(EnterAppActivity.this).length() == 0){
+                if (SharedPreferenceConf.getPhoneNumber(EnterAppActivity.this).length() == 0){
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                     finish();

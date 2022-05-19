@@ -73,6 +73,8 @@ public class Label {
 
 
     public final static String MESSAGE_NOT_AUTHENTICATIONKEY                = "인증키를 입력후 시도해주세요";
+    public final static String SPINNER_SEQUENCE_0                           = "건의함 유형을 선택하세요";
+
 
 
 
