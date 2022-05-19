@@ -140,7 +140,6 @@ public class WayPointActivity extends AppCompatActivity {
 
                                         ReceiptWayPointModelView wayPoint = new ReceiptWayPointModelView();
                                         wayPoint = receiptWayPointModelViewList.get(pos);
-                                        Log.d(TAG, "onItemClick: ================== agencycode : " + wayPoint.getStagencycode());
                                         wayPoint.setLinecode(receptionQuantityModelView.getLinecode());
                                         wayPoint.setSearchKeyword_date(receptionQuantityModelView.getSearchKeyword_date());
                                         wayPoint.setLinename(receptionQuantityModelView.getLinename());
@@ -193,8 +192,6 @@ public class WayPointActivity extends AppCompatActivity {
             }
         };
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

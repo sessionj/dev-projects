@@ -61,6 +61,11 @@
     <string name="hint_question">전화번호를 입력하세요</string>
     <string name="hint_answer">인증번호를 입력하세요</string>
 
-    <string name="hint_tendinous">휴대폰의 어떠한 정보도 입력되지 않습니다.</string>
+    <string name="hint_tendinous">비방/비하/욕설은 자재해주세요</string>
+    <string name="hint_tendinous_content">건의 및 에로사항을 입력하세요</string>
+    <string name="hint_tendinous_linename">노선명을 입력하세요</string>
+    <string name="hint_tendinous_drivername">관리자(기사)명을 입력하세요</string>
+    <string name="hint_tendinous_phone">전화번호를 입력하세요</string>
+    <string name="hint_tendinous_secert">지정된 담당자만 열람 가능합니다.</string>
 
 </resources>

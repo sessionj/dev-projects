@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="edit_spinner_arr">
+        <item>건의함 유형을 선택하세요</item>
+        <item>칭찬</item>
+        <item>불만</item>
+        <item>건의사항</item>
+        <item>기타</item>
+    </string-array>
+    
+</resources>
