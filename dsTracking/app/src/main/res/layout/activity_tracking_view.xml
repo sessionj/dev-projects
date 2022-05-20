@@ -319,23 +319,12 @@
             </LinearLayout>
 
         </LinearLayout>
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tracking_view_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/content_srl"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                >
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/tracking_view_recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="3dp"
-                    />
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent"
+                android:paddingBottom="3dp"
+                />
 
         </LinearLayout>
 

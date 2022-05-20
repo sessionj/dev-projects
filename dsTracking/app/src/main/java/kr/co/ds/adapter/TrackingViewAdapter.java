@@ -1,6 +1,7 @@
 package kr.co.ds.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import kr.co.ds.models.TrackingModelView;
 
 public class TrackingViewAdapter extends RecyclerView.Adapter<TrackingViewAdapter.ViewHolder> {
 
+    private static final String TAG = "TrackingViewAdapter ";
     private Context context;
     private List<TrackingModelView> itemList = new ArrayList<TrackingModelView>();
     private StringBuffer sb;
@@ -46,13 +48,20 @@ public class TrackingViewAdapter extends RecyclerView.Adapter<TrackingViewAdapte
 
         TrackingModelView model = new TrackingModelView();
         model = itemList.get(position);
+        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_gubun());
+        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_agencyname());
+        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_tel());
+        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_inputday());
+        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_outputday());
+        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_location());
+
 
         holder.rowItem_1.setText(model.getItem_gubun().toString());
-        holder.rowItem_1.setText(model.getItem_agencyname().toString());
-        holder.rowItem_1.setText(model.getItem_tel().toString());
-        holder.rowItem_1.setText(model.getItem_inputday().toString());
-        holder.rowItem_1.setText(model.getItem_outputday().toString());
-        holder.rowItem_1.setText(model.getItem_location().toString());
+        holder.rowItem_2.setText(model.getItem_agencyname().toString());
+        holder.rowItem_3.setText(model.getItem_tel().toString());
+        holder.rowItem_4.setText(model.getItem_inputday().toString());
+        holder.rowItem_5.setText(model.getItem_outputday().toString());
+        holder.rowItem_6.setText(model.getItem_location().toString());
 
     }
 
