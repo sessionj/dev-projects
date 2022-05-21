@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         setProgressBar(1);
         model = new TrackingModelView();
         model.setSearchMode(Label.DELIVERY_BASE_URL_TRACKING_LIST);
-        model.setArrivalmantel("01064064868"); // 임시임
+        model.setArrivalmantel("01053462808"); // 임시임
 
         new Handler().postDelayed(new Runnable(){
             @Override
@@ -157,8 +158,21 @@ public class MainActivity extends AppCompatActivity {
                                 resultModel.setGoods(Object.getString("goods"));
                                 resultModel.setPojang(Object.getString("pojang"));
                                 resultModel.setQty(Object.getString("qty"));
+                                resultModel.setAgency1(Object.getString("agency1"));
+                                resultModel.setAgency2(Object.getString("agency2"));
+                                resultModel.setAgency3(Object.getString("agency3"));
+                                resultModel.setAgency4(Object.getString("agency4"));
+                                resultModel.setAgency5(Object.getString("agency5"));
+                                resultModel.setInternettel1(Object.getString("internettel1"));
+                                resultModel.setInternettel2(Object.getString("internettel2"));
+                                resultModel.setInternettel3(Object.getString("internettel3"));
+                                resultModel.setInternettel4(Object.getString("internettel4"));
+                                resultModel.setInternettel5(Object.getString("internettel5"));
+                                resultModel.setCourierunavailable(Object.getString("courierunavailable"));
+                                resultModel.setArrivalagencycode(Object.getString("arrivalagencycode"));
+                                resultModel.setScaninfo(Object.getString("scaninfo"));
+                                resultModel.setArea(Object.getString("area"));;
                                 resultModelList.add(resultModel);
-
                             }
 
                             if (resultModelList != null && resultModelList.size() > 0) {
@@ -189,11 +203,10 @@ public class MainActivity extends AppCompatActivity {
                 } catch(JSONException e) {
                     e.printStackTrace();
                 } finally {
-                    // 합계 금액
-                    // 총 건수, 완료 처리건
-                    tracking_row_in_1.setText(adapter.totalInformation().toString());
-
-                    setProgressBar(2);
+                    if ( resultModelList != null && resultModelList.size() > 0){
+                        tracking_row_in_1.setText(adapter.totalInformation().toString());
+                    }
+                   setProgressBar(2);
                 }
             }
         };

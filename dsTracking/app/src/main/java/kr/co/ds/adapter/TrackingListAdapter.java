@@ -105,6 +105,7 @@ public class TrackingListAdapter extends RecyclerView.Adapter<TrackingListAdapte
     }
 
     public String totalInformation(){
+
         if ( itemList != null && itemList.size() > 0){
 
             int success = 0;

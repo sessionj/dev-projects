@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:layout_marginTop="7dp"
+
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     >
 
     <LinearLayout
@@ -19,62 +21,18 @@
             android:text="구분"
             android:gravity="center"
             android:layout_marginLeft="10dp"
-            android:textSize="14dp"
+            android:textSize="10dp"
             android:textColor="@color/color1"
-            android:layout_weight="1"
+            android:layout_weight="2"
             />
         <TextView
             android:id="@+id/view_adapter_item2"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="취급점명"
-            android:gravity="center"
+            android:gravity="left|center"
             android:layout_marginLeft="10dp"
-            android:textSize="14dp"
-            android:textColor="@color/color1"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:id="@+id/view_adapter_item3"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="전화번호"
-            android:gravity="center"
-            android:layout_marginLeft="10dp"
-            android:textSize="14dp"
-            android:textColor="@color/color1"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:id="@+id/view_adapter_item4"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="도착일자"
-            android:gravity="center"
-            android:layout_marginLeft="10dp"
-            android:textSize="14dp"
-            android:textColor="@color/color1"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:id="@+id/view_adapter_item5"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="출발일자"
-            android:gravity="center"
-            android:layout_marginLeft="10dp"
-            android:textSize="14dp"
-            android:textColor="@color/color1"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:id="@+id/view_adapter_item6"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="비고"
-            android:gravity="center"
-            android:layout_marginLeft="10dp"
-            android:textSize="14dp"
+            android:textSize="10dp"
             android:textColor="@color/color1"
             android:layout_weight="1"
             />

@@ -44,6 +44,20 @@ public class TrackingModelView implements Serializable {
     private String goods;
     private String pojang;
     private String qty;
+    private String agency1;
+    private String agency2;
+    private String agency3;
+    private String agency4;
+    private String agency5;
+    private String internettel1;
+    private String internettel2;
+    private String internettel3;
+    private String internettel4;
+    private String internettel5;
+    private String courierunavailable;
+    private String arrivalagencycode;
+    private String scaninfo;
+    private String area;
 
     private String searchMode;
     private String authenticationkey;
@@ -98,6 +112,20 @@ public class TrackingModelView implements Serializable {
                 ", goods='" + goods + '\'' +
                 ", pojang='" + pojang + '\'' +
                 ", qty='" + qty + '\'' +
+                ", agency1='" + agency1 + '\'' +
+                ", agency2='" + agency2 + '\'' +
+                ", agency3='" + agency3 + '\'' +
+                ", agency4='" + agency4 + '\'' +
+                ", agency5='" + agency5 + '\'' +
+                ", internettel1='" + internettel1 + '\'' +
+                ", internettel2='" + internettel2 + '\'' +
+                ", internettel3='" + internettel3 + '\'' +
+                ", internettel4='" + internettel4 + '\'' +
+                ", internettel5='" + internettel5 + '\'' +
+                ", courierunavailable='" + courierunavailable + '\'' +
+                ", arrivalagencycode='" + arrivalagencycode + '\'' +
+                ", scaninfo='" + scaninfo + '\'' +
+                ", area='" + area + '\'' +
                 ", searchMode='" + searchMode + '\'' +
                 ", authenticationkey='" + authenticationkey + '\'' +
                 ", item_gubun='" + item_gubun + '\'' +
@@ -470,7 +498,7 @@ public class TrackingModelView implements Serializable {
     }
 
     public String getItem_inputday() {
-        return item_inputday;
+        return item_inputday == null ? "" : item_inputday;
     }
 
     public void setItem_inputday(String item_inputday) {
@@ -478,7 +506,7 @@ public class TrackingModelView implements Serializable {
     }
 
     public String getItem_outputday() {
-        return item_outputday;
+        return item_outputday == null ? "" : item_outputday ;
     }
 
     public void setItem_outputday(String item_outputday) {
@@ -491,5 +519,117 @@ public class TrackingModelView implements Serializable {
 
     public void setItem_location(String item_location) {
         this.item_location = item_location;
+    }
+
+    public String getAgency1() {
+        return agency1;
+    }
+
+    public void setAgency1(String agency1) {
+        this.agency1 = agency1;
+    }
+
+    public String getAgency2() {
+        return agency2;
+    }
+
+    public void setAgency2(String agency2) {
+        this.agency2 = agency2;
+    }
+
+    public String getAgency3() {
+        return agency3;
+    }
+
+    public void setAgency3(String agency3) {
+        this.agency3 = agency3;
+    }
+
+    public String getAgency4() {
+        return agency4;
+    }
+
+    public void setAgency4(String agency4) {
+        this.agency4 = agency4;
+    }
+
+    public String getAgency5() {
+        return agency5;
+    }
+
+    public void setAgency5(String agency5) {
+        this.agency5 = agency5;
+    }
+
+    public String getInternettel1() {
+        return internettel1;
+    }
+
+    public void setInternettel1(String internettel1) {
+        this.internettel1 = internettel1;
+    }
+
+    public String getInternettel2() {
+        return internettel2;
+    }
+
+    public void setInternettel2(String internettel2) {
+        this.internettel2 = internettel2;
+    }
+
+    public String getInternettel3() {
+        return internettel3;
+    }
+
+    public void setInternettel3(String internettel3) {
+        this.internettel3 = internettel3;
+    }
+
+    public String getInternettel4() {
+        return internettel4;
+    }
+
+    public void setInternettel4(String internettel4) {
+        this.internettel4 = internettel4;
+    }
+
+    public String getInternettel5() {
+        return internettel5;
+    }
+
+    public void setInternettel5(String internettel5) {
+        this.internettel5 = internettel5;
+    }
+
+    public String getCourierunavailable() {
+        return courierunavailable;
+    }
+
+    public void setCourierunavailable(String courierunavailable) {
+        this.courierunavailable = courierunavailable;
+    }
+
+    public String getArrivalagencycode() {
+        return arrivalagencycode;
+    }
+
+    public void setArrivalagencycode(String arrivalagencycode) {
+        this.arrivalagencycode = arrivalagencycode;
+    }
+
+    public String getScaninfo() {
+        return scaninfo;
+    }
+
+    public void setScaninfo(String scaninfo) {
+        this.scaninfo = scaninfo;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }

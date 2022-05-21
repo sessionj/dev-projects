@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,7 +25,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import kr.co.ds.R;
 import kr.co.ds.adapter.TrackingViewAdapter;
@@ -40,7 +44,7 @@ public class TrackingViewActivity extends AppCompatActivity {
     private List<TrackingModelView> itemLists;
     private TrackingViewAdapter adapter;
     private TrackingModelView itemView;
-    TextView tracking_view_billno, tracking_view_goods, tracking_view_sendingman, tracking_view_arrivalman;
+    TextView tracking_view_billno, tracking_view_goods, tracking_view_sendingman, tracking_view_arrivalman, tracking_view_billstatus;
     ProgressBar progressBar;
     RecyclerView recyclerView;
 
@@ -81,6 +85,7 @@ public class TrackingViewActivity extends AppCompatActivity {
         tracking_view_goods = (TextView) findViewById(R.id.tracking_view_goods);
         tracking_view_sendingman = (TextView) findViewById(R.id.tracking_view_sendingman);
         tracking_view_arrivalman = (TextView) findViewById(R.id.tracking_view_arrivalman);
+        tracking_view_billstatus = (TextView) findViewById(R.id.tracking_view_billstatus);
         recyclerView = findViewById(R.id.tracking_view_recyclerView);
 
         // 파라미터 셋팅
@@ -93,130 +98,148 @@ public class TrackingViewActivity extends AppCompatActivity {
         itemLists = new ArrayList<TrackingModelView>();
 
         int createRowCount = 0;
-        createRowCount = model.getCnt();    // 생성될 라인수
 
 
 
-        int state = 0;
-        String relayStart1 = "";
-        String relayStart2 = "";
-        String relayStart3 = "";
-        String relayEnd4 = "";
+        // getRelayend1 1번째 경유지 도착
+        // getRelaystart1 1번째 경유지에서 발송
 
-        state = model.getBillstate() == null ? 0 : Integer.parseInt(model.getBillstate().substring(0,1));
-        relayStart1 = model.getRelaystart2();
-        relayStart2 = model.getRelaystart3();
-        relayStart3 = model.getRelaystart4();
-
-        if (createRowCount == 2){
-            relayEnd4 = model.getRelayend1();
-        }else if ( createRowCount == 3){
-            relayEnd4 = model.getRelayend2();
-        }else if ( createRowCount == 4){
-            relayEnd4 = model.getRelayend3();
-        }
-
+        // 2022-04-02 10:09 물품이 발송되었습니다.
         itemView = new TrackingModelView();
-        itemView.setItem_gubun("발송취급점");
-        itemView.setItem_agencyname(model.getSendname());
-        itemView.setItem_tel(model.getSendtel());
-        itemView.setItem_inputday(model.getJubsuday());
         itemView.setItem_outputday(model.getSendingday());
-        itemView.setItem_location("집하완료");
+        itemView.setItem_gubun("접수된 물품이 발송되었습니다");
         itemLists.add(itemView);
 
-        // 경유 1
-        if ( createRowCount >=3 && model.getLand1name() != ""){
+        if ( !TextUtils.isEmpty(model.getSt2())){
+            if ( model.getSt2().equals("YN")){
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelayend1());
+                itemView.setItem_gubun("접수된 물품이 경유지에 도착되었습니다");
+                itemLists.add(itemView);
+            }
+            if ( model.getSt2().equals("YY")){
 
-            itemView = new TrackingModelView();
-            itemView.setItem_gubun("경유취급점1");
-            itemView.setItem_agencyname(model.getLand1name());
-            itemView.setItem_tel(model.getLand1tel());
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelayend1());
+                itemView.setItem_gubun("접수된 물품이 경유지에 도착되었습니다");
+                itemLists.add(itemView);
 
-            if (!TextUtils.isEmpty(model.getSt2())){
-                if (model.getSt2().equals("YY") || model.getSt2().equals("NY")){
-                    itemView.setItem_inputday(model.getRelayend1() );
-                    itemView.setItem_outputday(relayStart1);
-                }
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelaystart1());
+                itemView.setItem_gubun("접수된 물품이 경유지에서 출발하였습니다");
+                itemLists.add(itemView);
             }
-            if ( !TextUtils.isEmpty(model.getSt2()) && model.getSt2().equals("NY") ){
-                itemView.setItem_location(model.getLand1name()+"도착");
-            }
-            if ( !TextUtils.isEmpty(model.getSt2()) && model.getSt2().equals("YY") ){
-                itemView.setItem_location(model.getLand1name()+"출발");
-            }
-            itemLists.add(itemView);
         }
 
-        if ( createRowCount >=4 && model.getLand2name() != ""){
+        if ( !TextUtils.isEmpty(model.getSt3())){
+            if ( model.getSt3().equals("YN")){
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelayend2());
+                itemView.setItem_gubun("접수된 물품이 경유지에 도착되었습니다");
+                itemLists.add(itemView);
+            }
+            if ( model.getSt3().equals("YY")){
 
-            itemView = new TrackingModelView();
-            itemView.setItem_gubun("경유취급점2");
-            itemView.setItem_agencyname(model.getLand2name());
-            itemView.setItem_tel(model.getLand2tel());
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelayend2());
+                itemView.setItem_gubun("접수된 물품이 경유지에 도착되었습니다");
+                itemLists.add(itemView);
 
-            if (!TextUtils.isEmpty(model.getSt3())){
-                if (model.getSt2().equals("YY") || model.getSt3().equals("NY")){
-                    itemView.setItem_inputday(model.getRelayend2() );
-                    itemView.setItem_outputday(relayStart2);
-                }
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelaystart2());
+                itemView.setItem_gubun("접수된 물품이 경유지에서 출발하였습니다");
+                itemLists.add(itemView);
             }
-            if ( !TextUtils.isEmpty(model.getSt3()) && model.getSt3().equals("NY") ){
-                itemView.setItem_location(model.getLand2name()+"도착");
-            }
-            if ( !TextUtils.isEmpty(model.getSt3()) && model.getSt3().equals("YY") ){
-                itemView.setItem_location(model.getLand2name()+"출발");
-            }
-            itemLists.add(itemView);
         }
 
-        if ( createRowCount >=5 && model.getLand3name() != ""){
+        if ( !TextUtils.isEmpty(model.getSt4())){
+            if ( model.getSt4().equals("YN")){
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelayend3());
+                itemView.setItem_gubun("접수된 물품이 경유지에 도착되었습니다");
+                itemLists.add(itemView);
+            }
+            if ( model.getSt4().equals("YY")){
 
-            itemView = new TrackingModelView();
-            itemView.setItem_gubun("경유취급점3");
-            itemView.setItem_agencyname(model.getLand3name());
-            itemView.setItem_tel(model.getLand3tel());
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelayend3());
+                itemView.setItem_gubun("접수된 물품이 경유지에 도착되었습니다");
+                itemLists.add(itemView);
 
-            if (!TextUtils.isEmpty(model.getSt3())){
-                if (model.getSt2().equals("YY") || model.getSt4().equals("NY")){
-                    itemView.setItem_inputday(model.getRelayend3() );
-                    itemView.setItem_outputday(relayStart3);
-                }
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelaystart3());
+                itemView.setItem_gubun("접수된 물품이 경유지에서 출발하였습니다");
+                itemLists.add(itemView);
             }
-            if ( !TextUtils.isEmpty(model.getSt4()) && model.getSt4().equals("NY") ){
-                itemView.setItem_location(model.getLand3name()+"도착");
-            }
-            if ( !TextUtils.isEmpty(model.getSt4()) && model.getSt4().equals("YY") ){
-                itemView.setItem_location(model.getLand3name()+"출발");
-            }
-            itemLists.add(itemView);
         }
 
-        itemView = new TrackingModelView();
-        itemView.setItem_gubun("도착취급점");
-        itemView.setItem_agencyname(model.getArrivalname());
-        itemView.setItem_tel(model.getArrivaltel());
+        if ( !TextUtils.isEmpty(model.getSt5())){
+            if ( model.getSt5().equals("YN")){
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelayend4());
+                itemView.setItem_gubun("접수된 물품이 경유지에 도착되었습니다");
+                itemLists.add(itemView);
+            }
+            if ( model.getSt5().equals("YY")){
 
-        if (model.getBillstate().equals("42") || model.getBillstate().equals("42")){
-            itemView.setItem_inputday(relayEnd4);
-            itemView.setItem_outputday(model.getBillstate() == "44" ? model.getChulgoday() : "");
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelayend4());
+                itemView.setItem_gubun("접수된 물품이 경유지에 도착되었습니다");
+                itemLists.add(itemView);
+
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getRelaystart4());
+                itemView.setItem_gubun("접수된 물품이 경유지에서 출발하였습니다");
+                itemLists.add(itemView);
+            }
         }
 
-        itemView.setItem_location(state == 4 ? "아놔" : "");
+        if ( model.getBillstate().equals("42") || model.getBillstate().equals("44")){
+            if ( model.getBillstate().equals("42")){
+                itemView = new TrackingModelView();
 
-        itemLists.add(itemView);
+                if( model.getCnt() == 2)
+                    itemView.setItem_outputday(model.getRelayend1());
+                else if( model.getCnt() == 3 )
+                    itemView.setItem_outputday(model.getRelayend2());
+                else if( model.getCnt() == 4 )
+                    itemView.setItem_outputday(model.getRelayend3());
+
+                itemView.setItem_gubun("물품이 배달 도착지에 도착되었습니다");
+                itemLists.add(itemView);
+            }else{
+
+                itemView = new TrackingModelView();
+
+                if( model.getCnt() == 2)
+                    itemView.setItem_outputday(model.getRelayend1());
+                else if( model.getCnt() == 3 )
+                    itemView.setItem_outputday(model.getRelayend2());
+                else if( model.getCnt() == 4 )
+                    itemView.setItem_outputday(model.getRelayend3());
+
+                itemView.setItem_gubun("물품이 배달 도착지에 도착되었습니다");
+                itemLists.add(itemView);
+
+                itemView = new TrackingModelView();
+                itemView.setItem_outputday(model.getChulgoday());
+                itemView.setItem_gubun("물품 배달이 완료되었습니다.");
+                itemLists.add(itemView);
+
+                tracking_view_billstatus.setText("배송완료");
+            }
+        }
 
         if ( itemLists != null && itemLists.size() > 0 ){
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             adapter = new TrackingViewAdapter(itemLists);
             recyclerView.setAdapter(adapter);
         }
-        // 도착 취급점 남음
-
 
         setProgressBar(2);
     }
 
+    // 로딩바 정의
     protected void setProgressBar(int mode){
         if ( mode == 1){
             progressBar.setVisibility(View.VISIBLE);
@@ -241,4 +264,34 @@ public class TrackingViewActivity extends AppCompatActivity {
         finish();
     }
 
+    public String maskingName(String str) {
+        String replaceString = str;
+
+        String pattern = "";
+        if(str.length() == 2) {
+            pattern = "^(.)(.+)$";
+        } else {
+            pattern = "^(.)(.+)(.)$";
+        }
+
+        Matcher matcher = Pattern.compile(pattern).matcher(str);
+
+        if(matcher.matches()) {
+            replaceString = "";
+
+            for(int i=1;i<=matcher.groupCount();i++) {
+                String replaceTarget = matcher.group(i);
+                if(i == 2) {
+                    char[] c = new char[replaceTarget.length()];
+                    Arrays.fill(c, '*');
+
+                    replaceString = replaceString + String.valueOf(c);
+                } else {
+                    replaceString = replaceString + replaceTarget;
+                }
+
+            }
+        }
+        return replaceString;
+    }
 }

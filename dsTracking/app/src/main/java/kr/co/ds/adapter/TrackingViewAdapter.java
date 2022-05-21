@@ -48,20 +48,12 @@ public class TrackingViewAdapter extends RecyclerView.Adapter<TrackingViewAdapte
 
         TrackingModelView model = new TrackingModelView();
         model = itemList.get(position);
-        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_gubun());
-        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_agencyname());
-        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_tel());
-        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_inputday());
-        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_outputday());
-        Log.d(TAG, "onBindViewHolder: =============" + model.getItem_location());
 
+        holder.rowItem_1.setText(model.getItem_outputday());
+        holder.rowItem_2.setText(model.getItem_gubun());
 
-        holder.rowItem_1.setText(model.getItem_gubun().toString());
-        holder.rowItem_2.setText(model.getItem_agencyname().toString());
-        holder.rowItem_3.setText(model.getItem_tel().toString());
-        holder.rowItem_4.setText(model.getItem_inputday().toString());
-        holder.rowItem_5.setText(model.getItem_outputday().toString());
-        holder.rowItem_6.setText(model.getItem_location().toString());
+        //holder.rowItem_3.setText(model.getItem_inputday());
+        //holder.rowItem_4.setText(model.getItem_location().toString());
 
     }
 
@@ -78,10 +70,10 @@ public class TrackingViewAdapter extends RecyclerView.Adapter<TrackingViewAdapte
             super(itemView);
             rowItem_1 = (TextView) itemView.findViewById(R.id.view_adapter_item1);
             rowItem_2 = (TextView) itemView.findViewById(R.id.view_adapter_item2);
-            rowItem_3 = (TextView) itemView.findViewById(R.id.view_adapter_item3);
-            rowItem_4 = (TextView) itemView.findViewById(R.id.view_adapter_item4);
-            rowItem_5 = (TextView) itemView.findViewById(R.id.view_adapter_item5);
-            rowItem_6 = (TextView) itemView.findViewById(R.id.view_adapter_item6);
+            //rowItem_3 = (TextView) itemView.findViewById(R.id.view_adapter_item3);
+            //rowItem_4 = (TextView) itemView.findViewById(R.id.view_adapter_item4);
+            //rowItem_5 = (TextView) itemView.findViewById(R.id.view_adapter_item5);
+            //rowItem_6 = (TextView) itemView.findViewById(R.id.view_adapter_item6);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

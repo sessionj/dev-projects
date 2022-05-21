@@ -192,6 +192,7 @@
                             android:layout_marginLeft="10dp"
                             android:textSize="14dp"
                             android:textColor="@color/grey_40"
+                            android:background="@drawable/gradient_bottom"
                             />
                         <TextView
                             android:id="@+id/tracking_view_arrivalman"
@@ -203,8 +204,38 @@
                             android:gravity="left|center"
                             android:textSize="14dp"
                             android:textColor="@color/grey_80"
+                            android:background="@drawable/gradient_bottom"
                             />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="10dp"
+                        android:orientation="horizontal"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:text="운송상태"
+                            android:gravity="center"
+                            android:layout_weight="2"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="14dp"
+                            android:textColor="@color/grey_40"
+                            />
+                        <TextView
+                            android:id="@+id/tracking_view_billstatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="토니 스타크(010-0000-0201)"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:gravity="left|center"
+                            android:textSize="14dp"
+                            android:textColor="@color/grey_80"
+                            />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -242,18 +273,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:background="@drawable/gradient"
             android:orientation="vertical"
-
             >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:background="@drawable/gradient_table_bottom"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/gradient_bottom"
                 >
                 <TextView
                     android:layout_width="match_parent"
@@ -262,47 +293,27 @@
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:textSize="14dp"
-                    android:textColor="@color/color1"
+                    android:textColor="@color/grey_40"
                     android:layout_weight="1"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:text="취급점명"
+                    android:text="도착"
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:textSize="14dp"
-                    android:textColor="@color/color1"
+                    android:textColor="@color/grey_40"
                     android:layout_weight="1"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:text="전화번호"
+                    android:text="출발"
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:textSize="14dp"
-                    android:textColor="@color/color1"
-                    android:layout_weight="1"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="도착일자"
-                    android:gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="14dp"
-                    android:textColor="@color/color1"
-                    android:layout_weight="1"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="출발일자"
-                    android:gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="14dp"
-                    android:textColor="@color/color1"
+                    android:textColor="@color/grey_40"
                     android:layout_weight="1"
                     />
                 <TextView
@@ -312,19 +323,19 @@
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:textSize="14dp"
-                    android:textColor="@color/color1"
+                    android:textColor="@color/grey_40"
                     android:layout_weight="1"
                     />
-
             </LinearLayout>
 
-        </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tracking_view_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="3dp"
                 />
+`
+        </LinearLayout>
 
         </LinearLayout>
 
