@@ -43,7 +43,7 @@ public class EnterAppActivity extends AppCompatActivity {
         spannableString.setSpan(new RelativeSizeSpan(1.5f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(spannableString);
 
-        //SharedPreferenceConf.clearUserName(EnterAppActivity.this);
+        SharedPreferenceConf.clearUserName(EnterAppActivity.this);
 
     }
 
@@ -54,7 +54,6 @@ public class EnterAppActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-
                 if (SharedPreferenceConf.getPhoneNumber(EnterAppActivity.this).length() == 0){
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);

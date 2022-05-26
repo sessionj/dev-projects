@@ -11,7 +11,6 @@ public class SharedPreferenceConf {
     static SharedPreferences getSharedPreferences(Context ctx){
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
-
     // 계정 정보 저장
     public static void setPhoneNumber(Context ctx, String phoneNumber) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
@@ -22,8 +21,6 @@ public class SharedPreferenceConf {
     public static String getPhoneNumber(Context ctx) {
         return getSharedPreferences(ctx).getString(PREF_KEY_PHONE, "");
     }
-
-
     // 로그아웃
     public static void clearUserName(Context ctx) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();

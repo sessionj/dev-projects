@@ -18,11 +18,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:orientation="horizontal"
-            android:background="@color/grey_60"
-            android:paddingTop="6dp"
+            android:background="@color/white"
             android:paddingLeft="10dp"
+            android:gravity="center|left"
             >
 
             <ImageView
@@ -39,9 +39,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="총 0/0 처리"
-                android:textColor="@color/white"
-                android:textSize="12dp"
+                android:textColor="@color/grey_90"
+                android:textSize="13dp"
                 />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center"
+                android:paddingRight="20dp"
+                >
+                <Button
+                    android:id="@+id/main_send_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:text="보낸택배"
+                    android:drawableLeft="@drawable/up_icon"
+                    android:paddingLeft="20dp"
+                    android:textSize="12dp"
+                    android:background="@drawable/left_btn_backgound"/>
+
+                <Button
+                    android:id="@+id/main_req_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/right_btn_backgound"
+                    android:drawableLeft="@drawable/down_icon"
+                    android:paddingLeft="20dp"
+                    android:text="받은택배"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -54,14 +82,18 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:visibility="gone" />
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <TextView
+            android:id="@+id/tracking_list_empty"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/content_srl"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            >
+            android:layout_height="match_parent"
+            android:text="검색된 자료가 없습니다"
+            android:paddingBottom="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/gradient_bottom"
+            />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tracking_recyclerView"
@@ -69,22 +101,6 @@
                 android:layout_height="match_parent"
                 android:paddingBottom="3dp"
                 />
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-        <TextView
-            android:id="@+id/tracking_list_empty"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="검색된 자료가 없습니다"
-            android:paddingBottom="10dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:background="@drawable/gradient_bottom"
-            android:visibility="gone"
-            />
 
     </LinearLayout>
 

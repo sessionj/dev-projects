@@ -76,6 +76,7 @@
                             android:layout_marginLeft="10dp"
                             android:textSize="14dp"
                             android:textColor="@color/grey_40"
+                            android:paddingBottom="5dp"
                             />
                         <TextView
                             android:layout_width="match_parent"
@@ -87,7 +88,7 @@
                             android:gravity="left|center"
                             android:textSize="14dp"
                             android:textColor="@color/grey_80"
-
+                            android:paddingBottom="5dp"
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -105,7 +106,8 @@
                             android:background="@drawable/gradient_bottom"
                             android:layout_marginLeft="10dp"
                             android:textSize="14dp"
-                            android:textColor="@color/grey_40"/>
+                            android:textColor="@color/grey_40"
+                            android:paddingBottom="5dp"/>
                         <TextView
                             android:id="@+id/tracking_view_billno"
                             android:layout_width="match_parent"
@@ -117,6 +119,7 @@
                             android:gravity="left|center"
                             android:textSize="14dp"
                             android:textColor="@color/grey_80"
+                            android:paddingBottom="5dp"
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -134,7 +137,8 @@
                             android:background="@drawable/gradient_bottom"
                             android:layout_marginLeft="10dp"
                             android:textSize="14dp"
-                            android:textColor="@color/grey_40"/>
+                            android:textColor="@color/grey_40"
+                            android:paddingBottom="5dp"/>
                         <TextView
                             android:id="@+id/tracking_view_goods"
                             android:layout_width="match_parent"
@@ -146,6 +150,7 @@
                             android:gravity="left|center"
                             android:textSize="14dp"
                             android:textColor="@color/grey_80"
+                            android:paddingBottom="5dp"
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -163,7 +168,8 @@
                             android:background="@drawable/gradient_bottom"
                             android:layout_marginLeft="10dp"
                             android:textSize="14dp"
-                            android:textColor="@color/grey_40"/>
+                            android:textColor="@color/grey_40"
+                            android:paddingBottom="5dp"/>
                         <TextView
                             android:id="@+id/tracking_view_sendingman"
                             android:layout_width="match_parent"
@@ -175,6 +181,7 @@
                             android:gravity="left|center"
                             android:textSize="14dp"
                             android:textColor="@color/grey_80"
+                            android:paddingBottom="5dp"
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -193,6 +200,7 @@
                             android:textSize="14dp"
                             android:textColor="@color/grey_40"
                             android:background="@drawable/gradient_bottom"
+                            android:paddingBottom="5dp"
                             />
                         <TextView
                             android:id="@+id/tracking_view_arrivalman"
@@ -205,6 +213,7 @@
                             android:textSize="14dp"
                             android:textColor="@color/grey_80"
                             android:background="@drawable/gradient_bottom"
+                            android:paddingBottom="5dp"
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -222,6 +231,7 @@
                             android:layout_marginLeft="10dp"
                             android:textSize="14dp"
                             android:textColor="@color/grey_40"
+                            android:paddingBottom="5dp"
                             />
                         <TextView
                             android:id="@+id/tracking_view_billstatus"
@@ -233,6 +243,7 @@
                             android:gravity="left|center"
                             android:textSize="14dp"
                             android:textColor="@color/grey_80"
+                            android:paddingBottom="5dp"
                             />
                     </LinearLayout>
 
@@ -254,6 +265,7 @@
                 android:layout_height="30dp"
                 android:orientation="horizontal"
                 android:paddingTop="6dp"
+                android:layout_marginTop="10dp"
                 >
                 <ImageView
                     android:id="@+id/star2"
@@ -294,38 +306,19 @@
                     android:layout_marginLeft="10dp"
                     android:textSize="14dp"
                     android:textColor="@color/grey_40"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:text="도착"
-                    android:gravity="center"
+                    android:text="내용"
+                    android:gravity="center|left"
                     android:layout_marginLeft="10dp"
                     android:textSize="14dp"
                     android:textColor="@color/grey_40"
                     android:layout_weight="1"
                     />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="출발"
-                    android:gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="14dp"
-                    android:textColor="@color/grey_40"
-                    android:layout_weight="1"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="비고"
-                    android:gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="14dp"
-                    android:textColor="@color/grey_40"
-                    android:layout_weight="1"
-                    />
+
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

@@ -34,10 +34,12 @@ import org.json.JSONObject;
 
 import kr.co.ds.MainActivity;
 import kr.co.ds.R;
+import kr.co.ds.action.MobileLoginRequest;
 import kr.co.ds.action.ReceiptLoginRequest;
 import kr.co.ds.comm.Label;
 import kr.co.ds.comm.PatternUtil;
 import kr.co.ds.comm.SharedPreferenceConf;
+import kr.co.ds.models.LoginModelView;
 import kr.co.ds.models.TrackingModelView;
 
 
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     private TrackingModelView model;
     private String authenticationKey;
     private String TAG = "LoginActivity";
+    private LoginModelView loginModelView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 // 전화번호와 키값을 던져 확인 (로그인 여부 등록)
                 // 인증번호를 받지 않았거나 인증번호 항목이 공란일 경우
-                /*if ( !isLoginCheck){
+                if ( !isLoginCheck){
                     setLogicMessage(Label.MESSAGE_INFO, Label.MESSAGE_CERT_PHONE_NUMBER);
 
                 }else if ( isLoginCheck && TextUtils.isEmpty(response_key.getText().toString())){
@@ -123,10 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                     setLogicMessage(Label.MESSAGE_INFO, Label.MESSAGE_NOT_AUTHENTICATIONKEY);
                 }else{
                     returnKeyCheck();
-                }*/
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
+                }
+
             }
         });
     }
@@ -145,17 +146,18 @@ public class LoginActivity extends AppCompatActivity {
         alert.show();
     }
 
-
+    // 인증번호 가져오기
     private void returnLoginInformation(){
         progressBar.setVisibility(View.VISIBLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        model.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_LOGIN_CHECK);
-        model.setArrivalmantel(user_phone_number.getText().toString());
+        loginModelView = new LoginModelView();
+        loginModelView.setMode(Label.DELIVERY_BASE_URL_MOBILE_LOGIN_GETKEY);
+        loginModelView.setPhone_number(user_phone_number.getText().toString());
 
-        ReceiptLoginRequest receiptLoginRequest = new ReceiptLoginRequest(model, successListener(), errorListener());
+        MobileLoginRequest mobileLoginRequest = new MobileLoginRequest(loginModelView, successListener(), errorListener());
         RequestQueue queue = Volley.newRequestQueue( LoginActivity.this);
-        queue.add(receiptLoginRequest);
+        queue.add(mobileLoginRequest);
 
     }
 
@@ -192,16 +194,17 @@ public class LoginActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        model.setSearchMode(Label.DELIVERY_BASE_URL_RECEIPT_LOGIN_LAST);
+        loginModelView = new LoginModelView();
+        loginModelView.setMode(Label.DELIVERY_BASE_URL_MOBILE_LOGIN_CERTIFICATION);
+        loginModelView.setPhone_number(user_phone_number.getText().toString());
+        loginModelView.setCertification_key(response_key.getText().toString());
 
-        model.setArrivalmantel(user_phone_number.getText().toString());
-        model.setAuthenticationkey(response_key.getText().toString());
-        ReceiptLoginRequest receiptLoginRequest = new ReceiptLoginRequest(model, checkListener(), errorListener());
+        MobileLoginRequest mobileCertificationRequest = new MobileLoginRequest(loginModelView, checkListener(), errorListener());
         RequestQueue queue = Volley.newRequestQueue( LoginActivity.this);
-        queue.add(receiptLoginRequest);
+        queue.add(mobileCertificationRequest);
 
     }
-
+    // 인증버튼 클릭
     private Response.Listener<String> checkListener() {
         return new Response.Listener<String>() {
             @Override
@@ -222,7 +225,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             if ( responseStatus){
                                 // 저장한다.
-                                SharedPreferenceConf.setPhoneNumber(getApplicationContext(), model.getArrivalmantel());
+                                SharedPreferenceConf.setPhoneNumber(getApplicationContext(), loginModelView.getPhone_number());
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);

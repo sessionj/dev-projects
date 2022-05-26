@@ -2,14 +2,18 @@ package kr.co.ds;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
@@ -19,8 +23,10 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +47,7 @@ import java.util.List;
 import kr.co.ds.action.TrackingListRequest;
 import kr.co.ds.adapter.TrackingListAdapter;
 import kr.co.ds.comm.Label;
+import kr.co.ds.comm.SharedPreferenceConf;
 import kr.co.ds.models.TrackingModelView;
 import kr.co.ds.ui.TrackingViewActivity;
 
@@ -50,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tracking_row_in_1, emplist;
     ProgressBar progressBar;
     RecyclerView recyclerView;
-
+    Button main_send_btn, main_req_btn;
     private static final String TAG = "MainActivity";
     private long backPressedTime = 0;
     private final long FINISH_INTERVAL_TIME = 2000;
@@ -69,22 +76,54 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.tracking_progressBar);
         recyclerView = findViewById(R.id.tracking_recyclerView);
         emplist = (TextView) findViewById(R.id.tracking_list_empty);
+        main_send_btn = (Button) findViewById(R.id.main_send_btn);
+        main_req_btn = (Button) findViewById(R.id.main_req_btn);
         modelSetting();
 
-        mysrl = findViewById(R.id.content_srl);
+        /*mysrl = findViewById(R.id.content_srl);
         mysrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 modelSetting();
             }
+        });*/
+
+        main_send_btn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                main_send_btn.setBackgroundColor(Color.parseColor("#FF9800"));
+                main_send_btn.setTextColor(Color.WHITE);
+
+
+
+                main_req_btn.setBackgroundColor(Color.WHITE);
+                main_req_btn.setTextColor(Color.parseColor("#FF9800"));
+                //main_req_btn.setBackground(getResources().getDrawable(R.drawable.down_icon) );
+
+            }
         });
+
+        main_req_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                main_req_btn.setBackgroundColor(Color.parseColor("#FF9800"));
+                main_req_btn.setTextColor(Color.WHITE);
+                //main_req_btn.setBackground(getResources().getDrawable(R.drawable.down_icon) );
+
+                main_send_btn.setBackgroundColor(Color.WHITE);
+                main_send_btn.setTextColor(Color.parseColor("#FF9800"));
+                //main_send_btn.setBackground(getResources().getDrawable(R.drawable.up_icon) );
+            }
+        });
+
     }
 
     protected void modelSetting(){
         setProgressBar(1);
         model = new TrackingModelView();
         model.setSearchMode(Label.DELIVERY_BASE_URL_TRACKING_LIST);
-        model.setArrivalmantel("01053462808"); // 임시임
+        model.setArrivalmantel(SharedPreferenceConf.getPhoneNumber(this)); // 임시임
 
         new Handler().postDelayed(new Runnable(){
             @Override
@@ -106,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
+                //recyclerView.setVisibility(View.VISIBLE);
+                //emplist.setVisibility(View.GONE);
                 try {
                     if ( !response.isEmpty() && response != null){
                         JSONObject jsonObject = new JSONObject(response);
@@ -171,7 +212,8 @@ public class MainActivity extends AppCompatActivity {
                                 resultModel.setCourierunavailable(Object.getString("courierunavailable"));
                                 resultModel.setArrivalagencycode(Object.getString("arrivalagencycode"));
                                 resultModel.setScaninfo(Object.getString("scaninfo"));
-                                resultModel.setArea(Object.getString("area"));;
+                                resultModel.setArea(Object.getString("area"));
+                                ;
                                 resultModelList.add(resultModel);
                             }
 
@@ -198,7 +240,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }else{
-                        emplist.setVisibility(View.VISIBLE);
+                        //recyclerView.setVisibility(View.GONE);
+                        //emplist.setVisibility(View.VISIBLE);
                     }
                 } catch(JSONException e) {
                     e.printStackTrace();

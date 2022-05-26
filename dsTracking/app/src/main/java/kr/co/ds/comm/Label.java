@@ -3,7 +3,7 @@ package kr.co.ds.comm;
 public class Label {
 
     public final static String DELIVERY_BASE_URL                            = "http://dev.ds3211.co.kr/";
-    public final static String DELIVERY_BASE_URL_LOGIN                      = "DsService_AppInterlockProxyLogin?";
+    public final static String DELIVERY_BASE_URL_LOGIN                      = "DsService_AppLoginProxy?";
     public final static String DELIVERY_BASE_URL_SUB_1                      = "DsService_AppInterlockProxy?";
     public final static String DELIVERY_BASE_URL_SUB_TRACKING               = "DsService_TrackingProxy?";
 
@@ -14,6 +14,9 @@ public class Label {
 
     public final static String DELIVERY_BASE_URL_RECEIPT_LOGIN_CHECK        = "LOC";
     public final static String DELIVERY_BASE_URL_RECEIPT_LOGIN_LAST         = "LOR";
+
+    public final static String DELIVERY_BASE_URL_MOBILE_LOGIN_GETKEY        = "MAK";
+    public final static String DELIVERY_BASE_URL_MOBILE_LOGIN_CERTIFICATION  = "MAC";
 
     public final static String DELIVERY_BASE_URL_TRACKING_LIST              = "TRACKING";
 
