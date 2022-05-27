@@ -60,6 +60,7 @@ public class TrackingModelView implements Serializable {
     private String area;
 
     private String searchMode;
+    private String searchType;
     private String authenticationkey;
 
     private String item_gubun;
@@ -127,6 +128,7 @@ public class TrackingModelView implements Serializable {
                 ", scaninfo='" + scaninfo + '\'' +
                 ", area='" + area + '\'' +
                 ", searchMode='" + searchMode + '\'' +
+                ", searchType='" + searchType + '\'' +
                 ", authenticationkey='" + authenticationkey + '\'' +
                 ", item_gubun='" + item_gubun + '\'' +
                 ", item_agencyname='" + item_agencyname + '\'' +
@@ -631,5 +633,13 @@ public class TrackingModelView implements Serializable {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
     }
 }

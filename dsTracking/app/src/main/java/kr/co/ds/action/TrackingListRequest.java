@@ -10,6 +10,7 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import kr.co.ds.MainActivity;
 import kr.co.ds.comm.CryptoKey;
 import kr.co.ds.comm.Label;
 import kr.co.ds.models.TrackingModelView;
@@ -30,6 +31,8 @@ public class TrackingListRequest extends StringRequest {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("=============", "NETWOOK ERROR");
+                        MainActivity mainActivity = new MainActivity();
+                        mainActivity.errorListener();
                     }
                 });
         sb = new StringBuffer();
@@ -37,6 +40,7 @@ public class TrackingListRequest extends StringRequest {
         sb.append(model.getSearchMode());
         sb.append("\t"+ CryptoKey.createCryptoKey(model.getArrivalmantel()));
         sb.append("\t"+model.getArrivalmantel());
+        sb.append("\t"+model.getSearchType());
 
         Log.d("=============param : ", sb.toString());
         map.put("param", sb.toString());

@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    tools:ignore="Orientation">
+    tools:ignore="Orientation"
+    android:background="@color/white"
+    >
 
 
     <LinearLayout
@@ -48,26 +50,21 @@
                 android:gravity="right|center"
                 android:paddingRight="20dp"
                 >
-                <Button
-                    android:id="@+id/main_send_btn"
-                    android:layout_width="100dp"
-                    android:layout_height="35dp"
-                    android:text="보낸택배"
-                    android:drawableLeft="@drawable/up_icon"
-                    android:paddingLeft="20dp"
-                    android:textSize="12dp"
-                    android:background="@drawable/left_btn_backgound"/>
 
-                <Button
-                    android:id="@+id/main_req_btn"
-                    android:layout_width="100dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/right_btn_backgound"
-                    android:drawableLeft="@drawable/down_icon"
-                    android:paddingLeft="20dp"
-                    android:text="받은택배"
-                    android:textColor="@color/white"
-                    android:textSize="12dp" />
+                <TextView
+                    android:id="@+id/main_search_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="스위치를 켜면 보낸 택배"
+                    android:layout_marginTop="10dp"
+                    android:paddingRight="20dp"
+                    />
+                <Switch
+                    android:id="@+id/main_search_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_track_selector" />
 
             </LinearLayout>
 
@@ -85,6 +82,8 @@
         <TextView
             android:id="@+id/tracking_list_empty"
             android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -93,6 +92,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:background="@drawable/gradient_bottom"
+            android:visibility="gone"
             />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -100,6 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="3dp"
+                android:padding="5dp"
+                android:background="@color/white"
                 />
 
     </LinearLayout>

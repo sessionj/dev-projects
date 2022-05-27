@@ -3,6 +3,7 @@ package kr.co.ds.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +21,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,9 +48,13 @@ public class TrackingViewActivity extends AppCompatActivity {
     private List<TrackingModelView> itemLists;
     private TrackingViewAdapter adapter;
     private TrackingModelView itemView;
+
+    NestedScrollView edit_scrollView;
     TextView tracking_view_billno, tracking_view_goods, tracking_view_sendingman, tracking_view_arrivalman, tracking_view_billstatus;
     ProgressBar progressBar;
     RecyclerView recyclerView;
+
+    ImageView tracking_img_1, tracking_img_2, tracking_img_3, tracking_img_4;
 
 
     @Override
@@ -55,12 +62,18 @@ public class TrackingViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking_view);
         progressBar = (ProgressBar) findViewById(R.id.tracking_view_progressBar);
+        edit_scrollView = (NestedScrollView) findViewById(R.id.edit_scrollView);
+        tracking_img_1 = (ImageView) findViewById(R.id.tracking_img_1);
+        tracking_img_2 = (ImageView) findViewById(R.id.tracking_img_2);
+        tracking_img_3 = (ImageView) findViewById(R.id.tracking_img_3);
+        tracking_img_4 = (ImageView) findViewById(R.id.tracking_img_4);
+
         setProgressBar(1);
         checkTitle();
         Intent intent = getIntent();
         model = (TrackingModelView) intent.getSerializableExtra("viewMode");
         viewSetting();
-
+        edit_scrollView.fullScroll(ScrollView.FOCUS_UP);
 
     }
 
@@ -227,6 +240,31 @@ public class TrackingViewActivity extends AppCompatActivity {
 
         if ( TextUtils.isEmpty(tracking_view_billstatus.getText())){
             tracking_view_billstatus.setText("운송중");
+        }
+
+        // 화면 이미지 변경
+        if ( model.getBillstate().equals("01") || model.getBillstate().equals("02")){
+            // 접수
+            tracking_img_1.setImageResource(R.drawable.p1);
+
+
+        }else if (model.getBillstate().equals("42")){
+            // 도착지 도착
+            tracking_img_1.setImageResource(R.drawable.p1);
+            tracking_img_2.setImageResource(R.drawable.p2);
+            tracking_img_3.setImageResource(R.drawable.p3);
+
+
+        }else if (model.getBillstate().equals("44")){
+            // 배달완료
+            tracking_img_1.setImageResource(R.drawable.p1);
+            tracking_img_2.setImageResource(R.drawable.p2);
+            tracking_img_3.setImageResource(R.drawable.p3);
+            tracking_img_4.setImageResource(R.drawable.p4);
+        }else{
+            // 운송중
+            tracking_img_1.setImageResource(R.drawable.p1);
+            tracking_img_2.setImageResource(R.drawable.p2);
         }
 
         if ( itemLists != null && itemLists.size() > 0 ){

@@ -14,7 +14,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/edit_scrollView"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        >
 
         <LinearLayout
             android:id="@+id/details_linear"
@@ -24,6 +25,7 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp"
             android:padding="15dp"
+            android:descendantFocusability="blocksDescendants"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,15 +42,16 @@
 
                     <ImageView
                         android:id="@+id/star"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:padding="3dp"
-                        android:src="@drawable/btn_on1"
+                        android:src="@drawable/document_data_files_page_paper_icon"
                         android:layout_marginTop="1dp"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
+                        android:paddingTop="2dp"
                         android:text="기본 정보"/>
                 </LinearLayout>
                 <LinearLayout
@@ -259,7 +262,47 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                >
+                <ImageView
+                    android:id="@+id/tracking_img_1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="3dp"
+                    android:src="@drawable/p1_out"
+                    android:layout_weight="1"
+                    />
+                <ImageView
+                    android:id="@+id/tracking_img_2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="3dp"
+                    android:src="@drawable/p2_out"
+                    android:layout_weight="1"
+                    />
+                <ImageView
+                    android:id="@+id/tracking_img_3"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="3dp"
+                    android:src="@drawable/p3_out"
+                    android:layout_weight="1"
+                    />
+                <ImageView
+                    android:id="@+id/tracking_img_4"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="3dp"
+                    android:src="@drawable/p4_out"
+                    android:layout_weight="1"
+                    />
 
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -269,15 +312,16 @@
                 >
                 <ImageView
                     android:id="@+id/star2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:padding="3dp"
-                    android:src="@drawable/btn_on1"
-                    android:layout_marginTop="1dp"/>
+                    android:src="@drawable/document_paper_report_sheets_icon"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
+                    android:paddingTop="1dp"
                     android:text="운송 정보"/>
             </LinearLayout>
 
@@ -296,6 +340,7 @@
                 android:orientation="horizontal"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
+                android:paddingBottom="5dp"
                 android:background="@drawable/gradient_bottom"
                 >
                 <TextView

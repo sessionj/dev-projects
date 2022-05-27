@@ -115,9 +115,10 @@ public class TrackingListAdapter extends RecyclerView.Adapter<TrackingListAdapte
                     success ++;
                 }
             }
-            return "총 "+ itemList.size() +"/"+success + "처리";
+            return "총 "+ itemList.size() +"/"+success + " 건 처리";
+        }else{
+            return "총 0/0 건 처리";
         }
-        return "";
     }
 
     // rows 클릭

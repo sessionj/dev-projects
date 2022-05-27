@@ -43,7 +43,7 @@ public class EnterAppActivity extends AppCompatActivity {
         spannableString.setSpan(new RelativeSizeSpan(1.5f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(spannableString);
 
-        SharedPreferenceConf.clearUserName(EnterAppActivity.this);
+        //SharedPreferenceConf.clearUserName(EnterAppActivity.this);
 
     }
 

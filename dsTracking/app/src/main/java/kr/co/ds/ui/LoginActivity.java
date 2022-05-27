@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kr.co.ds.EnterAppActivity;
 import kr.co.ds.MainActivity;
 import kr.co.ds.R;
 import kr.co.ds.action.MobileLoginRequest;
@@ -184,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                 } finally {
                     progressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    Toast.makeText(getApplicationContext(), authenticationKey, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), authenticationKey, Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -224,7 +225,8 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                             if ( responseStatus){
-                                // 저장한다.
+                                // 클리어 후 등록
+                                SharedPreferenceConf.clearUserName(LoginActivity.this);
                                 SharedPreferenceConf.setPhoneNumber(getApplicationContext(), loginModelView.getPhone_number());
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);

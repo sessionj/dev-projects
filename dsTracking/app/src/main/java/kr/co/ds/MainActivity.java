@@ -27,7 +27,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,10 +56,12 @@ import kr.co.ds.ui.TrackingViewActivity;
 public class MainActivity extends AppCompatActivity {
 
     // 총 주문건수 : 10건, 완료 10건
-    TextView tracking_row_in_1, emplist;
+    TextView tracking_row_in_1, emplist, main_search_info;
     ProgressBar progressBar;
     RecyclerView recyclerView;
     Button main_send_btn, main_req_btn;
+    Switch main_search_switch;
+
     private static final String TAG = "MainActivity";
     private long backPressedTime = 0;
     private final long FINISH_INTERVAL_TIME = 2000;
@@ -76,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.tracking_progressBar);
         recyclerView = findViewById(R.id.tracking_recyclerView);
         emplist = (TextView) findViewById(R.id.tracking_list_empty);
-        main_send_btn = (Button) findViewById(R.id.main_send_btn);
-        main_req_btn = (Button) findViewById(R.id.main_req_btn);
-        modelSetting();
+        main_search_switch = (Switch) findViewById(R.id.main_search_switch);
+        main_search_info = (TextView) findViewById(R.id.main_search_info);
+
+        modelSetting(1);
 
         /*mysrl = findViewById(R.id.content_srl);
         mysrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -88,42 +93,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-        main_send_btn.setOnClickListener(new View.OnClickListener(){
-
+        main_search_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                main_send_btn.setBackgroundColor(Color.parseColor("#FF9800"));
-                main_send_btn.setTextColor(Color.WHITE);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if ( isChecked){
 
+                    //switchSet(2);
+                    modelSetting(2);
 
-
-                main_req_btn.setBackgroundColor(Color.WHITE);
-                main_req_btn.setTextColor(Color.parseColor("#FF9800"));
-                //main_req_btn.setBackground(getResources().getDrawable(R.drawable.down_icon) );
-
+                }else{
+                    //switchSet(1);
+                    modelSetting(1);
+                }
             }
         });
-
-        main_req_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                main_req_btn.setBackgroundColor(Color.parseColor("#FF9800"));
-                main_req_btn.setTextColor(Color.WHITE);
-                //main_req_btn.setBackground(getResources().getDrawable(R.drawable.down_icon) );
-
-                main_send_btn.setBackgroundColor(Color.WHITE);
-                main_send_btn.setTextColor(Color.parseColor("#FF9800"));
-                //main_send_btn.setBackground(getResources().getDrawable(R.drawable.up_icon) );
-            }
-        });
-
     }
 
-    protected void modelSetting(){
+
+    // 모델 셋팅후
+    protected void modelSetting(int mode){
         setProgressBar(1);
         model = new TrackingModelView();
+        switchSet(mode);
         model.setSearchMode(Label.DELIVERY_BASE_URL_TRACKING_LIST);
-        model.setArrivalmantel(SharedPreferenceConf.getPhoneNumber(this)); // 임시임
+        model.setArrivalmantel(SharedPreferenceConf.getPhoneNumber(this));
 
         new Handler().postDelayed(new Runnable(){
             @Override
@@ -133,6 +126,35 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
 
+    protected void switchSet(int mode){
+
+        String word = null;
+        String content = null;
+        String color = null;
+
+        if (mode == 1 ){
+            main_search_info.setText("받은 택배");
+            color = "#FF9800";
+            model.setSearchType("R");
+
+        }else if ( mode == 2){
+            main_search_info.setText("보낸 택배");
+            color = "#4cd964";
+            model.setSearchType("S");
+        }
+
+        word = main_search_info.getText().toString();
+        content = main_search_info.getText().toString();
+        int start = content.indexOf(word);
+        int end = start + word.length();
+
+        SpannableString spannableString = new SpannableString(content);
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor(color)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new RelativeSizeSpan(1.0f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        main_search_info.setText(spannableString);
+
+    }
     protected void getTrackingList() {
 
         TrackingListRequest listRequest = new TrackingListRequest(model, successListener(), errorListener());
@@ -145,15 +167,23 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                //recyclerView.setVisibility(View.VISIBLE);
-                //emplist.setVisibility(View.GONE);
+                resultModelList = new ArrayList<TrackingModelView>();
+
+                if (response.equals("NOTDATA")){
+                    emplist.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    adapter = new TrackingListAdapter(resultModelList);
+                    tracking_row_in_1.setText(adapter.totalInformation().toString());
+                    setProgressBar(2);
+                    return;
+                }
                 try {
                     if ( !response.isEmpty() && response != null){
+
                         JSONObject jsonObject = new JSONObject(response);
                         JSONArray resultarray = jsonObject.getJSONArray("rows");
 
                         if (resultarray.length() > 0) {
-                            resultModelList = new ArrayList<TrackingModelView>();
 
                             for (int i = 0; i < resultarray.length(); i++) {
                                 JSONObject Object = resultarray.getJSONObject(i);
@@ -213,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                                 resultModel.setArrivalagencycode(Object.getString("arrivalagencycode"));
                                 resultModel.setScaninfo(Object.getString("scaninfo"));
                                 resultModel.setArea(Object.getString("area"));
-                                ;
+
                                 resultModelList.add(resultModel);
                             }
 
@@ -240,13 +270,20 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }else{
-                        //recyclerView.setVisibility(View.GONE);
-                        //emplist.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                        emplist.setVisibility(View.VISIBLE);
                     }
                 } catch(JSONException e) {
                     e.printStackTrace();
                 } finally {
                     if ( resultModelList != null && resultModelList.size() > 0){
+                        tracking_row_in_1.setText(adapter.totalInformation().toString());
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emplist.setVisibility(View.GONE);
+                    }else{
+                        Log.d(TAG, "onResponse: ======================= 없을때 요기 아녀 ? ");
+                        recyclerView.setVisibility(View.GONE);
+                        emplist.setVisibility(View.VISIBLE);
                         tracking_row_in_1.setText(adapter.totalInformation().toString());
                     }
                    setProgressBar(2);
@@ -255,10 +292,11 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private Response.ErrorListener errorListener() {
+    public Response.ErrorListener errorListener() {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "네트워크 오류가 발생했습니다. 다시시도해주세요", Toast.LENGTH_SHORT).show();
                 setProgressBar(2);
                 error.printStackTrace();
             }
