@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.trace.service.impl.TraceiMapper">
+
+	<select id="selectTraceList" parameterType="fSearchEntity" resultType="egovMap">
+
+			SELECT billno, sendingman, arrivalman
+				  FROM unsong
+				 WHERE input_date between #{searchStartDt} and #{searchEndDt}
+				 <if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND ARRIVALMANTEL = #{searchKeyword}
+					</when>
+		            <when test="searchCondition == 1">
+						AND SENDINGMANTEL = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+				
+	</select>
+</mapper>

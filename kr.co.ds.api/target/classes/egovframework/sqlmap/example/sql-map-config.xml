@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<!-- ibatis -->
+<!-- 프로젝트에 사용될 Query xml 등록 -->
+<sqlMapConfig>
+	<settings
+		cacheModelsEnabled="true"
+		enhancementEnabled="true"
+		lazyLoadingEnabled="true"
+		useStatementNamespaces="true"
+	/>
+	<!-- 한글처리 -->
+	<typeAlias type="egovframework.common.util.OracleUsTypeHandler" alias="ORACLEUS7ASCII" /> 
+	<typeHandler callback="ORACLEUS7ASCII" javaType="java.lang.String" />
+	
+	<sqlMap resource="egovframework/sqlmap/example/sample/EgovSample_Sample_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/example/sample/EgovTrace_SQL.xml"/>
+	
+</sqlMapConfig>

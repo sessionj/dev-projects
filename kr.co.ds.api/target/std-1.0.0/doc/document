@@ -1,0 +1,14 @@
+1. dev - 도메인 정리
+ 1. api.ds3211.co.kr
+
+2. 서버 설정
+ 1. apache 서버 구성
+   . work
+
+# 전자정부 프레임워크
+API(application programming interface): 애플리케이션 프로그래밍 인터페이스
+1. API Service 
+ - 서비스 모음(API)
+   . 운송 자료
+   . 배송 자료
+   . 
