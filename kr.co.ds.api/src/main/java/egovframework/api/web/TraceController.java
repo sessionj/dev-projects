@@ -34,7 +34,7 @@ import egovframework.api.service.TraceService;
   * @Date : 2022. 10. 27. 
   * @작성자 : shadow
   * @변경이력 :
-  * @프로그램 설명 : 대신 Rest API_20221126_ 왜 안올라가?
+  * @프로그램 설명 : 대신 Rest API
   */
 
 @Controller 
