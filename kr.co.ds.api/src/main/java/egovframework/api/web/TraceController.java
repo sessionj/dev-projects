@@ -35,7 +35,7 @@ import egovframework.api.service.TraceService;
   * @작성자 : shadow
   * @변경이력 :
   * @프로그램 설명 : 대신 Rest API
-  * session_mark45/46..um..
+  * session_mark45/46..um..aj
   */
 
 @Controller 
