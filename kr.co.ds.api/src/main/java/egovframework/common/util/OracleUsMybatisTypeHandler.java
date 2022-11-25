@@ -56,7 +56,6 @@ public class OracleUsMybatisTypeHandler extends BaseTypeHandler<String> {
 	@Override
 	public String getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
 		// TODO Auto-generated method stub
-		System.out.println("=================4");
 		return null;
 	}
 	

@@ -31,8 +31,8 @@
     <title><spring:message code="title.sample" /></title>
     <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
     <script type="text/javaScript" language="javascript" defer="defer">
-        <!--
-        /* 글 수정 화면 function */
+
+    	/* 글 수정 화면 function */
         function fn_egov_select(id) {
         	document.listForm.selectedId.value = id;
            	document.listForm.action = "<c:url value='/updateSampleView.do'/>";
@@ -59,10 +59,17 @@
         }
         
         
+        /** mybatis function - list */
         function fn_egov_link_traceTest(){
         	
-        	document.listForm.action = "<c:url value='/shippingHistoryList.json'/>";
+        	document.listForm.action = "<c:url value='/findUnsongList.json'/>";
            	document.listForm.submit();
+        }
+        /* mybatis function - article */
+		function fn_egov_link_traceTest1(){
+        	
+        	document.articleForm.action = "<c:url value='/findUnsongArticle.json'/>";
+           	document.articleForm.submit();
         }
         
         
@@ -73,21 +80,22 @@
         }
         
         
-		function fn_egov_link_traceTest1(){
-        	
-        	document.test1Form.action = "<c:url value='/shippingTraceList.json'/>";
-           	document.test1Form.submit();
-        }
+       
         
-        //-->
     </script>
 </head>
 
 <body style="text-align:center; margin:0 auto;/*  display:inline; */ padding-top:100px;">
 
 	<!-- mybatis -->
-
 	<div style="margin-top: 50px; margin-left: 50px;">
+		<p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 20px; color: red;">
+	    	mybatis - 
+	    </p>
+	    <hr>
+	    <p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 16px;">
+	    	1. 운송 목록 (내 전화번호로 보낸/받은 목록 조회) 
+	    </p>
 	    <form:form modelAttribute="fSearchEntity" id="listForm" name="listForm" method="post">
 	    	<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
 	    		<input type="text" id = "searchKeyword" name ="searchKeyword" value="01071278534"/> 전화번호 </BR>
@@ -98,28 +106,54 @@
 	    	</p>
 	        
 			<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
-	    		<input type="text" id="searchStartDt" name="searchStartDt" value="20221101" />&nbsp;~&nbsp;
-	    		<input type="text" id="searchEndDt" name="searchEndDt" value="20221104" /> 검색 종료 일자    </BR>
+	    		<input type="date" id="searchStartDt" name="searchStartDt" value="2022-11-01" />&nbsp;~&nbsp;
+	    		<input type="date" id="searchEndDt" name="searchEndDt" value="2022-11-04" /> 검색 종료 일자    </BR>
 	    	</p>
 	    	<p style="text-align: left; line-height: 30px;">
 	    		<input type="button" value="전송" onclick="javascript:fn_egov_link_traceTest();" style="height: 30px; width: 50px; padding-left: 10px; padding-right: 10px;"/>
 	    	</p>
 	    </form:form>
+	    <br><br>
+	    <hr>
 	    
-	     <form:form  id="testForm" name="testForm" method="get">
+	     <p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 16px;">
+	    	2. 운송장 상세 정보 [운송 정보 + 화물 추적 정보] 
+	    </p>
+	    
+	    <form:form modelAttribute="fSearchEntity" id="articleForm" name="articleForm" method="post">
+	    	<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
+	    		<input type="text" id = "searchKeyword" name ="searchKeyword" value="2701201172200"/> 운송장 번호 </BR>
+	    	</p>
+	    	
+	    	<!-- <p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
+	    		<input type="text" id="searchCondition" name="searchCondition" value="1" /> 받는사람 0, 보내는 사람 1    </BR>
+	    	</p> -->
+	        
+			<!-- <p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
+	    		<input type="date" id="searchStartDt" name="searchStartDt" value="2022-11-01" />&nbsp;~&nbsp;
+	    		<input type="date" id="searchEndDt" name="searchEndDt" value="2022-11-04" /> 검색 종료 일자    </BR>
+	    	</p> -->
+	    	<p style="text-align: left; line-height: 30px;">
+	    		<input type="button" value="전송" onclick="javascript:fn_egov_link_traceTest1();" style="height: 30px; width: 50px; padding-left: 10px; padding-right: 10px;"/>
+	    	</p>
+	    </form:form>
+	    
+	     <%-- <form:form  id="testForm" name="testForm" method="get">
 	     	<p style="text-align: left; line-height: 30px; margin-bottom: 20px; margin-top: 40px;">
 	    		<input type="text" id="" name="" value="20221101" />
 	    	</p>
 	    	<p style="text-align: left; line-height: 30px;">
 	    		<input type="button" value="전송" onclick="javascript:fn_egov_link_character();" style="height: 30px; width: 50px; padding-left: 10px; padding-right: 10px;"/>
 	    	</p>
-	    </form:form>
+	    </form:form> --%>
 	    
     </div>
     
     <!-- ibatis -->
-    
-    <div style="margin-top: 50px; margin-left: 50px;">
+    <%-- <div style="margin-top: 50px; margin-left: 50px;">
+    	<p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 20px;">
+	    	ibatis
+	    </p>
 	    <form:form modelAttribute="fSearchEntity" id="test1Form" name="test1Form" method="post">
 	    	<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
 	    		<input type="text" id = "searchKeyword" name ="searchKeyword" value="01071278534"/> 전화번호 </BR>
@@ -130,13 +164,13 @@
 	    	</p>
 	        
 			<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
-	    		<input type="text" id="searchStartDt" name="searchStartDt" value="20221101" />&nbsp;~&nbsp;
-	    		<input type="text" id="searchEndDt" name="searchEndDt" value="20221104" /> 검색 종료 일자    </BR>
+	    		<input type="date" id="searchStartDt" name="searchStartDt" value="2022-11-01" />&nbsp;~&nbsp;
+	    		<input type="date" id="searchEndDt" name="searchEndDt" value="2022-11-23" /> 검색 종료 일자    </BR>
 	    	</p>
 	    	<p style="text-align: left; line-height: 30px;">
 	    		<input type="button" value="전송" onclick="javascript:fn_egov_link_traceTest1();" style="height: 30px; width: 50px; padding-left: 10px; padding-right: 10px;"/>
 	    	</p>
-	    </form:form>
+	    </form:form>     
 	    
 	     <form:form  id="testForm" name="testForm" method="get">
 	     	<p style="text-align: left; line-height: 30px; margin-bottom: 20px; margin-top: 40px;">
@@ -147,7 +181,7 @@
 	    	</p>
 	    </form:form>
 	    
-    </div>
+    </div> --%>
     
 </body>
 </html>

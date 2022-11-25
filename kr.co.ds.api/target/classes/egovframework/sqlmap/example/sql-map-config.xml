@@ -14,6 +14,6 @@
 	<typeHandler callback="ORACLEUS7ASCII" javaType="java.lang.String" />
 	
 	<sqlMap resource="egovframework/sqlmap/example/sample/EgovSample_Sample_SQL.xml"/>
-	<sqlMap resource="egovframework/sqlmap/example/sample/EgovTrace_SQL.xml"/>
+	<!-- <sqlMap resource="egovframework/sqlmap/example/sample/EgovTrace_SQL.xml"/> -->
 	
 </sqlMapConfig>

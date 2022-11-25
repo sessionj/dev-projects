@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.api.service.impl.TraceiMapper">
+	
+	<!-- 운송목록 -->
+	<select id="findUnsongList" parameterType="fSearchEntity" resultType="unsongEntity" >
+
+		SELECT    billNo
+				, input_date
+				, input_time
+				, chasu
+				, magam_gb
+				, transCode
+				, terminal_sunbun
+				, delivery_yn
+				, sendingAgencycode
+				, arrivalAgencycode
+				, lineSerialno
+				, sendingManTel
+				, sendingMan 
+				, arrivalManTel
+				, arrivalMan
+				, zipCode
+				, adress
+				, preFare
+				, fare
+				, deliveryFare
+				, ogideliveryFare
+				, wayfare
+				, enterCharge
+				, workCharge
+				, distance
+				, payway
+				, goods
+				, pojang
+				, qty
+				, weight
+				, memo
+				, ganChasu
+				, hachaChasu
+				, billState
+				, changgo
+				, nearGubun
+				, update_date
+				, creator
+				, updator
+				, dmlGubun
+				, billGubun
+				, deliveryCourse
+				, barcode_yn
+				, creatDate
+				, barcodeNo
+				, createAgency
+			  FROM unsong
+			 WHERE input_date between replace(#{searchStartDt}, '-','') and replace(#{searchEndDt}, '-','')
+			 <if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND ARRIVALMANTEL = #{searchKeyword}
+					</when>
+		            <when test="searchCondition == 1">
+						AND SENDINGMANTEL = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<!-- 운송장 낱개 상세 정보(운송정보) -->
+	<select id="findUnsongArticle" parameterType="fSearchEntity" resultType="unsongEntity" >
+
+		SELECT    billNo
+				, input_date
+				, input_time
+				, chasu
+				, magam_gb
+				, transCode
+				, terminal_sunbun
+				, delivery_yn
+				, sendingAgencycode
+				, arrivalAgencycode
+				, lineSerialno
+				, sendingManTel
+				, sendingMan 
+				, arrivalManTel
+				, arrivalMan
+				, zipCode
+				, adress
+				, preFare
+				, fare
+				, deliveryFare
+				, ogideliveryFare
+				, wayfare
+				, enterCharge
+				, workCharge
+				, distance
+				, payway
+				, goods
+				, pojang
+				, qty
+				, weight
+				, memo
+				, ganChasu
+				, hachaChasu
+				, billState
+				, changgo
+				, nearGubun
+				, update_date
+				, creator
+				, updator
+				, dmlGubun
+				, billGubun
+				, deliveryCourse
+				, barcode_yn
+				, creatDate
+				, barcodeNo
+				, createAgency
+			  FROM unsong
+			 WHERE input_date between replace(to_char(add_months(sysdate,-3),'yyyy-mm-dd'),'-','') and replace(to_char(sysdate,'yyyy-mm-dd'),'-','')
+			 <if test="searchKeyword != null and searchKeyword != ''">
+		        AND billno = #{searchKeyword}
+			</if>
+	</select>
+	
+	<!-- 운송장 낱개 상세 정보(화물추적 정보) -->
+	<select id="findTraceArticle" parameterType="fSearchEntity" resultType="traceEntity" >
+			
+		SELECT  aa.billno,
+            	lib.f_agency (aa.sendingagencycode) AS sendagencyname,
+            	aa.sendingman AS sendingman,
+               	aa.arrivalman AS arrivalman,
+               	TO_CHAR(TO_DATE (bb.start1, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS sendingday,
+               	TO_CHAR(TO_DATE (bb.start1, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS relaystart1,
+               	TO_CHAR(TO_DATE (bb.start2, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS relaystart2,
+               	TO_CHAR(TO_DATE (bb.start3, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS relaystart3,
+               	TO_CHAR(TO_DATE (bb.start4, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS relaystart4,
+               	TO_CHAR(TO_DATE (bb.end1, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS relayend1,
+               	TO_CHAR(TO_DATE (bb.end2, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS relayend2,
+               	TO_CHAR(TO_DATE (bb.end3, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS relayend3,
+               	TO_CHAR(TO_DATE (bb.end4, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS relayend4,
+               	lib.f_agency (bb.agency2) AS land1name,
+               	lib.f_agency (bb.agency3) AS land2name,
+               	lib.f_agency (bb.agency4) AS land3name,
+               	lib.f_agency (aa.arrivalagencycode) AS arrivalname,
+               	aa.sendingmantel AS sendingmantel,
+               	lib.f_agencytel (aa.sendingagencycode) AS sendtel,
+               	lib.f_agencytel (bb.agency2) AS land1tel,
+               	lib.f_agencytel (bb.agency3) AS land2tel,
+               	lib.f_agencytel (bb.agency4) AS land3tel,
+               	lib.f_agencytel (aa.arrivalagencycode) AS arrivaltel,
+               	aa.arrivalmantel AS arrivalmantel,
+               	lib.f_code ('12', DECODE ('2', cc.status, '44', billstate)) AS statename,
+               	DECODE ('2', cc.status, '44', billstate) AS billstate,
+               	bb.cnt AS cnt,
+               	0 AS tbanprintyn,
+               	decode(chulgo_date, '', TO_CHAR (TO_DATE (bb.end3, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI'), TO_CHAR (TO_DATE (cc.chulgo_date || cc.chulgo_time, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') ) AS chulgoday,
+               	aa.transcode AS transcode,
+               	st1 AS st1,
+               	st2 AS st2,
+               	st3 AS st3,
+               	st4 AS st4,
+               	st5 AS st5,
+               	TO_CHAR (TO_DATE (aa.input_date || aa.input_time, 'YYYYMMDDHH24MI'), 'YYYY-MM-DD HH24:MI') AS jubsuday,
+               	cc.insuja,
+               	aa.goods,
+               	aa.pojang,
+               	aa.qty, 
+               	(select agencyname from code.agencycode where agencycode = bb.agency1) as agency1,
+		        (select agencyname from code.agencycode where agencycode = bb.agency2) as agency2,
+		        (select agencyname from code.agencycode where agencycode = bb.agency3) as agency3,
+		        (select agencyname from code.agencycode where agencycode = bb.agency4) as agency4,
+		        (select agencyname from code.agencycode where agencycode = bb.agency5) as agency5
+        	FROM unsong aa,
+            	(SELECT 
+            	    MAX(progressno) AS cnt,
+            	    MAX(DECODE (progressno, 1, agencycode)) AS agency1,
+                   	MAX(DECODE (progressno, 2, agencycode)) AS agency2,
+                    MAX(DECODE (progressno, 3, agencycode)) AS agency3,
+                    MAX(DECODE (progressno, 4, agencycode)) AS agency4,
+                    MAX(DECODE (progressno, 5, agencycode)) AS agency5,
+                    MAX(DECODE (progressno, 1, aftlinecode)) AS line1,
+                    MAX(DECODE (progressno, 2, aftlinecode)) AS line2,
+                    MAX(DECODE (progressno, 3, aftlinecode)) AS line3,
+                    MAX(DECODE (progressno, 4, aftlinecode)) AS line4,
+                    MAX(DECODE (progressno, 1, senddate || sendtime)) AS start1,
+                    MAX(DECODE (progressno, 2, senddate || sendtime)) AS start2,
+                    MAX(DECODE (progressno, 3, senddate || sendtime)) AS start3,
+                    MAX(DECODE (progressno, 4, senddate || sendtime)) AS start4,
+                    MAX(DECODE (progressno, 2, arrivedate || arrivetime)) AS end1,
+                    MAX(DECODE (progressno, 3, arrivedate || arrivetime)) AS end2,
+                    MAX(DECODE (progressno, 4, arrivedate || arrivetime)) AS end3,
+                    MAX(DECODE (progressno, 5, arrivedate || arrivetime)) AS end4,
+                    MAX(DECODE (progressno, 1, NVL (balsong_magamgubun, '-') || NVL (dochak_magamgubun, '-') )) AS st1,
+                    MAX(DECODE (progressno, 2, NVL (balsong_magamgubun, '-') || NVL (dochak_magamgubun, '-') )) AS st2,
+                    MAX(DECODE (progressno, 3, NVL (balsong_magamgubun, '-') || NVL (dochak_magamgubun, '-') )) AS st3,
+                    MAX(DECODE (progressno, 4, NVL (balsong_magamgubun, '-') || NVL (dochak_magamgubun, '-') )) AS st4,
+                    MAX(DECODE (progressno, 5, NVL (balsong_magamgubun, '-') || NVL (dochak_magamgubun, '-') )) AS st5
+              	FROM unsongtransway
+              	 <if test="searchKeyword != null and searchKeyword != ''">
+			        WHERE billno = #{searchKeyword}
+				</if>
+              	ORDER BY progressno) bb,
+                      unsongchulgo cc
+				<if test="searchKeyword != null and searchKeyword != ''">
+			      WHERE aa.billno = #{searchKeyword}
+				</if>
+            	AND cc.billno(+) = aa.billno
+              	AND aa.dmlgubun not in('D')
+	</select>
+	
+</mapper>
