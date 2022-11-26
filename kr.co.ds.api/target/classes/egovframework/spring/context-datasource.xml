@@ -35,11 +35,11 @@
         <property name="password" value="daesin"/>
     </bean>
     
-    <bean id="dataSource_ds_total" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+    <!-- <bean id="dataSource_ds_total" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
         <property name="url" value="jdbc:oracle:thin:@211.51.241.165:1521:idaesin" />
         <property name="username" value="total"/>
         <property name="password" value="total"/>
-    </bean>
+    </bean> -->
     
 </beans>
