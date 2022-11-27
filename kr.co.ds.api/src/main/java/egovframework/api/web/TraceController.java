@@ -66,10 +66,7 @@ public class TraceController {
 	 * 옵션 searchKeyword : 전화번호
 	 * mybatis(mapper)
 	 */
-	@RequestMapping(value = "/findUnsongList.json", 
-				   method = RequestMethod.POST, 
-				   headers = {"Content-type=application/json" }
-	/* , produces = "application/text;charset=utf-8" */)
+	@RequestMapping(value = "/findUnsongList.json", method = RequestMethod.POST,headers = {"Content-type=application/json" }/*,produces = "application/text;charset=utf-8" */ )
 	public @ResponseBody List<UnsongEntity> findUnsongList(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
 		return traceService.findUnsongList(frontApiDefaultEntity);
 	}
@@ -83,10 +80,7 @@ public class TraceController {
 	 * 옵션 searchOption : 받는분 0 , 보내는분 1 
 	 * 옵션 searchKeyword : 전화번호
 	 */
-	@RequestMapping(value = "/findUnsongArticle.json", 
-			   method = RequestMethod.POST, 
-			   headers = {"Content-type=application/json" }
-	/* , produces = "application/text;charset=utf-8" */)
+	@RequestMapping(value = "/findUnsongArticle.json", method = RequestMethod.POST, headers = {"Content-type=application/json" }/*, produces = "application/text;charset=utf-8" */)
 	public @ResponseBody Map<String, Object> findUnsongArticle(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity entity, ModelMap model) throws Exception {
 		/*
 		 * Map<String, Object> returnMap = new HashMap<String, Object>();
