@@ -8,7 +8,16 @@ import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.TraceEntity;
 import egovframework.api.entity.UnsongEntity;
 
+/**
+ * 
+ * @FileName  : TraceiMapper.java
+ * @Project   : kr.co.ds.api
+ * @Date      : 2022. 11. 28.
+ * @작성자     : shadow
 
+ * @변경이력 		: 2022.11.28
+ * @프로그램 설명 : myBatis Mapper
+ */
 @Mapper("traceMapper")
 public interface TraceiMapper {
 
