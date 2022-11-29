@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.api.service.impl.CodeManagementMapper">
+	
+	<select id="findMastCodeList" parameterType="fSearchEntity" resultType="masterCodeEntity" >
+		SELECT code_type
+		      ,code_code
+		      ,code_fname
+		      ,code_used
+		      ,code_date
+		      ,code_uid
+		      ,code_gbn
+		  FROM code.codemast
+	</select>
+	
+	<!-- 영업소코드 목록 -->
+	<select id="findAgencyCodeList" parameterType="fSearchEntity" resultType="agencyCodeEntity" >
+		SELECT agencycode, agencyname, agencytel1, agencytel2, agencytel3,
+		       agencyzipcode1, agencyzipcode2, agencyaddress, LOCATION,
+		       agencygubun, deliveryagencycode, comyumu, sending_grade,
+		       arrival_grade, gibu_grade, com_grade, sendinglink_grade,
+		       arrivallink_grade, relay_grade, chulgounitcost,
+		       chulgounitcostrate, link_grade, area, openday, closeday,
+		       closegubun, arrivalgubun, balgroup, inputdate, seoulcode,
+		       gibangcode, terminalcode
+		  FROM code.agencycode
+	</select>
+	
+</mapper>
