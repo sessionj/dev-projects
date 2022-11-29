@@ -39,25 +39,25 @@ public class BoardController {
 	protected DefaultBeanValidator beanValidator;
 	
 	/** 게시판 목록 */
-	@RequestMapping(value = "/board/getBoard-1/list.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
+	@RequestMapping(value = "/board/list.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
 	public @ResponseBody List<UnsongEntity> getBoardList(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
 		return null;
 	}
 	
 	/** 게시판 뷰 */
-	@RequestMapping(value = "/board/getBoard-1/view.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
+	@RequestMapping(value = "/board/view.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
 	public @ResponseBody List<UnsongEntity> getBoardView(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
 		return null;
 	}
 	
 	/** 게시판 - 게시물 등록 */
-	@RequestMapping(value = "/board/getBoard-1/create.json", method = RequestMethod.POST, headers = {"Content-type=application/json" })
+	@RequestMapping(value = "/board/create.json", method = RequestMethod.POST, headers = {"Content-type=application/json" })
 	public @ResponseBody List<UnsongEntity> isBoardCreate(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
 		return null;
 	}
 	
 	/** 게시판 - 게시물 삭제 */
-	@RequestMapping(value = "/board/getBoard-1/delete.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
+	@RequestMapping(value = "/board/delete.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
 	public @ResponseBody List<UnsongEntity> setBoardDelete(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
 		return null;
 	}

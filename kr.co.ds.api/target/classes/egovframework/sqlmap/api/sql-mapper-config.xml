@@ -15,8 +15,11 @@
 		<!-- api 반환 entity -->
 		<typeAlias alias="boardEntity" type="egovframework.api.entity.BulletinBoard"/>	<!-- 게시판[공지사항] -->
 		<typeAlias alias="scanEntity" type="egovframework.api.entity.ScanEntity"/>		<!-- 스캔 -->
-		<typeAlias alias="traceEntity" type="egovframework.api.entity.TraceEntity"/>		<!-- 화물추적 -->
+		<typeAlias alias="traceEntity" type="egovframework.api.entity.TraceEntity"/>	<!-- 화물추적 -->
 		<typeAlias alias="unsongEntity" type="egovframework.api.entity.UnsongEntity"/>	<!-- 운송장 -->
+		
+		<typeAlias alias="masterCodeEntity" type="egovframework.api.entity.MasterCodeEntity"/>	<!-- 마스터코드 -->
+		<typeAlias alias="agencyCodeEntity" type="egovframework.api.entity.AgencyCodeEntity"/>	<!-- 영업소코드 -->
 		
     </typeAliases>
     

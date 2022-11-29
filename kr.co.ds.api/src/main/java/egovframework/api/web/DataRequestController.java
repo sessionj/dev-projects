@@ -36,10 +36,16 @@ public class DataRequestController {
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
 	
+	/** EgovApiService */
+	//@Resource(name = "traceService")
+	//private TraceService traceService;
+	
 	/** 각종 질의문 처리 */
 	/** ex) 특정 일자에 해당하는 노선의 물량 내역 */
 	/** ex) 특정 일자에 해당하는 특정 영업소 발송, 도착 물량 */
 	/** ex) 화물 운송 실적 자료 */
+	/** ex) 쇼핑몰 도착 안내표 */
+	/** ex) 영업소 기초자료 */
 	/** ex) 기타 등등..  searchCondition 체크*/
 	@RequestMapping(value = "/request/data/list.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
 	public @ResponseBody List<UnsongEntity> getBoardList(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
