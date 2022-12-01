@@ -73,6 +73,11 @@
         }
         
         
+        function fn_egov_link_codeTest(){
+        	document.codeForm.action = "<c:url value='/code/list.json'/>";
+           	document.codeForm.submit();
+        }
+        
         
         function fn_egov_link_character(){
         	document.testForm.action = "<c:url value='/testjson.json'/>";
@@ -85,12 +90,12 @@
     </script>
 </head>
 
-<body style="text-align:center; margin:0 auto;/*  display:inline; */ padding-top:100px;">
+<body style="text-align:center; margin:0 auto;/*  display:inline; */ padding-top:30px;">
 
 	<!-- mybatis -->
 	<div style="margin-top: 50px; margin-left: 50px;">
 		<p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 20px; color: red;">
-	    	mybatis - 
+	    	운송정보 - 
 	    </p>
 	    <hr>
 	    <p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 16px;">
@@ -124,31 +129,49 @@
 	    	<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
 	    		<input type="text" id = "searchKeyword" name ="searchKeyword" value="2701201172200"/> 운송장 번호 </BR>
 	    	</p>
-	    	
-	    	<!-- <p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
-	    		<input type="text" id="searchCondition" name="searchCondition" value="1" /> 받는사람 0, 보내는 사람 1    </BR>
-	    	</p> -->
-	        
-			<!-- <p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
-	    		<input type="date" id="searchStartDt" name="searchStartDt" value="2022-11-01" />&nbsp;~&nbsp;
-	    		<input type="date" id="searchEndDt" name="searchEndDt" value="2022-11-04" /> 검색 종료 일자    </BR>
-	    	</p> -->
 	    	<p style="text-align: left; line-height: 30px;">
 	    		<input type="button" value="전송" onclick="javascript:fn_egov_link_traceTest1();" style="height: 30px; width: 50px; padding-left: 10px; padding-right: 10px;"/>
 	    	</p>
 	    </form:form>
 	    
-	     <%-- <form:form  id="testForm" name="testForm" method="get">
-	     	<p style="text-align: left; line-height: 30px; margin-bottom: 20px; margin-top: 40px;">
-	    		<input type="text" id="" name="" value="20221101" />
-	    	</p>
-	    	<p style="text-align: left; line-height: 30px;">
-	    		<input type="button" value="전송" onclick="javascript:fn_egov_link_character();" style="height: 30px; width: 50px; padding-left: 10px; padding-right: 10px;"/>
-	    	</p>
-	    </form:form> --%>
-	    
     </div>
     
+    <div style="margin-top: 50px; margin-left: 50px;">
+		<p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 20px; color: red;">
+	    	코드 DATA - 
+	    </p>
+	    <hr>
+	    <p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 16px;">
+	    	1. 코드[master, agency, car] 
+	    </p>
+	    <form:form modelAttribute="fSearchEntity" id="codeForm" name="codeForm" method="post">
+	    	<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
+	    		<input type="text" id = "searchKeyword" name ="searchKeyword" value=""/> 검색어 </BR>
+	    	</p>
+	    	
+	    	<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
+	    		<select id="searchCondition" name="searchCondition">
+	    			<option></option>
+	    			<option value="01">mast Code</option>
+	    			<option value="02">agency Code</option>
+	    			<option value="03">car Code</option>
+	    		</select>
+	    		</BR>
+	    	</p>
+	    	
+	    	<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
+	    		<input type="text" id="searchCondition2" name="searchCondition2" value="1" /> 코드 0, 코드명 1    </BR>
+	    	</p>
+			
+	    	<p style="text-align: left; line-height: 30px;">
+	    		<input type="button" value="전송" onclick="javascript:fn_egov_link_codeTest();" style="height: 30px; width: 50px; padding-left: 10px; padding-right: 10px;"/>
+	    	</p>
+	    </form:form>
+	    <br><br>
+	    <hr>
+	    
+    </div>
+      
     <!-- ibatis -->
     <%-- <div style="margin-top: 50px; margin-left: 50px;">
     	<p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 20px;">

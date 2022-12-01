@@ -20,6 +20,9 @@ public class FrontApiDefaultEntity implements Serializable{
 	/** 검색조건 */
 	private String searchCondition = "";
 
+	/** 검색조건2 */
+	private String searchCondition2 = "";
+	
 	/** 검색Keyword */
 	private String searchKeyword = "";
 
@@ -133,6 +136,14 @@ public class FrontApiDefaultEntity implements Serializable{
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public String getSearchCondition2() {
+		return searchCondition2;
+	}
+
+	public void setSearchCondition2(String searchCondition2) {
+		this.searchCondition2 = searchCondition2;
 	}
 
 	@Override

@@ -24,6 +24,91 @@
 		       closegubun, arrivalgubun, balgroup, inputdate, seoulcode,
 		       gibangcode, terminalcode
 		  FROM code.agencycode
+		  
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition2 == 0">
+						WHERE agencycode = #{searchKeyword}
+					</when>
+		            <when test="searchCondition2 == 1">
+						WHERE agencyname = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+		  
+	</select>
+	
+	<select id="findCarCodeList" parameterType="fSearchEntity" resultType="carCodeEntity" >
+		SELECT carno, agencycode, cargubun, carnumber, fixcheckingday, weight,
+		       startpoint, endpoint, cargroup, orderno, driver, drivertel, ADMIN,
+		       admintel, inputdate, chuk, jaejosa, jukjaeham, wesutak, gubun,
+		       linecode
+		  FROM extra.carlineinfo
+		  <if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition2 == 0">
+						WHERE carno = #{searchKeyword}
+					</when>
+		            <when test="searchCondition2 == 1">
+						WHERE agencycode = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<!-- 코드 상세정보 [master] -->
+	<select id="findMastCodeArticle" parameterType="fSearchEntity" resultType="masterCodeEntity" >
+		SELECT carno, agencycode, cargubun, carnumber, fixcheckingday, weight,
+		       startpoint, endpoint, cargroup, orderno, driver, drivertel, ADMIN,
+		       admintel, inputdate, chuk, jaejosa, jukjaeham, wesutak, gubun,
+		       linecode
+		  FROM extra.carlineinfo
+		  <if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition2 == 0">
+						WHERE carno = #{searchKeyword}
+					</when>
+		            <when test="searchCondition2 == 1">
+						WHERE agencycode = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+	</select>
+	<!-- 코드 상세정보 [agency] -->
+	<select id="findAgencyCodeArticle" parameterType="fSearchEntity" resultType="agencyCodeEntity" >
+		SELECT carno, agencycode, cargubun, carnumber, fixcheckingday, weight,
+		       startpoint, endpoint, cargroup, orderno, driver, drivertel, ADMIN,
+		       admintel, inputdate, chuk, jaejosa, jukjaeham, wesutak, gubun,
+		       linecode
+		  FROM extra.carlineinfo
+		  <if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition2 == 0">
+						WHERE carno = #{searchKeyword}
+					</when>
+		            <when test="searchCondition2 == 1">
+						WHERE agencycode = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+	</select>
+	<!-- 코드 상세정보 [car] -->
+	<select id="findCarCodeArticle" parameterType="fSearchEntity" resultType="carCodeEntity" >
+		SELECT carno, agencycode, cargubun, carnumber, fixcheckingday, weight,
+		       startpoint, endpoint, cargroup, orderno, driver, drivertel, ADMIN,
+		       admintel, inputdate, chuk, jaejosa, jukjaeham, wesutak, gubun,
+		       linecode
+		  FROM extra.carlineinfo
+		  <if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition2 == 0">
+						WHERE carno = #{searchKeyword}
+					</when>
+		            <when test="searchCondition2 == 1">
+						WHERE agencycode = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
 	</select>
 	
 </mapper>

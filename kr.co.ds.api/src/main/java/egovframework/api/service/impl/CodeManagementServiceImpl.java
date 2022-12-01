@@ -14,6 +14,7 @@ import egovframework.api.entity.AgencyCodeEntity;
 import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.MasterCodeEntity;
 import egovframework.api.service.CodeManagementService;
+import egovframework.common.util.StringCommonLibray;
 
 
 @Service("codeManagementService")
@@ -30,15 +31,46 @@ public class CodeManagementServiceImpl extends EgovAbstractServiceImpl implement
 	private EgovIdGnrService egovIdGnrService;
 	
 	@Override
-	public List<MasterCodeEntity> findMastCodeList(FrontApiDefaultEntity entity) throws Exception {
-		// TODO Auto-generated method stub
-		return codeManagementMapper.findMastCodeList(entity);
+	public List<MasterCodeEntity> findCodeList(FrontApiDefaultEntity entity) throws Exception {
+		
+		/** spread treatment */
+		
+		if (entity.getSearchCondition() != null && entity.getSearchCondition().trim().length() > 0) {
+
+			if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE1.getCode()) == 0) {
+				return codeManagementMapper.findMastCodeList(entity);
+			} else if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE2.getCode()) == 0) {
+				return codeManagementMapper.findAgencyCodeList(entity);
+			} else if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE3.getCode()) == 0) {
+				return codeManagementMapper.findCarCodeList(entity);
+			}
+		}
+		return null;
 	}
+	
+	@Override
+	public MasterCodeEntity findCodeArticle(FrontApiDefaultEntity entity) throws Exception {
+		// TODO Auto-generated method stub
+		
+		if (entity.getSearchCondition() != null && entity.getSearchCondition().trim().length() > 0) {
+
+			if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE1.getCode()) == 0) {
+				return codeManagementMapper.findMastCodeArticle(entity);
+			} else if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE2.getCode()) == 0) {
+				return codeManagementMapper.findAgencyCodeArticle(entity);
+			} else if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE3.getCode()) == 0) {
+				return codeManagementMapper.findCarCodeArticle(entity);
+			}
+		}
+		return null;
+	}
+
 
 	@Override
 	public List<AgencyCodeEntity> findAgencyCodeList(FrontApiDefaultEntity entity) throws Exception {
 		// TODO Auto-generated method stub
-		return codeManagementMapper.findAgencyCodeList(entity);
+		//return codeManagementMapper.findAgencyCodeList(entity);
+		return null;
 	}
 
 	@Override

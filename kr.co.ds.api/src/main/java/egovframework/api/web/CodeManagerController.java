@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
-import egovframework.api.entity.AgencyCodeEntity;
 import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.MasterCodeEntity;
 import egovframework.api.entity.UnsongEntity;
@@ -43,28 +42,15 @@ public class CodeManagerController {
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
 	
-	/** 코드관리 목록 [mast] */
-	@RequestMapping(value = "/code/master/list.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
+	/** 코드관리 목록 - [mast, agency, car] */
+	@RequestMapping(value = "/code/list.json", method = RequestMethod.POST, headers = {"Content-type=application/json" })
 	public @ResponseBody List<MasterCodeEntity> getMasterCodeList(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
-		return codeManagementService.findMastCodeList(frontApiDefaultEntity);
+		return codeManagementService.findCodeList(frontApiDefaultEntity);
 	}
-	
-	/** 코드관리 목록 [agency]*/
-	@RequestMapping(value = "/code/agency/list.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
-	public @ResponseBody List<AgencyCodeEntity> getAgencyCodeList(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
-		return codeManagementService.findAgencyCodeList(frontApiDefaultEntity);
-	}
-	
-	/** 코드관리 목록 [car]*/
-	@RequestMapping(value = "/code/car/list.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
-	public @ResponseBody List<AgencyCodeEntity> getCarCodeList(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
-		return codeManagementService.findAgencyCodeList(frontApiDefaultEntity);
-	}
-	
-	/** 코드관리 뷰 */
+	/** 코드관리 뷰 - [mast, agency, car] */
 	@RequestMapping(value = "/code/view.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
-	public @ResponseBody List<UnsongEntity> getBoardView(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
-		return null;
+	public @ResponseBody MasterCodeEntity getBoardView(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
+		return codeManagementService.findCodeArticle(frontApiDefaultEntity);
 	}
 	
 	/** 코드관리 - 등록 */

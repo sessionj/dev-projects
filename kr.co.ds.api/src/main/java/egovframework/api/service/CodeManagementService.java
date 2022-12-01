@@ -20,10 +20,18 @@ public interface CodeManagementService {
 	
 	/**
 	 * @param FrontApiDefaultEntity
-	 * @return 코드 목록 [마스터코드]
+	 * @return 코드 목록 [Master, Agency, Car]
 	 * @exception Exception
 	 */
-	List<MasterCodeEntity> findMastCodeList(FrontApiDefaultEntity entity) throws Exception;
+	List<MasterCodeEntity> findCodeList(FrontApiDefaultEntity entity) throws Exception;
+	
+	/**
+	 * @param FrontApiDefaultEntity
+	 * @return 코드 상세정보[Master, Agency, Car]
+	 * @exception Exception
+	 */
+	MasterCodeEntity findCodeArticle(FrontApiDefaultEntity entity) throws Exception;
+	
 	/**
 	 * @param FrontApiDefaultEntity
 	 * @return 코드 목록[영업소코드]

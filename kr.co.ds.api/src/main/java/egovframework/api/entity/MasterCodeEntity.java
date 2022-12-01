@@ -25,6 +25,8 @@ public class MasterCodeEntity implements Serializable{
 	private String code_uid = "";
 	private String code_gbn = "";
 	
+	AgencyCodeEntity agencyCodeEntity;
+	CarCodeEntity carCodeEntity;
 	
 	public String getCode_type() {
 		return code_type;
@@ -84,6 +86,22 @@ public class MasterCodeEntity implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	public AgencyCodeEntity getAgencyCodeEntity() {
+		return agencyCodeEntity;
+	}
+
+	public void setAgencyCodeEntity(AgencyCodeEntity agencyCodeEntity) {
+		this.agencyCodeEntity = agencyCodeEntity;
+	}
+
+	public CarCodeEntity getCarCodeEntity() {
+		return carCodeEntity;
+	}
+
+	public void setCarCodeEntity(CarCodeEntity carCodeEntity) {
+		this.carCodeEntity = carCodeEntity;
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
-import egovframework.api.entity.AgencyCodeEntity;
 import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.MasterCodeEntity;
 
@@ -21,15 +20,19 @@ import egovframework.api.entity.MasterCodeEntity;
 @Mapper("codeManagementMapper")
 public interface CodeManagementMapper {
 
-	/**
-	 * 운송 목록을 조회한다.
-	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 운송 목록
-	 * @exception Exception
-	 */
+	/** code List - master */
 	List<MasterCodeEntity> findMastCodeList(FrontApiDefaultEntity entity) throws Exception;
+	/** code List - agency */
+	List<MasterCodeEntity> findAgencyCodeList(FrontApiDefaultEntity entity) throws Exception;
+	/** code List - car */
+	List<MasterCodeEntity> findCarCodeList(FrontApiDefaultEntity entity) throws Exception;
+	/** code article - master */
+	MasterCodeEntity findMastCodeArticle(FrontApiDefaultEntity entity);
+	/** code article - agency */
+	MasterCodeEntity findAgencyCodeArticle(FrontApiDefaultEntity entity);
+	/** code article - car */
+	MasterCodeEntity findCarCodeArticle(FrontApiDefaultEntity entity);
 	
-	List<AgencyCodeEntity> findAgencyCodeList(FrontApiDefaultEntity entity) throws Exception;
 	/**
 	 * 글 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -37,6 +40,5 @@ public interface CodeManagementMapper {
 	 * @exception
 	 */
 	int selectTraceTotCnt(FrontApiDefaultEntity entity);
-	
 	
 }
