@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 /**
- * @FileName  : EgovApiDefaultEntity.java
+ * @FileName  : TraceEntity.java
  * @Project   : kr.co.ds.api
  * @Date      : 2022. 10. 27.
  * @작성자     : shadow

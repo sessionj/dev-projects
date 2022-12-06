@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 /**
- * @FileName  : EgovApiDefaultEntity.java
+ * @FileName  : UnsongEntity.java
  * @Project   : kr.co.ds.api
  * @Date      : 2022. 10. 27.
  * @작성자     : shadow

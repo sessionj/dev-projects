@@ -8,7 +8,7 @@ import egovframework.api.entity.MasterCodeEntity;
 
 
 /**
- * @FileName  : EgovApiService.java
+ * @FileName  : CodeManagementService.java
  * @Project   : kr.co.ds.api
  * @Date      : 2022. 10. 27.
  * @작성자     : shadow

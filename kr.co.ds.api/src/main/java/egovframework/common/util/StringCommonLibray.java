@@ -2,10 +2,10 @@ package egovframework.common.util;
 
 public enum StringCommonLibray {
 
-	CODE1("01", "마스터코드"),
-	CODE2("02", "영업소코드"),
-	CODE3("03", "차량코드"),
-	CODE4("04", "노선코드");
+	CODE1("01", "마스터코드"),	// mastcode
+	CODE2("02", "영업소코드"),	// agencyCode
+	CODE3("03", "차량코드"),		// carlineinfo
+	CODE4("04", "노선코드");		// globallinecode
 	
 	private String code;
 	private String msg;

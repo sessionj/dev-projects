@@ -9,7 +9,7 @@ import egovframework.api.entity.UnsongEntity;
 
 
 /**
- * @FileName  : EgovApiService.java
+ * @FileName  : TraceService.java
  * @Project   : kr.co.ds.api
  * @Date      : 2022. 10. 27.
  * @작성자     : shadow
