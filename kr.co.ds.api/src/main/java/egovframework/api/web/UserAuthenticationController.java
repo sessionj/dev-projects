@@ -17,9 +17,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.UnsongEntity;
-import egovframework.api.service.CodeManagementService;
 import egovframework.api.service.UserAuthenticationService;
-import egovframework.common.util.AuthenticationKeyGeneration;
 
 /**
  * 
@@ -64,13 +62,13 @@ public class UserAuthenticationController {
 	  * @return
 	  * @throws Exception
 	 */
-	@RequestMapping(value = "/login/access-key.json", method = RequestMethod.GET,headers = {"Content-type=application/json" }/*,produces = "application/text;charset=utf-8" */ )
+	@RequestMapping(value = "/login/access-key.json", method = RequestMethod.POST,headers = {"Content-type=application/json" }/*,produces = "application/text;charset=utf-8" */ )
 	public @ResponseBody Map<String, Object> generateLoginKey (@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
 		
-		// 검색 키워드 중 전화번호가 알맞는제 체크 후 제공, 맞지 않으면 error 내역 제공
 		Map<String, Object> map = null;
 		map = new HashMap<String, Object>();
 		map.put("access-key", authenticationKeyService.authenticationKeyGeneration(frontApiDefaultEntity));
+		
 		return map;
 	}
 	

@@ -15,4 +15,28 @@
 		
 	</insert>
 	
+	<insert id="sendingSmsProcess" parameterType="smsEntity">
+		insert into sms.SMSQ_SEND(
+		   seqno ,
+		   msg_type, 
+		   dest_no,
+		   call_back,
+		   msg_contents,
+		   sendreq_time,
+		   bill_id,
+		   agencycode,
+		   customernm
+		) values (
+		   sms.SEQ_SMSQ_SEND.NextVal,
+		   'S',
+		   #{dest_no},
+		   '07043135448',
+		   #{msg_contents}, 
+		   sysdate,
+		   '07043135448',
+		   '0000',
+		   'system'
+		)
+	</insert>
+	
 </mapper>

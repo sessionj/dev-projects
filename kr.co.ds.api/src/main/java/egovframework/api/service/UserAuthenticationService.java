@@ -14,13 +14,12 @@ import egovframework.api.entity.FrontApiDefaultEntity;
  */
 public interface UserAuthenticationService {
 	
-	/** 사용자 인증키 생성 - 저장 */
-	
-	/** 사용자 인증키 체크 - 1회만 체크 이후에는 LOCAL에서 체크 하도록 유도 */
-	
-	/** 사용자 */
-	
+	/** 인증키 생성 -
+	 *  요청된 전화번호로 문자 전송
+	 *  local에서 인증키 체크 - 로그인처리
+	 */
 	Integer authenticationKeyGeneration(FrontApiDefaultEntity entity) throws Exception;
+	
 	/**
 	 * 글 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO

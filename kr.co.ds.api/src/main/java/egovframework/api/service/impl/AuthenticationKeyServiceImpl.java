@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.api.entity.FrontApiDefaultEntity;
+import egovframework.api.entity.SmsEntity;
 import egovframework.api.service.UserAuthenticationService;
 import egovframework.common.util.AuthenticationKeyGeneration;
+import egovframework.common.util.StringCommonLibray;
 
 
 @Service("authenticationKeyService")
@@ -38,13 +40,18 @@ public class AuthenticationKeyServiceImpl extends EgovAbstractServiceImpl implem
 		// url 요청한 인증휴대폰에도 마찬가지로 인증번호 return
 		// 사용자는 인증번호를 입력후 인증 시도 ==> 던져준 번호와 맞는지 체크 맞으면
 		// 전화번호 DB 저장
-		
 		int key = AuthenticationKeyGeneration.generateAuthNo3();
 		entity.setSearchCondition(String.valueOf(key));
-		authenticationKeyMapper.insertKeyGeneration(entity);
+		
+		// 문자 발신
+		SmsEntity smsEntity = null;
+		smsEntity = new SmsEntity();
+		smsEntity.setMsg_contents(StringCommonLibray.CODE5.getMsg()+key);
+		smsEntity.setDest_no(entity.getSearchKeyword());
+		authenticationKeyMapper.sendingSmsProcess(smsEntity);
+		
 		return key;
 	}
-
 
 	@Override
 	public int selectTraceTocCnt(FrontApiDefaultEntity entity) {

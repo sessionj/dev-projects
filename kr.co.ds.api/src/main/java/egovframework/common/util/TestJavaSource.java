@@ -1,14 +1,18 @@
 package egovframework.common.util;
 
+import egovframework.api.entity.SmsEntity;
+import egovframework.common.util.sms.SmsWorkProcess;
+
 public class TestJavaSource {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
-		System.out.println(StringCommonLibray.CODE1.getMsg()  );
-		System.out.println(StringCommonLibray.CODE1.getCode()  );
-		
-		
-		System.out.println("02".compareTo(StringCommonLibray.CODE1.getCode()));
+		SmsEntity entity = null;
+		entity = new SmsEntity();
+		entity.setDest_no("01045627914");
+		entity.setCustomernm("홍길동");
+		SmsWorkProcess smsWorkProcess = new SmsWorkProcess();
+		smsWorkProcess.buildTemplate(entity);
 		
 	}
 }

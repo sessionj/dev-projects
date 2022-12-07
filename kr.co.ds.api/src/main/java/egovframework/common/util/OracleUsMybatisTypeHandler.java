@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @Date      : 2022. 11. 8.
  * @작성자     : shadow
 
- * @변경이력 		: 
+ * @변경이력 		: 현재 사용중.2022.12.07
  * @프로그램 설명 : Oracle US7ASCII 설정 [MyBatis Type]
  */
 @MappedJdbcTypes(JdbcType.VARCHAR)

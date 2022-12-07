@@ -47,7 +47,7 @@
 	    <p style="text-align: left; line-height: 30px; margin-bottom: 20px; font-weight: bold; font-size: 16px;">
 	    	1. 인증정보 [전화번호 필요] 를 입력하여 인증 정보를 가져온다.
 	    </p>
-	    <form:form modelAttribute="fSearchEntity" id="keyForm" name="keyForm" method="get">
+	    <form:form modelAttribute="fSearchEntity" id="keyForm" name="keyForm" method="post">
 	    	<p style="text-align: left; line-height: 30px; margin-bottom: 20px;">
 	    		<input type="text" id = "searchKeyword" name ="searchKeyword" value="01045627914"/> 전화번호 </BR>
 	    	</p>

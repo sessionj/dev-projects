@@ -22,6 +22,8 @@
 		<typeAlias alias="agencyCodeEntity" type="egovframework.api.entity.AgencyCodeEntity"/>	<!-- 영업소코드 -->
 		<typeAlias alias="carCodeEntity" type="egovframework.api.entity.CarCodeEntity"/>		<!-- 차량코드 -->
 		
+		<typeAlias alias="smsEntity" type="egovframework.api.entity.SmsEntity"/>		<!-- 문자발신 -->
+		
     </typeAliases>
     
     <!-- 한글 인코딩 설정 -->

@@ -3,6 +3,7 @@ package egovframework.api.service.impl;
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
 import egovframework.api.entity.FrontApiDefaultEntity;
+import egovframework.api.entity.SmsEntity;
 
 /**
  * 
@@ -17,8 +18,10 @@ import egovframework.api.entity.FrontApiDefaultEntity;
 @Mapper("authenticationKeyMapper")
 public interface AuthenticationKeyMapper {
 
+	/** 생성된 key, phone-number 저장 */
 	void insertKeyGeneration(FrontApiDefaultEntity entity) throws Exception;
-	
+	/** 문자 발송 */
+	void sendingSmsProcess(SmsEntity entity) throws Exception;
 	/**
 	 * 글 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
