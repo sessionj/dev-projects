@@ -62,13 +62,13 @@
         /** mybatis function - list */
         function fn_egov_link_traceTest(){
         	
-        	document.listForm.action = "<c:url value='/findUnsongList.json'/>";
+        	document.listForm.action = "<c:url value='/trace/findUnsongList.json'/>";
            	document.listForm.submit();
         }
         /* mybatis function - article */
 		function fn_egov_link_traceTest1(){
         	
-        	document.articleForm.action = "<c:url value='/findUnsongArticle.json'/>";
+        	document.articleForm.action = "<c:url value='/trace/findUnsongArticle.json'/>";
            	document.articleForm.submit();
         }
         

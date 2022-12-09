@@ -56,14 +56,14 @@ public class BoardController {
 		return null;
 	}
 	
-	/** 게시판 - 게시물 삭제 */
+	/** 게시판 - 게시물 삭제 - no */
 	@RequestMapping(value = "/board/delete.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
 	public @ResponseBody List<UnsongEntity> setBoardDelete(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
 		return null;
 	}
 	
-	/** 게시판 - 게시물 수정*/
-	@RequestMapping(value = "/board/getBoard-1/modify.json", method = RequestMethod.POST, headers = {"Content-type=application/json" })
+	/** 게시판 - 게시물 수정 - no */
+	@RequestMapping(value = "/board/modify.json", method = RequestMethod.POST, headers = {"Content-type=application/json" })
 	public @ResponseBody List<UnsongEntity> setBoardModify(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
 		return null;
 	}

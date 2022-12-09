@@ -16,7 +16,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.MasterCodeEntity;
 import egovframework.api.entity.UnsongEntity;
-import egovframework.api.service.CodeManagementService;
+import egovframework.api.service.CodeService;
 
 /**
  * 
@@ -29,11 +29,11 @@ import egovframework.api.service.CodeManagementService;
  * @프로그램 설명 : 대신 코드 관리 컨트롤러
  */
 @Controller 
-public class CodeManagerController {
+public class CodeController {
 
 	/** EgovApiService */
-	@Resource(name = "codeManagementService")
-	private CodeManagementService codeManagementService;
+	@Resource(name = "codeService")
+	private CodeService codeService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -45,12 +45,12 @@ public class CodeManagerController {
 	/** 코드관리 목록 - [mast, agency, car] */
 	@RequestMapping(value = "/code/list.json", method = RequestMethod.POST, headers = {"Content-type=application/json" })
 	public @ResponseBody List<MasterCodeEntity> getMasterCodeList(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
-		return codeManagementService.findCodeList(frontApiDefaultEntity);
+		return codeService.findCodeList(frontApiDefaultEntity);
 	}
 	/** 코드관리 뷰 - [mast, agency, car] */
 	@RequestMapping(value = "/code/view.json", method = RequestMethod.GET, headers = {"Content-type=application/json" })
 	public @ResponseBody MasterCodeEntity getBoardView(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
-		return codeManagementService.findCodeArticle(frontApiDefaultEntity);
+		return codeService.findCodeArticle(frontApiDefaultEntity);
 	}
 	
 	/** 코드관리 - 등록 */

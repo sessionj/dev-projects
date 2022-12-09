@@ -5,24 +5,23 @@
 <configuration>
 	
     <typeAliases>
-		<typeAlias alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
-		<typeAlias alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
-		<typeAlias alias="sampleVO" type="egovframework.example.sample.service.SampleVO"/>
+		<typeAlias alias="egovMap" 				type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+		<typeAlias alias="searchVO" 			type="egovframework.example.sample.service.SampleDefaultVO"/>
+		<typeAlias alias="sampleVO" 			type="egovframework.example.sample.service.SampleVO"/>
 		
 		<!-- api defaultSearch -->
-		<typeAlias alias="fSearchEntity" type="egovframework.api.entity.FrontApiDefaultEntity"/>
+		<typeAlias alias="fSearchEntity" 		type="egovframework.api.entity.FrontApiDefaultEntity"/>
 		
 		<!-- api 반환 entity -->
-		<typeAlias alias="boardEntity" type="egovframework.api.entity.BulletinBoard"/>	<!-- 게시판[공지사항] -->
-		<typeAlias alias="scanEntity" type="egovframework.api.entity.ScanEntity"/>		<!-- 스캔 -->
-		<typeAlias alias="traceEntity" type="egovframework.api.entity.TraceEntity"/>	<!-- 화물추적 -->
-		<typeAlias alias="unsongEntity" type="egovframework.api.entity.UnsongEntity"/>	<!-- 운송장 -->
-		
-		<typeAlias alias="masterCodeEntity" type="egovframework.api.entity.MasterCodeEntity"/>	<!-- 마스터코드 -->
-		<typeAlias alias="agencyCodeEntity" type="egovframework.api.entity.AgencyCodeEntity"/>	<!-- 영업소코드 -->
-		<typeAlias alias="carCodeEntity" type="egovframework.api.entity.CarCodeEntity"/>		<!-- 차량코드 -->
-		
-		<typeAlias alias="smsEntity" type="egovframework.api.entity.SmsEntity"/>		<!-- 문자발신 -->
+		<typeAlias alias="boardEntity" 			type="egovframework.api.entity.BulletinBoard"/>		<!-- 게시판[공지사항] -->
+		<typeAlias alias="scanEntity" 			type="egovframework.api.entity.ScanEntity"/>		<!-- 스캔 -->
+		<typeAlias alias="traceEntity" 			type="egovframework.api.entity.TraceEntity"/>		<!-- 화물추적 -->
+		<typeAlias alias="unsongEntity" 		type="egovframework.api.entity.UnsongEntity"/>		<!-- 운송장 -->
+		<typeAlias alias="masterCodeEntity" 	type="egovframework.api.entity.MasterCodeEntity"/>	<!-- 마스터코드 -->
+		<typeAlias alias="agencyCodeEntity" 	type="egovframework.api.entity.AgencyCodeEntity"/>	<!-- 영업소코드 -->
+		<typeAlias alias="carCodeEntity" 		type="egovframework.api.entity.CarCodeEntity"/>		<!-- 차량코드 -->
+		<typeAlias alias="smsEntity" 			type="egovframework.api.entity.SmsEntity"/>			<!-- 문자발신 -->
+		<typeAlias alias="requestDataEntity" 	type="egovframework.api.entity.RequestDataEntity"/>	<!-- 문자발신 -->
 		
     </typeAliases>
     

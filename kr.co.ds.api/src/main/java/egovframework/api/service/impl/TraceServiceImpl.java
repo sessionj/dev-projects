@@ -16,6 +16,7 @@ import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.TraceEntity;
 import egovframework.api.entity.UnsongEntity;
 import egovframework.api.service.TraceService;
+import egovframework.api.service.mapper.TraceiServiceMapper;
 
 
 @Service("traceService")
@@ -25,12 +26,13 @@ public class TraceServiceImpl extends EgovAbstractServiceImpl implements TraceSe
 	
 	/** apiDAO */
 	// TODO ibatis 사용
-	@Resource(name = "traceDao")
-	private TraceServiceDao traceDao;
+	/*
+	 * @Resource(name = "traceDao") private TraceServiceDao traceDao;
+	 */
 	
 	// TODO mybatis 사용
-	@Resource(name ="traceMapper")
-	private TraceiMapper traceMapper;
+	@Resource(name ="traceiServiceMapper")
+	private TraceiServiceMapper traceiServiceMapper;
 	
 	/** ID Generation */
 	@Resource(name = "egovIdGnrService")
@@ -45,8 +47,7 @@ public class TraceServiceImpl extends EgovAbstractServiceImpl implements TraceSe
 	@Override
 	public List<UnsongEntity> findUnsongList(FrontApiDefaultEntity entity) throws Exception {
 		logger.debug(null, this.getClass(), entity);
-		//return (List<TraceEntity>) traceDao.selectTraceList(entity);
-		return traceMapper.findUnsongList(entity);
+		return traceiServiceMapper.findUnsongList(entity);
 	}
 	
 	/**
@@ -60,8 +61,8 @@ public class TraceServiceImpl extends EgovAbstractServiceImpl implements TraceSe
 		// TODO Auto-generated method stub
 		Map<String, Object> map = null;
 		map = new HashMap<String, Object>();
-		map.put("unsong", traceMapper.findUnsongArticle(entity));
-		map.put("trace", traceMapper.findTraceArticle(entity));
+		map.put("unsong", traceiServiceMapper.findUnsongArticle(entity));
+		map.put("trace", traceiServiceMapper.findTraceArticle(entity));
 		return map;
 	}
 	
@@ -75,7 +76,7 @@ public class TraceServiceImpl extends EgovAbstractServiceImpl implements TraceSe
 	public UnsongEntity findUnsongArticle(FrontApiDefaultEntity entity) throws Exception {
 		// TODO Auto-generated method stub
 		logger.debug(null, this.getClass(), entity);
-		return traceMapper.findUnsongArticle(entity);
+		return traceiServiceMapper.findUnsongArticle(entity);
 	}
 	/**
 	 * 화물추적 1건 조회 | 상세 정보
@@ -86,7 +87,7 @@ public class TraceServiceImpl extends EgovAbstractServiceImpl implements TraceSe
 	@Override
 	public TraceEntity findTraceArticle(FrontApiDefaultEntity entity) throws Exception {
 		// TODO Auto-generated method stub
-		return traceMapper.findTraceArticle(entity);
+		return traceiServiceMapper.findTraceArticle(entity);
 	}
 	/**
 	 * 글 총 갯수를 조회한다.
@@ -103,7 +104,8 @@ public class TraceServiceImpl extends EgovAbstractServiceImpl implements TraceSe
 	@Override
 	public List<UnsongEntity> selectTraceList(FrontApiDefaultEntity entity) throws Exception {
 		
-		return (List<UnsongEntity>) traceDao.selectTraceList(entity);
+		//return (List<UnsongEntity>) traceDao.selectTraceList(entity);
+		return null;
 	}
 	
 }

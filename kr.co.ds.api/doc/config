@@ -1,1 +1,72 @@
 pom.xml -> 환경 (드라이브 설정 등)
+
+1. 업무 정의
+ - 로그인 
+	. return 인증번호 
+		[param : 전화번호]
+
+ - 화물 추적
+	. return 운송목록 
+   		[param : 전화번호, 받는사람/보내는사람, 검색시작일자, 검색종료일자]
+	. return 운송장정보(운송정보+화물추적정보)
+   		[param : 운송장번호]
+ 
+ - 코드성 데이터
+	. return 코드정보(list, article)
+   		[param : 분류코드, 검색방법, 검색어] 
+
+ - 게시판 데이터
+ 	. 
+
+2. 명명규칙 설정
+	[egovframework.api.web] #controller	
+		./userController
+		./traceController
+		./codeController
+		./requestController
+		
+	[egovframework.api.service] #service
+		./userService
+		./traceService
+		./codeService
+		./requestService
+			
+	[egovframework.api.service.impl] #impl 
+		./userServiceImpl
+		./traceServiceImpl
+		./codeServiceImpl
+		./requestServiceImpl
+		
+	[egovframework.api.service.impl] #mapper 
+		./userServiceMapper
+		./traceServiceMapper
+		./codeServiceMapper
+		./requestServiceMapper
+		
+		
+## Request
+	/tmp/login/access-key.json
+	/login/access-key.json
+
+	/trace/findUnsongList.json
+	/trace/findUnsongArticle.json
+	
+	/request/data/list.json
+
+	/code/list.json
+	/code/view.json
+	/code/create.json
+	/code/delete.json
+	/code/modify.json
+	
+	/board/list.json
+	/board/view.json
+	/board/create.json
+	/board/delete.json
+	/board/modify.json
+	
+	/address/searchLoadAddress.json
+	
+	
+	
+		

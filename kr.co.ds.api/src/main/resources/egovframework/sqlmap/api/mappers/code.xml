@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="egovframework.api.service.impl.CodeManagementMapper">
+<mapper namespace="egovframework.api.service.mapper.CodeServiceMapper">
 	
 	<select id="findMastCodeList" parameterType="fSearchEntity" resultType="masterCodeEntity" >
 		SELECT code_type

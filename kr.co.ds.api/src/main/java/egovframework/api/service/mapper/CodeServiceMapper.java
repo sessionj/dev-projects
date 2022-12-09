@@ -1,4 +1,4 @@
-package egovframework.api.service.impl;
+package egovframework.api.service.mapper;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ import egovframework.api.entity.MasterCodeEntity;
  * @변경이력 		: 2022.11.28
  * @프로그램 설명 : myBatis Mapper
  */
-@Mapper("codeManagementMapper")
-public interface CodeManagementMapper {
+@Mapper("codeServiceMapper")
+public interface CodeServiceMapper {
 
 	/** code List - master */
 	List<MasterCodeEntity> findMastCodeList(FrontApiDefaultEntity entity) throws Exception;

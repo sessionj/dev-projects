@@ -17,7 +17,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.UnsongEntity;
-import egovframework.api.service.UserAuthenticationService;
+import egovframework.api.service.UserService;
 
 /**
  * 
@@ -30,11 +30,11 @@ import egovframework.api.service.UserAuthenticationService;
  * @프로그램 설명 : 로그인 관리 컨트롤러
  */
 @Controller 
-public class UserAuthenticationController {
+public class UserController {
 
 	/** EgovApiService */
-	@Resource(name = "authenticationKeyService")
-	private UserAuthenticationService authenticationKeyService;
+	@Resource(name = "userService")
+	private UserService userService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -67,17 +67,9 @@ public class UserAuthenticationController {
 		
 		Map<String, Object> map = null;
 		map = new HashMap<String, Object>();
-		map.put("access-key", authenticationKeyService.authenticationKeyGeneration(frontApiDefaultEntity));
+		map.put("access-key", userService.authenticationKeyGeneration(frontApiDefaultEntity));
 		
 		return map;
-	}
-	
-	
-	/** 로그인 Key 생성 URL 제공 - */
-	@RequestMapping(value = "/login/findUnsongList.json", method = RequestMethod.POST,headers = {"Content-type=application/json" }/*,produces = "application/text;charset=utf-8" */ )
-	public @ResponseBody List<UnsongEntity> findUnsongList(@ModelAttribute("fSearchEntity") FrontApiDefaultEntity frontApiDefaultEntity, ModelMap model) throws Exception{
-		//return traceService.findUnsongList(frontApiDefaultEntity);
-		return null;
 	}
 	
 }

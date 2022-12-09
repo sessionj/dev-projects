@@ -27,7 +27,7 @@ import egovframework.api.entity.UnsongEntity;
  * @프로그램 설명 : 각종 질의문 처리
  */
 @Controller 
-public class DataRequestController {
+public class RequestController {
 
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")

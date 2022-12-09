@@ -10,19 +10,20 @@ import org.springframework.stereotype.Service;
 
 import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.SmsEntity;
-import egovframework.api.service.UserAuthenticationService;
+import egovframework.api.service.UserService;
+import egovframework.api.service.mapper.UserServiceMapper;
 import egovframework.common.util.AuthenticationKeyGeneration;
 import egovframework.common.util.StringCommonLibray;
 
 
-@Service("authenticationKeyService")
-public class AuthenticationKeyServiceImpl extends EgovAbstractServiceImpl implements UserAuthenticationService{
+@Service("userService")
+public class UserServiceImpl extends EgovAbstractServiceImpl implements UserService{
 
-	private static final Logger logger = LoggerFactory.getLogger(AuthenticationKeyServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	// TODO mybatis 사용
-	@Resource(name ="authenticationKeyMapper")
-	private AuthenticationKeyMapper authenticationKeyMapper;
+	@Resource(name ="userServiceMapper")
+	private UserServiceMapper userServiceMapper;
 	
 	/** ID Generation */
 	@Resource(name = "egovIdGnrService")
@@ -48,7 +49,7 @@ public class AuthenticationKeyServiceImpl extends EgovAbstractServiceImpl implem
 		smsEntity = new SmsEntity();
 		smsEntity.setMsg_contents(StringCommonLibray.CODE5.getMsg()+key);
 		smsEntity.setDest_no(entity.getSearchKeyword());
-		authenticationKeyMapper.sendingSmsProcess(smsEntity);
+		userServiceMapper.sendingSmsProcess(smsEntity);
 		
 		return key;
 	}

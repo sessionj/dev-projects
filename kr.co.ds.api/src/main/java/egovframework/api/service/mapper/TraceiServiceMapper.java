@@ -1,4 +1,4 @@
-package egovframework.api.service.impl;
+package egovframework.api.service.mapper;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ import egovframework.api.entity.UnsongEntity;
  * @변경이력 		: 2022.11.28
  * @프로그램 설명 : myBatis Mapper
  */
-@Mapper("traceMapper")
-public interface TraceiMapper {
+@Mapper("traceiServiceMapper")
+public interface TraceiServiceMapper {
 
 	/**
 	 * 운송 목록을 조회한다.

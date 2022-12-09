@@ -3,13 +3,13 @@ package egovframework.common.util.sms;
 import javax.annotation.Resource;
 
 import egovframework.api.entity.SmsEntity;
-import egovframework.api.service.UserAuthenticationService;
+import egovframework.api.service.UserService;
 
 public class SmsWorkProcess extends SmsTemplate{
 
 	/** EgovApiService */
 	@Resource(name = "authenticationKeyService")
-	private UserAuthenticationService authenticationKeyService;
+	private UserService authenticationKeyService;
 	
 	@Override
 	public void jobProcess(SmsEntity entity) throws Exception {

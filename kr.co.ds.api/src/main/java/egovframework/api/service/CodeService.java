@@ -16,7 +16,7 @@ import egovframework.api.entity.MasterCodeEntity;
  * @변경이력 		:
  * @프로그램 설명 : 대신 코드 관리 서비스
  */
-public interface CodeManagementService {
+public interface CodeService {
 	
 	/**
 	 * @param FrontApiDefaultEntity

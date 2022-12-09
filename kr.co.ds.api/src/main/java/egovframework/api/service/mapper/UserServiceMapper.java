@@ -1,4 +1,4 @@
-package egovframework.api.service.impl;
+package egovframework.api.service.mapper;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
@@ -15,8 +15,8 @@ import egovframework.api.entity.SmsEntity;
  * @변경이력 		: 2022.11.28
  * @프로그램 설명 : myBatis Mapper
  */
-@Mapper("authenticationKeyMapper")
-public interface AuthenticationKeyMapper {
+@Mapper("userServiceMapper")
+public interface UserServiceMapper {
 
 	/** 생성된 key, phone-number 저장 */
 	void insertKeyGeneration(FrontApiDefaultEntity entity) throws Exception;

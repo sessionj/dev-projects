@@ -13,18 +13,19 @@ import org.springframework.stereotype.Service;
 import egovframework.api.entity.AgencyCodeEntity;
 import egovframework.api.entity.FrontApiDefaultEntity;
 import egovframework.api.entity.MasterCodeEntity;
-import egovframework.api.service.CodeManagementService;
+import egovframework.api.service.CodeService;
+import egovframework.api.service.mapper.CodeServiceMapper;
 import egovframework.common.util.StringCommonLibray;
 
 
-@Service("codeManagementService")
-public class CodeManagementServiceImpl extends EgovAbstractServiceImpl implements CodeManagementService{
+@Service("codeService")
+public class CodeServiceImpl extends EgovAbstractServiceImpl implements CodeService{
 
-	private static final Logger logger = LoggerFactory.getLogger(CodeManagementServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(CodeServiceImpl.class);
 	
 	// TODO mybatis 사용
-	@Resource(name ="codeManagementMapper")
-	private CodeManagementMapper codeManagementMapper;
+	@Resource(name ="codeServiceMapper")
+	private CodeServiceMapper codeServiceMapper;
 	
 	/** ID Generation */
 	@Resource(name = "egovIdGnrService")
@@ -38,11 +39,11 @@ public class CodeManagementServiceImpl extends EgovAbstractServiceImpl implement
 		if (entity.getSearchCondition() != null && entity.getSearchCondition().trim().length() > 0) {
 
 			if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE1.getCode()) == 0) {
-				return codeManagementMapper.findMastCodeList(entity);
+				return codeServiceMapper.findMastCodeList(entity);
 			} else if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE2.getCode()) == 0) {
-				return codeManagementMapper.findAgencyCodeList(entity);
+				return codeServiceMapper.findAgencyCodeList(entity);
 			} else if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE3.getCode()) == 0) {
-				return codeManagementMapper.findCarCodeList(entity);
+				return codeServiceMapper.findCarCodeList(entity);
 			}
 		}
 		return null;
@@ -55,11 +56,11 @@ public class CodeManagementServiceImpl extends EgovAbstractServiceImpl implement
 		if (entity.getSearchCondition() != null && entity.getSearchCondition().trim().length() > 0) {
 
 			if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE1.getCode()) == 0) {
-				return codeManagementMapper.findMastCodeArticle(entity);
+				return codeServiceMapper.findMastCodeArticle(entity);
 			} else if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE2.getCode()) == 0) {
-				return codeManagementMapper.findAgencyCodeArticle(entity);
+				return codeServiceMapper.findAgencyCodeArticle(entity);
 			} else if (entity.getSearchCondition().compareTo(StringCommonLibray.CODE3.getCode()) == 0) {
-				return codeManagementMapper.findCarCodeArticle(entity);
+				return codeServiceMapper.findCarCodeArticle(entity);
 			}
 		}
 		return null;
